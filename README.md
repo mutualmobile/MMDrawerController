@@ -1,5 +1,5 @@
 #Mutual Mobile Drawer Controller
-`MMDrawerController` is a side drawer navigation container view controller designed to support the growing number of applications that leverage the side drawer paradigm. This library is designed to exclusively support side drawer navigation in light-weight, focused approach while exposing the ability to provide custom animations for presenting and dismissing the drawer.
+`MMDrawerController` is a side drawer navigation container view controller designed to support the growing number of applications that leverage the side drawer paradigm. This library is designed to exclusively support side drawer navigation in a light-weight, focused approach while exposing the ability to provide custom animations for presenting and dismissing the drawer.
 
 <center>
 <img src="http://mutualmobile.github.io/MMDrawerController/ExampleImages/example1.png" width="266" height="500"/>
@@ -10,7 +10,7 @@
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
 ```Ruby
-pod 'MMDrawerController', ~> '0.0.1'
+pod 'MMDrawerController', '~> 0.0.1'
 ```
 
 ---
