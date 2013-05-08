@@ -25,6 +25,8 @@
 #import "MMDrawerBarButtonItem.h"
 #import "MMLogoView.h"
 #import "MMCenterTableViewCell.h"
+#import "MMExampleLeftSideDrawerViewController.h"
+#import "MMExampleRightSideDrawerViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -87,12 +89,16 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    if (section == 2) {
+        return 2;
+    }
+    
     return 5;
 }
 
@@ -107,49 +113,73 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     
-    MMDrawerAnimationType animationTypeForSection;
-    if(indexPath.section == 0){
-        animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+    if (indexPath.section != 2) {
+        MMDrawerAnimationType animationTypeForSection;
+        if(indexPath.section == 0){
+            animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+        }
+        else {
+            animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
+        }
+        
+        if(animationTypeForSection == indexPath.row){
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            [cell.textLabel setTextColor:[UIColor
+                                          colorWithRed:1.0/255.0
+                                          green:15.0/255.0
+                                          blue:25.0/255.0
+                                          alpha:1.0]];
+        }
+        else {
+            [cell setAccessoryType:UITableViewCellAccessoryNone];
+            [cell.textLabel setTextColor:[UIColor
+                                          colorWithRed:79.0/255.0
+                                          green:93.0/255.0
+                                          blue:102.0/255.0
+                                          alpha:1.0]];
+        }
+        
+        switch (indexPath.row) {
+            case MMDrawerAnimationTypeNone:
+                [cell.textLabel setText:@"None"];
+                break;
+            case MMDrawerAnimationTypeSlide:
+                [cell.textLabel setText:@"Slide"];
+                break;
+            case MMDrawerAnimationTypeSlideAndScale:
+                [cell.textLabel setText:@"Slide and Scale"];
+                break;
+            case MMDrawerAnimationTypeSwingingDoor:
+                [cell.textLabel setText:@"Swinging Door"];
+                break;
+            case MMDrawerAnimationTypeParallax:
+                [cell.textLabel setText:@"Parallax"];
+                break;
+            default:
+                break;
+        }
     }
-    else {
-        animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
-    }
-    
-    if(animationTypeForSection == indexPath.row){
-        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-        [cell.textLabel setTextColor:[UIColor
-                                      colorWithRed:1.0/255.0
-                                      green:15.0/255.0
-                                      blue:25.0/255.0
-                                      alpha:1.0]];
-    }
-    else {
-        [cell setAccessoryType:UITableViewCellAccessoryNone];
-        [cell.textLabel setTextColor:[UIColor
-                                      colorWithRed:79.0/255.0
-                                      green:93.0/255.0
-                                      blue:102.0/255.0
-                                      alpha:1.0]];
-    }
-    
-    switch (indexPath.row) {
-        case MMDrawerAnimationTypeNone:
-            [cell.textLabel setText:@"None"];
-            break;
-        case MMDrawerAnimationTypeSlide:
-            [cell.textLabel setText:@"Slide"];
-            break;
-        case MMDrawerAnimationTypeSlideAndScale:
-            [cell.textLabel setText:@"Slide and Scale"];
-            break;
-        case MMDrawerAnimationTypeSwingingDoor:
-            [cell.textLabel setText:@"Swinging Door"];
-            break;
-        case MMDrawerAnimationTypeParallax:
-            [cell.textLabel setText:@"Parallax"];
-            break;
-        default:
-            break;
+    else{
+        switch (indexPath.row) {
+            case 0:
+                [cell.textLabel setText:@"Left Drawer"];
+                if (self.mm_drawerController.leftDrawerViewController == nil) {
+                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                }
+                else{
+                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                }
+                break;
+            case 1:
+                [cell.textLabel setText:@"Right Drawer"];
+                if (self.mm_drawerController.rightDrawerViewController == nil) {
+                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                }
+                else{
+                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                }
+                break;
+        }
     }
     
     return cell;
@@ -161,6 +191,8 @@
             return @"Left Drawer Animation";
         case 1:
             return @"Right Drawer Animation";
+        case 2:
+            return @"Enable Drawer Side";
         default:
             return nil;
             break;
@@ -195,11 +227,35 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 0){
-        [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
-    }
-    else {
-        [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:indexPath.row];
+    switch (indexPath.section) {
+        case 0:
+            [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
+            break;
+        case 1:
+            [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:indexPath.row];
+            break;
+        case 2:
+            if (indexPath.row == 0) {
+                if (self.mm_drawerController.leftDrawerViewController != nil) {
+                    [self.mm_drawerController setLeftDrawerViewController:nil];
+                }
+                else{
+                    UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
+                    [self.mm_drawerController setLeftDrawerViewController:leftSideDrawerViewController];
+                }
+            }
+            else{
+                if (self.mm_drawerController.rightDrawerViewController != nil) {
+                    [self.mm_drawerController setRightDrawerViewController:nil];
+                }
+                else{
+                    UIViewController * leftSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
+                    [self.mm_drawerController setRightDrawerViewController:leftSideDrawerViewController];
+                }
+            }
+            break;
+        default:
+            break;
     }
     
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
