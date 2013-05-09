@@ -493,6 +493,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         else{
             [self.view addSubview:self.rightDrawerViewController.view];
             [self.view sendSubviewToBack:self.rightDrawerViewController.view];
+            [self.rightDrawerViewController.view setHidden:YES];
         }
         [self.rightDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin];
         [self.rightDrawerViewController.view setFrame:self.rightDrawerViewController.mm_visibleDrawerFrame];
@@ -516,6 +517,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         else{
             [self.view addSubview:self.leftDrawerViewController.view];
             [self.view sendSubviewToBack:self.leftDrawerViewController.view];
+            [self.leftDrawerViewController.view setHidden:YES];
         }
         [self.leftDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
         [self.leftDrawerViewController.view setFrame:self.leftDrawerViewController.mm_visibleDrawerFrame];
@@ -555,6 +557,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(_openSide != openSide){
         _openSide = openSide;
         [self updateCenterViewUserInteractionState];
+        if(openSide == MMDrawerSideNone){
+            [self.leftDrawerViewController.view setHidden:YES];
+            [self.rightDrawerViewController.view setHidden:YES];
+        }
     }
 }
 
