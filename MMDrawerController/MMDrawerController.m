@@ -628,12 +628,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             UIViewController * visibleSideDrawerViewController;
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
-            if(xOffset > 0){
+            if((xOffset > 0) &&
+               (self.leftDrawerViewController != nil)){
                 visibleSideDrawerViewController = self.leftDrawerViewController;
                 visibleSide = MMDrawerSideLeft;
                 percentVisible = xOffset/self.maximumLeftDrawerWidth;
             }
-            else if(xOffset < 0){
+            else if((xOffset < 0) &&
+                    (self.rightDrawerViewController != nil)){
                 visibleSideDrawerViewController = self.rightDrawerViewController;
                 visibleSide = MMDrawerSideRight;
                 percentVisible = ABS(xOffset)/self.maximumRightDrawerWidth;
@@ -648,9 +650,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
                 [self setOpenSide:MMDrawerSideNone];
             }
             
-            [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
-            
-            [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
+            if (visibleSide != MMDrawerSideNone) {
+                [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
+                
+                [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
+            }
             break;
         }
         case UIGestureRecognizerStateCancelled:
@@ -699,6 +703,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         else {
             [self openDrawerSide:MMDrawerSideRight animated:YES completion:completion];
         }
+    }
+    else{
+        [self closeDrawerAnimated:YES completion:completion];
     }
 }
 
