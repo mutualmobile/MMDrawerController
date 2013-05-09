@@ -226,6 +226,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             return @"Left Drawer Animation";
         case MMCenterViewControllerSectionRightDrawerAnimation:
             return @"Right Drawer Animation";
+        case 2:
+            return @"Enable Drawer Side";
         default:
             return nil;
             break;
