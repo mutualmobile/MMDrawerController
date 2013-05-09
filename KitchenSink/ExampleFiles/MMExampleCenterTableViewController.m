@@ -30,6 +30,13 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
+    MMCenterViewControllerSectionLeftDrawerAnimation,
+    MMCenterViewControllerSectionRightDrawerAnimation,
+    MMCenterViewControllerSectionLeftViewState,
+    MMCenterViewControllerSectionRightViewState,
+};
+
 @interface MMExampleCenterTableViewController ()
 
 @end
@@ -89,17 +96,22 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 2) {
-        return 2;
+    switch (section) {
+        case MMCenterViewControllerSectionLeftDrawerAnimation:
+        case MMCenterViewControllerSectionRightDrawerAnimation:
+            return 5;
+        case MMCenterViewControllerSectionLeftViewState:
+        case MMCenterViewControllerSectionRightViewState:
+            return 1;
+        default:
+            return 0;
     }
-    
-    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -113,73 +125,96 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     
-    if (indexPath.section != 2) {
-        MMDrawerAnimationType animationTypeForSection;
-        if(indexPath.section == 0){
-            animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+    switch (indexPath.section) {
+        case MMCenterViewControllerSectionLeftDrawerAnimation:
+        case MMCenterViewControllerSectionRightDrawerAnimation:{
+             MMDrawerAnimationType animationTypeForSection;
+            if(indexPath.section == MMCenterViewControllerSectionLeftDrawerAnimation){
+                animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+            }
+            else {
+                animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
+            }
+            
+            if(animationTypeForSection == indexPath.row){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:1.0/255.0
+                                              green:15.0/255.0
+                                              blue:25.0/255.0
+                                              alpha:1.0]];
+            }
+            else {
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:79.0/255.0
+                                              green:93.0/255.0
+                                              blue:102.0/255.0
+                                              alpha:1.0]];
+            }
+            switch (indexPath.row) {
+                case MMDrawerAnimationTypeNone:
+                    [cell.textLabel setText:@"None"];
+                    break;
+                case MMDrawerAnimationTypeSlide:
+                    [cell.textLabel setText:@"Slide"];
+                    break;
+                case MMDrawerAnimationTypeSlideAndScale:
+                    [cell.textLabel setText:@"Slide and Scale"];
+                    break;
+                case MMDrawerAnimationTypeSwingingDoor:
+                    [cell.textLabel setText:@"Swinging Door"];
+                    break;
+                case MMDrawerAnimationTypeParallax:
+                    [cell.textLabel setText:@"Parallax"];
+                    break;
+                default:
+                    break;
+            }
+             break;   
         }
-        else {
-            animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
+        case MMCenterViewControllerSectionLeftViewState:{
+            [cell.textLabel setText:@"Left Drawer"];
+            if(self.mm_drawerController.leftDrawerViewController){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:1.0/255.0
+                                              green:15.0/255.0
+                                              blue:25.0/255.0
+                                              alpha:1.0]];
+            }
+            else{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:79.0/255.0
+                                              green:93.0/255.0
+                                              blue:102.0/255.0
+                                              alpha:1.0]];
+            }
+            break;
         }
-        
-        if(animationTypeForSection == indexPath.row){
-            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            [cell.textLabel setTextColor:[UIColor
-                                          colorWithRed:1.0/255.0
-                                          green:15.0/255.0
-                                          blue:25.0/255.0
-                                          alpha:1.0]];
+        case MMCenterViewControllerSectionRightViewState:{
+            [cell.textLabel setText:@"Right Drawer"];
+            if(self.mm_drawerController.rightDrawerViewController){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:1.0/255.0
+                                              green:15.0/255.0
+                                              blue:25.0/255.0
+                                              alpha:1.0]];
+            }
+            else{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:[UIColor
+                                              colorWithRed:79.0/255.0
+                                              green:93.0/255.0
+                                              blue:102.0/255.0
+                                              alpha:1.0]];
+            }
+            break;
         }
-        else {
-            [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [cell.textLabel setTextColor:[UIColor
-                                          colorWithRed:79.0/255.0
-                                          green:93.0/255.0
-                                          blue:102.0/255.0
-                                          alpha:1.0]];
-        }
-        
-        switch (indexPath.row) {
-            case MMDrawerAnimationTypeNone:
-                [cell.textLabel setText:@"None"];
-                break;
-            case MMDrawerAnimationTypeSlide:
-                [cell.textLabel setText:@"Slide"];
-                break;
-            case MMDrawerAnimationTypeSlideAndScale:
-                [cell.textLabel setText:@"Slide and Scale"];
-                break;
-            case MMDrawerAnimationTypeSwingingDoor:
-                [cell.textLabel setText:@"Swinging Door"];
-                break;
-            case MMDrawerAnimationTypeParallax:
-                [cell.textLabel setText:@"Parallax"];
-                break;
-            default:
-                break;
-        }
-    }
-    else{
-        switch (indexPath.row) {
-            case 0:
-                [cell.textLabel setText:@"Left Drawer"];
-                if (self.mm_drawerController.leftDrawerViewController == nil) {
-                    [cell setAccessoryType:UITableViewCellAccessoryNone];
-                }
-                else{
-                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                }
-                break;
-            case 1:
-                [cell.textLabel setText:@"Right Drawer"];
-                if (self.mm_drawerController.rightDrawerViewController == nil) {
-                    [cell setAccessoryType:UITableViewCellAccessoryNone];
-                }
-                else{
-                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                }
-                break;
-        }
+        default:
+            break;
     }
     
     return cell;
@@ -187,9 +222,9 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     switch (section) {
-        case 0:
+        case MMCenterViewControllerSectionLeftDrawerAnimation:
             return @"Left Drawer Animation";
-        case 1:
+        case MMCenterViewControllerSectionRightDrawerAnimation:
             return @"Right Drawer Animation";
         case 2:
             return @"Enable Drawer Side";
@@ -228,32 +263,58 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
-        case 0:
-            [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
-            break;
-        case 1:
-            [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:indexPath.row];
-            break;
-        case 2:
-            if (indexPath.row == 0) {
-                if (self.mm_drawerController.leftDrawerViewController != nil) {
-                    [self.mm_drawerController setLeftDrawerViewController:nil];
-                }
-                else{
-                    UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
-                    [self.mm_drawerController setLeftDrawerViewController:leftSideDrawerViewController];
-                }
+        case MMCenterViewControllerSectionLeftDrawerAnimation:
+        case MMCenterViewControllerSectionRightDrawerAnimation:{
+            if(indexPath.section == MMCenterViewControllerSectionLeftDrawerAnimation){
+                [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:indexPath.row];
             }
-            else{
-                if (self.mm_drawerController.rightDrawerViewController != nil) {
-                    [self.mm_drawerController setRightDrawerViewController:nil];
-                }
-                else{
-                    UIViewController * leftSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
-                    [self.mm_drawerController setRightDrawerViewController:leftSideDrawerViewController];
-                }
+            else {
+                [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:indexPath.row];
             }
             break;
+        }
+        case MMCenterViewControllerSectionLeftViewState:
+        case MMCenterViewControllerSectionRightViewState:{
+            UIViewController * sideDrawerViewController;
+            MMDrawerSide drawerSide;
+            if(indexPath.section == MMCenterViewControllerSectionLeftViewState){
+                sideDrawerViewController = self.mm_drawerController.leftDrawerViewController;
+                drawerSide = MMDrawerSideLeft;
+            }
+            else if(indexPath.section == MMCenterViewControllerSectionRightViewState){
+                sideDrawerViewController = self.mm_drawerController.rightDrawerViewController;
+                drawerSide = MMDrawerSideRight;
+            }
+            
+            if(sideDrawerViewController){
+                [self.mm_drawerController
+                 closeDrawerAnimated:YES
+                 completion:^(BOOL finished) {
+                     if(drawerSide == MMDrawerSideLeft){
+                         [self.mm_drawerController setLeftDrawerViewController:nil];
+                     }
+                     else if(drawerSide == MMDrawerSideRight){
+                         [self.mm_drawerController setRightDrawerViewController:nil];
+                     }
+                     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                     [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                 }];
+            }
+            else {
+                if(drawerSide == MMDrawerSideLeft){
+                    UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
+                    [self.mm_drawerController setLeftDrawerViewController:vc];
+                    
+                }
+                else if(drawerSide == MMDrawerSideRight){
+                    UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
+                    [self.mm_drawerController setRightDrawerViewController:vc];
+                }
+            }
+            
+            break;
+        }
         default:
             break;
     }
