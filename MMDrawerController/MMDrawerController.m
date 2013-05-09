@@ -756,7 +756,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(CGFloat)roundedOriginXForDrawerConstriants:(CGFloat)originX{
     
     if (originX < -self.maximumRightDrawerWidth) {
-        if (self.shouldStretchDrawer) {
+        if (self.shouldStretchDrawer &&
+            self.rightDrawerViewController) {
             CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumRightDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, -self.maximumRightDrawerWidth, maxOvershoot);
         }
@@ -765,7 +766,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         }
     }
     else if(originX > self.maximumLeftDrawerWidth){
-        if (self.shouldStretchDrawer) {
+        if (self.shouldStretchDrawer &&
+            self.leftDrawerViewController) {
             CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumLeftDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, self.maximumLeftDrawerWidth, maxOvershoot);
         }
