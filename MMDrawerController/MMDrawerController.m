@@ -655,6 +655,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
                 
                 [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
             }
+            else{
+                CGRect noneSideFrame;
+                noneSideFrame.size = newFrame.size;
+                noneSideFrame.origin = CGPointMake(0.f, newFrame.origin.y);
+                [self.centerContainerView setFrame:noneSideFrame];
+            }
             break;
         }
         case UIGestureRecognizerStateCancelled:
