@@ -31,10 +31,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
-    MMCenterViewControllerSectionLeftDrawerAnimation,
-    MMCenterViewControllerSectionRightDrawerAnimation,
     MMCenterViewControllerSectionLeftViewState,
+    MMCenterViewControllerSectionLeftDrawerAnimation,
     MMCenterViewControllerSectionRightViewState,
+    MMCenterViewControllerSectionRightDrawerAnimation,
 };
 
 @interface MMExampleCenterTableViewController ()
@@ -65,11 +65,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     [twoFingerDoubleTap setNumberOfTouchesRequired:2];
     [self.view addGestureRecognizer:twoFingerDoubleTap];
     
-    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-    [self.navigationItem setLeftBarButtonItem:leftDrawerButton];
-    
-    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
-    [self.navigationItem setRightBarButtonItem:rightDrawerButton];
+
+    [self setupLeftMenuButton];
+    [self setupRightMenuButton];
     
     [self.navigationController.navigationBar setTintColor:[UIColor
                                                            colorWithRed:78.0/255.0
@@ -91,11 +89,20 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     [self.tableView setBackgroundView:backView];
 }
 
+-(void)setupLeftMenuButton{
+    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+}
+
+-(void)setupRightMenuButton{
+    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
+    [self.navigationItem setRightBarButtonItem:rightDrawerButton animated:YES];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 4;
 }
 
@@ -125,6 +132,17 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     
+    UIColor * selectedColor = [UIColor
+                               colorWithRed:1.0/255.0
+                               green:15.0/255.0
+                               blue:25.0/255.0
+                               alpha:1.0];
+    UIColor * unselectedColor = [UIColor
+                                 colorWithRed:79.0/255.0
+                                 green:93.0/255.0
+                                 blue:102.0/255.0
+                                 alpha:1.0];
+    
     switch (indexPath.section) {
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
@@ -138,19 +156,11 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             
             if(animationTypeForSection == indexPath.row){
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:1.0/255.0
-                                              green:15.0/255.0
-                                              blue:25.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:selectedColor];
             }
             else {
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:79.0/255.0
-                                              green:93.0/255.0
-                                              blue:102.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:unselectedColor];
             }
             switch (indexPath.row) {
                 case MMDrawerAnimationTypeNone:
@@ -174,42 +184,26 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
              break;   
         }
         case MMCenterViewControllerSectionLeftViewState:{
-            [cell.textLabel setText:@"Left Drawer"];
+            [cell.textLabel setText:@"Enabled"];
             if(self.mm_drawerController.leftDrawerViewController){
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:1.0/255.0
-                                              green:15.0/255.0
-                                              blue:25.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:selectedColor];
             }
             else{
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:79.0/255.0
-                                              green:93.0/255.0
-                                              blue:102.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:unselectedColor];
             }
             break;
         }
         case MMCenterViewControllerSectionRightViewState:{
-            [cell.textLabel setText:@"Right Drawer"];
+            [cell.textLabel setText:@"Enabled"];
             if(self.mm_drawerController.rightDrawerViewController){
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:1.0/255.0
-                                              green:15.0/255.0
-                                              blue:25.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:selectedColor];
             }
             else{
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
-                [cell.textLabel setTextColor:[UIColor
-                                              colorWithRed:79.0/255.0
-                                              green:93.0/255.0
-                                              blue:102.0/255.0
-                                              alpha:1.0]];
+                [cell.textLabel setTextColor:unselectedColor];
             }
             break;
         }
@@ -226,8 +220,10 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             return @"Left Drawer Animation";
         case MMCenterViewControllerSectionRightDrawerAnimation:
             return @"Right Drawer Animation";
-        case 2:
-            return @"Enable Drawer Side";
+        case MMCenterViewControllerSectionLeftViewState:
+            return @"Left Drawer";
+        case MMCenterViewControllerSectionRightViewState:
+            return @"Right Drawer";
         default:
             return nil;
             break;
@@ -271,6 +267,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             else {
                 [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:indexPath.row];
             }
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
             break;
         }
         case MMCenterViewControllerSectionLeftViewState:
@@ -292,25 +291,33 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                  completion:^(BOOL finished) {
                      if(drawerSide == MMDrawerSideLeft){
                          [self.mm_drawerController setLeftDrawerViewController:nil];
+                         [self.navigationItem setLeftBarButtonItems:nil animated:YES];
                      }
                      else if(drawerSide == MMDrawerSideRight){
                          [self.mm_drawerController setRightDrawerViewController:nil];
+                         [self.navigationItem setRightBarButtonItem:nil animated:YES];
                      }
-                     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                      [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                      [tableView deselectRowAtIndexPath:indexPath animated:YES];
                  }];
+
             }
             else {
                 if(drawerSide == MMDrawerSideLeft){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
                     [self.mm_drawerController setLeftDrawerViewController:vc];
+                    [self setupLeftMenuButton];
                     
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
                     [self.mm_drawerController setRightDrawerViewController:vc];
+                    [self setupRightMenuButton];
                 }
+                [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
             
             break;
@@ -318,10 +325,6 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
         default:
             break;
     }
-    
-    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
-    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Button Handlers
