@@ -10,7 +10,7 @@
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
 ```Ruby
-pod 'MMDrawerController', '~> 0.0.1'
+pod 'MMDrawerController', '~> 0.0.2'
 ```
 
 ---
