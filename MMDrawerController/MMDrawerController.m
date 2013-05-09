@@ -628,12 +628,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             UIViewController * visibleSideDrawerViewController;
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
-            if(xOffset > 0){
+            if((xOffset > 0) &&
+               (self.leftDrawerViewController != nil)){
                 visibleSideDrawerViewController = self.leftDrawerViewController;
                 visibleSide = MMDrawerSideLeft;
                 percentVisible = xOffset/self.maximumLeftDrawerWidth;
             }
-            else if(xOffset < 0){
+            else if((xOffset < 0) &&
+                    (self.rightDrawerViewController != nil)){
                 visibleSideDrawerViewController = self.rightDrawerViewController;
                 visibleSide = MMDrawerSideRight;
                 percentVisible = ABS(xOffset)/self.maximumRightDrawerWidth;
@@ -648,9 +650,17 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
                 [self setOpenSide:MMDrawerSideNone];
             }
             
-            [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
-            
-            [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
+            if (visibleSide != MMDrawerSideNone) {
+                [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
+                
+                [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
+            }
+            else{
+                CGRect noneSideFrame;
+                noneSideFrame.size = newFrame.size;
+                noneSideFrame.origin = CGPointMake(0.f, newFrame.origin.y);
+                [self.centerContainerView setFrame:noneSideFrame];
+            }
             break;
         }
         case UIGestureRecognizerStateCancelled:
@@ -699,6 +709,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         else {
             [self openDrawerSide:MMDrawerSideRight animated:YES completion:completion];
         }
+    }
+    else{
+        [self closeDrawerAnimated:YES completion:completion];
     }
 }
 
@@ -755,7 +768,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(CGFloat)roundedOriginXForDrawerConstriants:(CGFloat)originX{
     
-    if (originX < -self.maximumRightDrawerWidth) {
+    if ((originX < -self.maximumRightDrawerWidth) &&
+        (self.rightDrawerViewController != nil)) {
         if (self.shouldStretchDrawer) {
             CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumRightDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, -self.maximumRightDrawerWidth, maxOvershoot);
@@ -764,7 +778,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             return -self.maximumRightDrawerWidth;
         }
     }
-    else if(originX > self.maximumLeftDrawerWidth){
+    else if((originX > self.maximumLeftDrawerWidth) &&
+            (self.leftDrawerViewController != nil)){
         if (self.shouldStretchDrawer) {
             CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumLeftDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, self.maximumLeftDrawerWidth, maxOvershoot);
