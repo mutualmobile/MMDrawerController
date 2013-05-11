@@ -112,7 +112,7 @@ Here's a quick list of the built in animations:
 By default, the side drawer will stretch if the user pans past the maximum drawer width. This gives a playful stretch effect. You can disable this by setting `shouldStretchDrawer` to NO, or you can make your own overshoot animation by creating a custom visual state block and setting up custom transforms for when percentVisible is greater than 1.0
 
 ###Nifty Example
-We decided to spruce the example a bit using graphics generated from PaintCode. Hope you like it.
+We decided to spruce up the example a bit using graphics generated from PaintCode. Hope you like it.
 
 The example shows off all the features of the library. Give it a whirl.
 
