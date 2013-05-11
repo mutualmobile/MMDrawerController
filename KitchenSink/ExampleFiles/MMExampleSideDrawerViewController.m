@@ -59,6 +59,8 @@
                                                                      logoSize.height)];
     [logo setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin];
     [self.tableView addSubview:logo];
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
 -(void)mm_drawerWillAppear{
