@@ -91,12 +91,22 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSLog(@"Center Will Appear");
+    NSLog(@"Center will appear");
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    NSLog(@"Center Did Appear");
+    NSLog(@"Center did appear");
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"Center will disappear");
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    NSLog(@"Center did disappear");
 }
 
 -(void)setupLeftMenuButton{
