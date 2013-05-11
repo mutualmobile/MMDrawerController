@@ -89,6 +89,16 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     [self.tableView setBackgroundView:backView];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"Center Will Appear");
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"Center Did Appear");
+}
+
 -(void)setupLeftMenuButton{
     MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
     [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
