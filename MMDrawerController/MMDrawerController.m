@@ -577,8 +577,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 #pragma mark - Setters
 -(void)setRightDrawerViewController:(UIViewController *)rightDrawerViewController{
     if(_rightDrawerViewController){
+        if(self.openSide == MMDrawerSideRight){
+            [self.rightDrawerViewController beginAppearanceTransition:NO animated:NO];
+        }
         [self.rightDrawerViewController.view removeFromSuperview];
         [self.rightDrawerViewController removeFromParentViewController];
+        if(self.openSide == MMDrawerSideRight){
+            [self.rightDrawerViewController endAppearanceTransition];
+        }
         _rightDrawerViewController = nil;
     }
     
@@ -589,6 +595,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         if(self.openSide == MMDrawerSideRight &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:self.rightDrawerViewController.view belowSubview:self.centerContainerView];
+            [self.rightDrawerViewController beginAppearanceTransition:YES animated:NO];
+            [self.rightDrawerViewController endAppearanceTransition];
         }
         else{
             [self.view addSubview:self.rightDrawerViewController.view];
@@ -602,8 +610,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(void)setLeftDrawerViewController:(UIViewController *)leftDrawerViewController{
     if(_leftDrawerViewController){
+        if(self.openSide == MMDrawerSideLeft){
+            [self.leftDrawerViewController beginAppearanceTransition:NO animated:NO];
+        }
         [self.leftDrawerViewController.view removeFromSuperview];
         [self.leftDrawerViewController removeFromParentViewController];
+        if(self.openSide == MMDrawerSideLeft){
+            [self.leftDrawerViewController endAppearanceTransition];
+        }
         _leftDrawerViewController = nil;
     }
     
@@ -614,6 +628,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         if(self.openSide == MMDrawerSideLeft &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:self.leftDrawerViewController.view belowSubview:self.centerContainerView];
+            [self.leftDrawerViewController beginAppearanceTransition:YES animated:NO];
+            [self.leftDrawerViewController endAppearanceTransition];
         }
         else{
             [self.view addSubview:self.leftDrawerViewController.view];
