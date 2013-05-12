@@ -274,7 +274,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     _centerViewController = centerViewController;
     
     [self addChildViewController:self.centerViewController];
-    [self.centerViewController didMoveToParentViewController:self];
     [self.centerViewController.view setFrame:self.view.bounds];
     [self.centerContainerView addSubview:self.centerViewController.view];
     [self.view bringSubviewToFront:self.centerContainerView];
@@ -284,6 +283,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(animated == NO){
         [self.centerViewController beginAppearanceTransition:YES animated:NO];
         [self.centerViewController endAppearanceTransition];
+        [self.centerViewController didMoveToParentViewController:self];
     }
 }
 
@@ -300,6 +300,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          closeDrawerAnimated:animated
          completion:^(BOOL finished) {
              [self.centerViewController endAppearanceTransition];
+             [self.centerViewController didMoveToParentViewController:self];
              if(completion){
                  completion(finished);
              }
@@ -308,6 +309,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     else {
         [self.centerViewController beginAppearanceTransition:YES animated:NO];
         [self.centerViewController endAppearanceTransition];
+        [self.centerViewController didMoveToParentViewController:self];
         if(completion) {
             completion(NO);
         }
@@ -362,6 +364,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
              }
              completion:^(BOOL finished) {
                  [self.centerViewController endAppearanceTransition];
+                 [self.centerViewController didMoveToParentViewController:self];
                  [sideDrawerViewController endAppearanceTransition];
                  [self resetDrawerVisualStateForDrawerSide:self.openSide];
 
@@ -577,7 +580,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(rightDrawerViewController){
         _rightDrawerViewController = rightDrawerViewController;
         [self addChildViewController:self.rightDrawerViewController];
-        [self.rightDrawerViewController didMoveToParentViewController:self];
         if(self.openSide == MMDrawerSideRight &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:self.rightDrawerViewController.view belowSubview:self.centerContainerView];
@@ -589,6 +591,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self.view sendSubviewToBack:self.rightDrawerViewController.view];
             [self.rightDrawerViewController.view setHidden:YES];
         }
+        [self.rightDrawerViewController didMoveToParentViewController:self];
         [self.rightDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin];
         [self.rightDrawerViewController.view setFrame:self.rightDrawerViewController.mm_visibleDrawerFrame];
     }
@@ -610,7 +613,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(leftDrawerViewController){
         _leftDrawerViewController = leftDrawerViewController;
         [self addChildViewController:self.leftDrawerViewController];
-        [self.leftDrawerViewController didMoveToParentViewController:self];
         if(self.openSide == MMDrawerSideLeft &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:self.leftDrawerViewController.view belowSubview:self.centerContainerView];
@@ -622,6 +624,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self.view sendSubviewToBack:self.leftDrawerViewController.view];
             [self.leftDrawerViewController.view setHidden:YES];
         }
+        [self.leftDrawerViewController didMoveToParentViewController:self];
         [self.leftDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
         [self.leftDrawerViewController.view setFrame:self.leftDrawerViewController.mm_visibleDrawerFrame];
     }
