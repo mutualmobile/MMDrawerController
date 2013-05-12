@@ -820,7 +820,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
         centerContentView = [[(UINavigationController*)self.centerViewController topViewController] view];
     }
     else {
-        centerContentView = self.centerContainerView;
+        centerContentView = self.centerViewController.view;
     }
     
     if(self.openSide != MMDrawerSideNone){
