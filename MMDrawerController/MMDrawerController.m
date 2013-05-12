@@ -507,6 +507,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     return NO;
 }
 
+-(BOOL)shouldAutomaticallyForwardRotationMethods{
+    return NO;
+}
+
+-(BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers{
+    return NO;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.centerViewController beginAppearanceTransition:YES animated:animated];
@@ -528,6 +536,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     [self.centerViewController endAppearanceTransition];
 }
 
+#pragma mark Rotation
+
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     //If a rotation begins, we are going to cancel the current gesture and reset transform and anchor points so everything works correctly
     for(UIGestureRecognizer * gesture in self.view.gestureRecognizers){
@@ -537,6 +547,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self resetDrawerVisualStateForDrawerSide:self.openSide];
             break;
         }
+    }
+    for(UIViewController * childViewController in self.childViewControllers){
+        [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
@@ -560,6 +573,19 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             })()) forKey:@"transition"];
             CFRelease(oldShadowPath);
         }
+    }
+    for(UIViewController * childViewController in self.childViewControllers){
+        [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
+}
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    return YES;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    for(UIViewController * childViewController in self.childViewControllers){
+        [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
 }
 
