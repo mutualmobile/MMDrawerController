@@ -469,14 +469,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         return;
     }
     else {
-        UIViewController * sideDrawerViewController;
-        if(drawerSide == MMDrawerSideLeft){
-            sideDrawerViewController = self.leftDrawerViewController;
-        }
-        else {
-            sideDrawerViewController = self.rightDrawerViewController;
-        }
-        
         [self prepareToPresentDrawer:drawerSide animated:YES];
         
         [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
