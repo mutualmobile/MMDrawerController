@@ -728,14 +728,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             
             if(self.openSide != visibleSide){
                 //Handle disappearing the visible drawer
-                if(self.openSide == MMDrawerSideLeft){
-                    [self.leftDrawerViewController beginAppearanceTransition:NO animated:NO];
-                    [self.leftDrawerViewController endAppearanceTransition];
-                }
-                else if(self.openSide == MMDrawerSideRight){
-                    [self.rightDrawerViewController beginAppearanceTransition:NO animated:NO];
-                    [self.rightDrawerViewController endAppearanceTransition];
-                }
+                UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:self.openSide];
+                [sideDrawerViewController beginAppearanceTransition:NO animated:NO];
+                [sideDrawerViewController endAppearanceTransition];
+
                 //Drawer is about to become visible
                 [self prepareToPresentDrawer:visibleSide animated:NO];
                 [visibleSideDrawerViewController endAppearanceTransition];
