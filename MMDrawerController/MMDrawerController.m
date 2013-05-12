@@ -152,18 +152,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     BOOL leftDrawerVisible = CGRectGetMinX(self.centerContainerView.frame) > 0;
     BOOL rightDrawerVisible = CGRectGetMinX(self.centerContainerView.frame) < 0;
     
-    UIViewController * sideDrawerViewController= nil;;
     MMDrawerSide visibleSide = MMDrawerSideNone;
     CGFloat percentVisble = 0.0;
     
     if(leftDrawerVisible){
-        sideDrawerViewController= self.leftDrawerViewController;
         CGFloat visibleDrawerPoints = CGRectGetMinX(self.centerContainerView.frame);
         percentVisble = MAX(0.0,visibleDrawerPoints/self.maximumLeftDrawerWidth);
         visibleSide = MMDrawerSideLeft;
     }
     else if(rightDrawerVisible){
-        sideDrawerViewController= self.rightDrawerViewController;
         CGFloat visibleDrawerPoints = CGRectGetWidth(self.centerContainerView.frame)-CGRectGetMaxX(self.centerContainerView.frame);
         percentVisble = MAX(0.0,visibleDrawerPoints/self.maximumRightDrawerWidth);
         visibleSide = MMDrawerSideRight;
@@ -192,24 +189,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void (^)(BOOL))completion{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
-    UIViewController * sideDrawerViewController;
-    if(drawerSide == MMDrawerSideLeft){
-        sideDrawerViewController = self.leftDrawerViewController;
-        CGRect visibleLeftRect = CGRectIntersection(self.view.bounds,self.leftDrawerViewController.view.frame);
-        BOOL leftDrawerViewFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleLeftRect) ||
-                                           CGRectIsNull(visibleLeftRect));
-        if(leftDrawerViewFullyCovered){
-            [self prepareToPresentDrawer:drawerSide];
-        }
-    }
-    else if(drawerSide == MMDrawerSideRight){
-        sideDrawerViewController = self.rightDrawerViewController;
-        CGRect visibleRightRect = CGRectIntersection(self.view.bounds,self.rightDrawerViewController.view.frame);
-        BOOL rightDrawerFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleRightRect) ||
-                                        CGRectIsNull(visibleRightRect));
-        if(rightDrawerFullyCovered){
-            [self prepareToPresentDrawer:drawerSide];
-        }
+    UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    CGRect visibleRect = CGRectIntersection(self.view.bounds,sideDrawerViewController.view.frame);
+    BOOL drawerFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleRect) ||
+                              CGRectIsNull(visibleRect));
+    if(drawerFullyCovered){
+        [self prepareToPresentDrawer:drawerSide];
     }
     
     if(sideDrawerViewController){
@@ -269,16 +254,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withFullCloseAnimation:(BOOL)animated completion:(void(^)(BOOL))completion{
     if(self.openSide != MMDrawerSideNone){
-        CGFloat targetClosePoint = 0.0f;
-        UIViewController * sideDrawerViewController;
         
+        UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:self.openSide];
+        
+        CGFloat targetClosePoint = 0.0f;
         if(self.openSide == MMDrawerSideRight){
             targetClosePoint = -CGRectGetWidth(self.view.bounds);
-            sideDrawerViewController = self.rightDrawerViewController;
         }
         else if(self.openSide == MMDrawerSideLeft) {
             targetClosePoint = CGRectGetWidth(self.view.bounds);
-            sideDrawerViewController = self.leftDrawerViewController;
         }
         
         CGFloat distance = ABS(self.centerContainerView.frame.origin.x-targetClosePoint);
@@ -631,16 +615,13 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             newFrame = CGRectIntegral(newFrame);
             CGFloat xOffset = newFrame.origin.x;
             
-            UIViewController * visibleSideDrawerViewController;
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
             if(xOffset > 0){
-                visibleSideDrawerViewController = self.leftDrawerViewController;
                 visibleSide = MMDrawerSideLeft;
                 percentVisible = xOffset/self.maximumLeftDrawerWidth;
             }
             else if(xOffset < 0){
-                visibleSideDrawerViewController = self.rightDrawerViewController;
                 visibleSide = MMDrawerSideRight;
                 percentVisible = ABS(xOffset)/self.maximumRightDrawerWidth;
             }
@@ -709,15 +690,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
-    
-    UIViewController * sideDrawerViewController = nil;
-    if(drawerSide == MMDrawerSideLeft){
-        sideDrawerViewController = self.leftDrawerViewController;
-    }
-    else if(drawerSide == MMDrawerSideRight){
-        sideDrawerViewController = self.rightDrawerViewController;
-    }
-    
     if(self.drawerVisualState){
         self.drawerVisualState(self,drawerSide,percentVisible);
     }
@@ -730,30 +702,22 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     
     if (percentVisible >= 1.f) {
         CATransform3D transform;
-        UIViewController * sideDrawerViewController;
+        UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
         if(drawerSide == MMDrawerSideLeft) {
-            sideDrawerViewController = self.leftDrawerViewController;
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, self.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
         else if(drawerSide == MMDrawerSideRight){
-            sideDrawerViewController = self.rightDrawerViewController;
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, -self.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
-        
         sideDrawerViewController.view.layer.transform = transform;
     }
 }
 
 -(void)resetDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide{
-    UIViewController * sideDrawerViewController = nil;
-    if(drawerSide == MMDrawerSideLeft){
-        sideDrawerViewController = self.leftDrawerViewController;
-    }
-    else {
-        sideDrawerViewController = self.rightDrawerViewController;
-    }
+    UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    
     [sideDrawerViewController.view.layer setAnchorPoint:CGPointMake(0.5f, 0.5f)];
     [sideDrawerViewController.view.layer setTransform:CATransform3DIdentity];
     [sideDrawerViewController.view setAlpha:1.0];
@@ -815,16 +779,16 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 }
 
 -(void)prepareToPresentDrawer:(MMDrawerSide)drawer{
-    UIViewController * sideDrawerViewControllerToPresent;
-    UIViewController * sideDrawerViewControllerToHide;
+    MMDrawerSide drawerToHide = MMDrawerSideNone;
     if(drawer == MMDrawerSideLeft){
-        sideDrawerViewControllerToPresent = self.leftDrawerViewController;
-        sideDrawerViewControllerToHide = self.rightDrawerViewController;
+        drawerToHide = MMDrawerSideRight;
     }
     else if(drawer == MMDrawerSideRight){
-        sideDrawerViewControllerToPresent = self.rightDrawerViewController;
-        sideDrawerViewControllerToHide = self.leftDrawerViewController;
+        drawerToHide = MMDrawerSideLeft;
     }
+    
+    UIViewController * sideDrawerViewControllerToPresent = [self sideDrawerViewControllerForSide:drawer];
+    UIViewController * sideDrawerViewControllerToHide = [self sideDrawerViewControllerForSide:drawerToHide];
 
     [self.view sendSubviewToBack:sideDrawerViewControllerToHide.view];
     [sideDrawerViewControllerToHide.view setHidden:YES];
@@ -886,6 +850,17 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 -(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance{
     NSTimeInterval duration = MAX(distance/self.animationVelocity,MMDrawerMinimumAnimationDuration);
     return duration;
+}
+
+-(UIViewController*)sideDrawerViewControllerForSide:(MMDrawerSide)drawerSide{
+    UIViewController * sideDrawerViewController = nil;
+    if(drawerSide == MMDrawerSideLeft){
+        sideDrawerViewController = self.leftDrawerViewController;
+    }
+    else if(drawerSide == MMDrawerSideRight){
+        sideDrawerViewController = self.rightDrawerViewController;
+    }
+    return sideDrawerViewController;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
