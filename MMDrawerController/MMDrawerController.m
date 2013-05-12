@@ -386,7 +386,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(void)bouncePreviewForDrawerSide:(MMDrawerSide)drawerSide distance:(CGFloat)distance completion:(void(^)(BOOL finished))completion{
     NSParameterAssert(drawerSide!=MMDrawerSideNone);
-    if(self.openSide != MMDrawerSideNone){
+    
+    UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    
+    if(sideDrawerViewController == nil){
         if(completion){
             completion(NO);
         }
