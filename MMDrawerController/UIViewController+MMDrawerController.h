@@ -42,13 +42,4 @@
  */
 @property(nonatomic, assign, readonly) CGRect mm_visibleDrawerFrame;
 
-///---------------------------------------
-/// @name Methods to subclass
-///---------------------------------------
-
-/**
- This method is called just before the side drawer view controller becomes visible. This can be called as the result of an explicit drawer open, as well as a real-time pan animation. It should only be called once, and will not be called again until the side drawer view controller has been completely hidden and is about to appear again.
- */
--(void)mm_drawerWillAppear;
-
 @end
