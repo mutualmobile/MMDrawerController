@@ -463,12 +463,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 - (void)setDrawerViewController:(UIViewController *)viewController forSide:(MMDrawerSide)drawerSide{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
-    if(_leftDrawerViewController){
-        [self.leftDrawerViewController.view removeFromSuperview];
-        [self.leftDrawerViewController removeFromParentViewController];
-        _leftDrawerViewController = nil;
-    }
-    
     UIViewController *ivarVC = nil;
     if (drawerSide == MMDrawerSideLeft) {
         ivarVC = _leftDrawerViewController;
@@ -484,15 +478,16 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         [ivarVC removeFromParentViewController];
     }
     
+    if (drawerSide == MMDrawerSideLeft) {
+        _leftDrawerViewController = viewController;
+    }
+    else if(drawerSide == MMDrawerSideRight){
+        _rightDrawerViewController = viewController;
+    }
+    
     if(viewController){
-        if (drawerSide == MMDrawerSideLeft) {
-            _leftDrawerViewController = viewController;
-        }
-        else if(drawerSide == MMDrawerSideRight){
-            _rightDrawerViewController = viewController;
-        }
-        
         [self addChildViewController:viewController];
+        
         if((self.openSide == drawerSide) &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:viewController.view belowSubview:self.centerContainerView];
