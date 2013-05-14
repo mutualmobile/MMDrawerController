@@ -576,19 +576,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 - (void)setDrawerViewController:(UIViewController *)viewController forSide:(MMDrawerSide)drawerSide{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
-    UIViewController *ivarVC = nil;
-    if (drawerSide == MMDrawerSideLeft) {
-        ivarVC = _leftDrawerViewController;
-        _leftDrawerViewController = nil;
-    }
-    else if(drawerSide == MMDrawerSideRight){
-        ivarVC = _rightDrawerViewController;
-        _rightDrawerViewController = nil;
-    }
-    
-    if (ivarVC != nil) {
-        [ivarVC.view removeFromSuperview];
-        [ivarVC removeFromParentViewController];
+    UIViewController *currentSideViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    if (currentSideViewController != nil) {
+        [currentSideViewController.view removeFromSuperview];
+        [currentSideViewController removeFromParentViewController];
     }
     
     if (drawerSide == MMDrawerSideLeft) {
@@ -604,15 +595,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         if((self.openSide == drawerSide) &&
            [self.view.subviews containsObject:self.centerContainerView]){
             [self.view insertSubview:viewController.view belowSubview:self.centerContainerView];
-            [self.leftDrawerViewController beginAppearanceTransition:YES animated:NO];
-            [self.leftDrawerViewController endAppearanceTransition];
+            [viewController beginAppearanceTransition:YES animated:NO];
+            [viewController endAppearanceTransition];
         }
         else{
             [self.view addSubview:viewController.view];
             [self.view sendSubviewToBack:viewController.view];
             [viewController.view setHidden:YES];
         }
-        [self.leftDrawerViewController didMoveToParentViewController:self];
+        [viewController didMoveToParentViewController:self];
         [viewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
         [viewController.view setFrame:viewController.mm_visibleDrawerFrame];
     }
