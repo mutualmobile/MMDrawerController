@@ -387,7 +387,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     NSParameterAssert(width > 0);
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
-    UIViewController *viewController = [self sideDrawerViewControllerForSide:drawerSide];
+    UIViewController *sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
     CGFloat newMaxWidth = 0.f;
     CGFloat oldWidth = 0.f;
     NSInteger drawerSideOriginCorrection = 1;
@@ -415,7 +415,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          options:UIViewAnimationOptionCurveEaseInOut
          animations:^{
              [self.centerContainerView setFrame:newCenterRect];
-             [viewController.view setFrame:viewController.mm_visibleDrawerFrame];
+             [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
          }
          completion:^(BOOL finished) {
              if(completion != nil){
@@ -424,7 +424,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          }];
     }
     else{
-        [viewController.view setFrame:viewController.mm_visibleDrawerFrame];
+        [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
         if(completion != nil){
             completion(YES);
         }
