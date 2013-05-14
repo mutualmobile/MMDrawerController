@@ -388,19 +388,16 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
     UIViewController *sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
-    CGFloat newMaxWidth = 0.f;
     CGFloat oldWidth = 0.f;
     NSInteger drawerSideOriginCorrection = 1;
     if (drawerSide == MMDrawerSideLeft) {
         oldWidth = _maximumLeftDrawerWidth;
         _maximumLeftDrawerWidth = width;
-        newMaxWidth = self.maximumLeftDrawerWidth;
     }
     else if(drawerSide == MMDrawerSideRight){
         oldWidth = _maximumRightDrawerWidth;
         _maximumRightDrawerWidth = width;
         drawerSideOriginCorrection = -1;
-        newMaxWidth = self.maximumRightDrawerWidth;
     }
     
     CGFloat distance = ABS(width-oldWidth);
@@ -408,7 +405,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     
     if(self.openSide == drawerSide){
         CGRect newCenterRect = self.centerContainerView.frame;
-        newCenterRect.origin.x =  drawerSideOriginCorrection*newMaxWidth;
+        newCenterRect.origin.x =  drawerSideOriginCorrection*width;
         [UIView
          animateWithDuration:(animated?duration:0)
          delay:0.0
