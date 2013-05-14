@@ -57,8 +57,4 @@
     }
 }
 
--(void)mm_drawerWillAppear{
-    //Implemented by subclass
-}
-
 @end
