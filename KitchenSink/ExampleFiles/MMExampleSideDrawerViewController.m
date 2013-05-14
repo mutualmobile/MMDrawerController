@@ -63,15 +63,9 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
--(void)mm_drawerWillAppear{
-    [super mm_drawerWillAppear];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.tableView.numberOfSections-1)] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)didReceiveMemoryWarning
