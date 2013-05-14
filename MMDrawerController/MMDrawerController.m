@@ -226,26 +226,17 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
              [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
          }
          completion:^(BOOL finished) {
-             if(drawerSide == MMDrawerSideLeft){
-                 //If the previous open side wasnt left, we need to finish the transition.
-                 if(self.openSide != MMDrawerSideLeft){
-                     [self.leftDrawerViewController endAppearanceTransition];
-                 }
-                 
-                 [self setOpenSide:MMDrawerSideLeft];
+             //End the appearance transition if it already wasn't open.
+             if(drawerSide != self.openSide){
+                 [sideDrawerViewController endAppearanceTransition];
              }
-             else if(drawerSide == MMDrawerSideRight){
-                 //If the previous open side wasnt right, we need to finish the transition.
-                 if(self.openSide != MMDrawerSideRight){
-                     [self.rightDrawerViewController endAppearanceTransition];
-                 }
-                 [self setOpenSide:MMDrawerSideRight];
-             }
+             [self setOpenSide:drawerSide];
              
              [self resetDrawerVisualStateForDrawerSide:drawerSide];
              
-             if(completion)
+             if(completion){
                  completion(finished);
+             }
          }];
     }
 }
