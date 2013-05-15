@@ -584,11 +584,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         [currentSideViewController removeFromParentViewController];
     }
     
+    UIViewAutoresizing autoResizingMask = 0;
     if (drawerSide == MMDrawerSideLeft) {
         _leftDrawerViewController = viewController;
+        autoResizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
+        
     }
     else if(drawerSide == MMDrawerSideRight){
         _rightDrawerViewController = viewController;
+        autoResizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
     }
     
     if(viewController){
@@ -606,7 +610,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [viewController.view setHidden:YES];
         }
         [viewController didMoveToParentViewController:self];
-        [viewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
+        [viewController.view setAutoresizingMask:autoResizingMask];
         [viewController.view setFrame:viewController.mm_visibleDrawerFrame];
     }
 }
