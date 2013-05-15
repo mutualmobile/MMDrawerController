@@ -376,67 +376,53 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 #pragma mark - Size Methods
 -(void)setMaximumLeftDrawerWidth:(CGFloat)width animated:(BOOL)animated completion:(void(^)(BOOL finished))completion{
-    NSParameterAssert(width>0);
+    [self setMaximumDrawerWidth:width forSide:MMDrawerSideLeft animated:animated completion:completion];
+}
+
+-(void)setMaximumRightDrawerWidth:(CGFloat)width animated:(BOOL)animated completion:(void(^)(BOOL finished))completion{
+    [self setMaximumDrawerWidth:width forSide:MMDrawerSideRight animated:animated completion:completion];
+}
+
+- (void)setMaximumDrawerWidth:(CGFloat)width forSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion{
+    NSParameterAssert(width > 0);
+    NSParameterAssert(drawerSide != MMDrawerSideNone);
     
-    CGFloat oldWidth = _maximumLeftDrawerWidth;
-    _maximumLeftDrawerWidth = width;
+    UIViewController *sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    CGFloat oldWidth = 0.f;
+    NSInteger drawerSideOriginCorrection = 1;
+    if (drawerSide == MMDrawerSideLeft) {
+        oldWidth = _maximumLeftDrawerWidth;
+        _maximumLeftDrawerWidth = width;
+    }
+    else if(drawerSide == MMDrawerSideRight){
+        oldWidth = _maximumRightDrawerWidth;
+        _maximumRightDrawerWidth = width;
+        drawerSideOriginCorrection = -1;
+    }
     
     CGFloat distance = ABS(width-oldWidth);
     NSTimeInterval duration = [self animationDurationForAnimationDistance:distance];
     
-    if(self.openSide == MMDrawerSideLeft){
+    if(self.openSide == drawerSide){
         CGRect newCenterRect = self.centerContainerView.frame;
-        newCenterRect.origin.x = self.maximumLeftDrawerWidth;
+        newCenterRect.origin.x =  drawerSideOriginCorrection*width;
         [UIView
          animateWithDuration:(animated?duration:0)
          delay:0.0
          options:UIViewAnimationOptionCurveEaseInOut
          animations:^{
              [self.centerContainerView setFrame:newCenterRect];
-             [self.leftDrawerViewController.view setFrame:self.leftDrawerViewController.mm_visibleDrawerFrame];
+             [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
          }
          completion:^(BOOL finished) {
-             if(completion){
-                completion(finished);
+             if(completion != nil){
+                 completion(finished);
              }
          }];
     }
     else{
-        [self.leftDrawerViewController.view setFrame:self.leftDrawerViewController.mm_visibleDrawerFrame];
-        if(completion){
-            completion(YES);
-        }
-    }
-}
-
--(void)setMaximumRightDrawerWidth:(CGFloat)width animated:(BOOL)animated completion:(void(^)(BOOL finished))completion{
-    NSParameterAssert(width>0);
-    
-    CGFloat oldWidth = _maximumRightDrawerWidth;
-    _maximumRightDrawerWidth = width;
-    
-    CGFloat distance = ABS(width-oldWidth);
-    NSTimeInterval duration = [self animationDurationForAnimationDistance:distance];
-    
-    if(self.openSide == MMDrawerSideRight){
-        CGRect newCenterRect = self.centerContainerView.frame;
-        newCenterRect.origin.x =  0-self.maximumRightDrawerWidth;
-        [UIView
-         animateWithDuration:(animated?duration:0)
-         delay:0.0
-         options:UIViewAnimationOptionCurveEaseInOut
-         animations:^{
-             [self.centerContainerView setFrame:newCenterRect];
-             [self.rightDrawerViewController.view setFrame:self.rightDrawerViewController.mm_visibleDrawerFrame];
-         }
-         completion:^(BOOL finished) {
-             if(completion)
-                 completion(finished);
-         }];
-    }
-    else{
-        [self.rightDrawerViewController.view setFrame:self.rightDrawerViewController.mm_visibleDrawerFrame];
-        if(completion){
+        [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
+        if(completion != nil){
             completion(YES);
         }
     }
@@ -580,68 +566,48 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 #pragma mark - Setters
 -(void)setRightDrawerViewController:(UIViewController *)rightDrawerViewController{
-    if(_rightDrawerViewController){
-        if(self.openSide == MMDrawerSideRight){
-            [self.rightDrawerViewController beginAppearanceTransition:NO animated:NO];
-        }
-        [self.rightDrawerViewController.view removeFromSuperview];
-        [self.rightDrawerViewController removeFromParentViewController];
-        if(self.openSide == MMDrawerSideRight){
-            [self.rightDrawerViewController endAppearanceTransition];
-        }
-        _rightDrawerViewController = nil;
-    }
-    
-    if(rightDrawerViewController){
-        _rightDrawerViewController = rightDrawerViewController;
-        [self addChildViewController:self.rightDrawerViewController];
-        if(self.openSide == MMDrawerSideRight &&
-           [self.view.subviews containsObject:self.centerContainerView]){
-            [self.view insertSubview:self.rightDrawerViewController.view belowSubview:self.centerContainerView];
-            [self.rightDrawerViewController beginAppearanceTransition:YES animated:NO];
-            [self.rightDrawerViewController endAppearanceTransition];
-        }
-        else{
-            [self.view addSubview:self.rightDrawerViewController.view];
-            [self.view sendSubviewToBack:self.rightDrawerViewController.view];
-            [self.rightDrawerViewController.view setHidden:YES];
-        }
-        [self.rightDrawerViewController didMoveToParentViewController:self];
-        [self.rightDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin];
-        [self.rightDrawerViewController.view setFrame:self.rightDrawerViewController.mm_visibleDrawerFrame];
-    }
+    [self setDrawerViewController:rightDrawerViewController forSide:MMDrawerSideRight];
 }
 
 -(void)setLeftDrawerViewController:(UIViewController *)leftDrawerViewController{
-    if(_leftDrawerViewController){
-        if(self.openSide == MMDrawerSideLeft){
-            [self.leftDrawerViewController beginAppearanceTransition:NO animated:NO];
-        }
-        [self.leftDrawerViewController.view removeFromSuperview];
-        [self.leftDrawerViewController removeFromParentViewController];
-        if(self.openSide == MMDrawerSideLeft){
-            [self.leftDrawerViewController endAppearanceTransition];
-        }
-        _leftDrawerViewController = nil;
+    [self setDrawerViewController:leftDrawerViewController forSide:MMDrawerSideLeft];
+}
+
+- (void)setDrawerViewController:(UIViewController *)viewController forSide:(MMDrawerSide)drawerSide{
+    NSParameterAssert(drawerSide != MMDrawerSideNone);
+    
+    UIViewController *currentSideViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    if (currentSideViewController != nil) {
+        [currentSideViewController beginAppearanceTransition:NO animated:NO];
+        [currentSideViewController.view removeFromSuperview];
+        [currentSideViewController endAppearanceTransition];
+        [currentSideViewController removeFromParentViewController];
     }
     
-    if(leftDrawerViewController){
-        _leftDrawerViewController = leftDrawerViewController;
-        [self addChildViewController:self.leftDrawerViewController];
-        if(self.openSide == MMDrawerSideLeft &&
+    if (drawerSide == MMDrawerSideLeft) {
+        _leftDrawerViewController = viewController;
+    }
+    else if(drawerSide == MMDrawerSideRight){
+        _rightDrawerViewController = viewController;
+    }
+    
+    if(viewController){
+        [self addChildViewController:viewController];
+        
+        if((self.openSide == drawerSide) &&
            [self.view.subviews containsObject:self.centerContainerView]){
-            [self.view insertSubview:self.leftDrawerViewController.view belowSubview:self.centerContainerView];
-            [self.leftDrawerViewController beginAppearanceTransition:YES animated:NO];
-            [self.leftDrawerViewController endAppearanceTransition];
+            [self.view insertSubview:viewController.view belowSubview:self.centerContainerView];
+            [viewController beginAppearanceTransition:YES animated:NO];
+            [viewController endAppearanceTransition];
         }
         else{
-            [self.view addSubview:self.leftDrawerViewController.view];
-            [self.view sendSubviewToBack:self.leftDrawerViewController.view];
-            [self.leftDrawerViewController.view setHidden:YES];
+            [self.view addSubview:viewController.view];
+            [self.view sendSubviewToBack:viewController.view];
+            [viewController.view setHidden:YES];
         }
-        [self.leftDrawerViewController didMoveToParentViewController:self];
-        [self.leftDrawerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
-        [self.leftDrawerViewController.view setFrame:self.leftDrawerViewController.mm_visibleDrawerFrame];
+        [viewController didMoveToParentViewController:self];
+        [viewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleRightMargin];
+        [viewController.view setFrame:viewController.mm_visibleDrawerFrame];
     }
 }
 
