@@ -72,6 +72,43 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 	return animation;
 }
 
+@interface MMDrawerCenterContainerView : UIView
+@property (nonatomic,assign) MMDrawerOpenCenterInteractionMode centerInteractionMode;
+@property (nonatomic,assign) MMDrawerSide openSide;
+@end
+
+@implementation MMDrawerCenterContainerView
+
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if(hitView &&
+       self.openSide != MMDrawerSideNone){
+        UINavigationBar * navBar = [self navigationBarContainedWithinSubviewsOfView:self];
+        CGRect navBarFrame = [navBar convertRect:navBar.frame toView:self];
+        if((self.centerInteractionMode == MMDrawerOpenCenterInteractionModeNavigationBarOnly &&
+           CGRectContainsPoint(navBarFrame, point) == NO) ||
+           self.centerInteractionMode == MMDrawerOpenCenterInteractionModeNone){
+            hitView = nil;
+        }
+    }
+    return hitView;
+}
+
+-(UINavigationBar*)navigationBarContainedWithinSubviewsOfView:(UIView*)view{
+    UINavigationBar * navBar = nil;
+    for(UIView * subview in [view subviews]){
+        if([view isKindOfClass:[UINavigationBar class]]){
+            navBar = (UINavigationBar*)view;
+            break;
+        }
+        else {
+            navBar = [self navigationBarContainedWithinSubviewsOfView:subview];
+        }
+    }
+    return navBar;
+}
+@end
+
 @interface MMDrawerController () <UIGestureRecognizerDelegate>{
     CGFloat _maximumRightDrawerWidth;
     CGFloat _maximumLeftDrawerWidth;
@@ -79,7 +116,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 @property (nonatomic, assign, readwrite) MMDrawerSide openSide;
 
-@property (nonatomic, strong) UIView * centerContainerView;
+@property (nonatomic, strong) MMDrawerCenterContainerView * centerContainerView;
 
 @property (nonatomic, assign) CGRect startingPanRect;
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
@@ -244,9 +281,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 #pragma mark - Updating the Center View Controller
 -(void)setCenterViewController:(UIViewController *)centerViewController animated:(BOOL)animated{
     if(_centerContainerView == nil){
-        _centerContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
+        _centerContainerView = [[MMDrawerCenterContainerView alloc] initWithFrame:self.view.bounds];
         [self.centerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.centerContainerView setBackgroundColor:[UIColor clearColor]];
+        [self.centerContainerView setOpenSide:self.openSide];
+        [self.centerContainerView setCenterInteractionMode:self.centerHiddenInteractionMode];
         [self.view addSubview:self.centerContainerView];
     }
     
@@ -907,38 +946,8 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 }
 
 -(void)updateCenterViewUserInteractionState{
-    UINavigationBar * navBar = nil;
-    UIView * centerContentView = nil;
-    if([self.centerViewController isKindOfClass:[UINavigationController class]]){
-        navBar = [(UINavigationController*)self.centerViewController navigationBar];
-        centerContentView = [[(UINavigationController*)self.centerViewController topViewController] view];
-    }
-    else {
-        centerContentView = self.centerViewController.view;
-    }
-    
-    if(self.openSide != MMDrawerSideNone){
-        switch (self.centerHiddenInteractionMode) {
-            case MMDrawerOpenCenterInteractionModeNone:
-                [navBar setUserInteractionEnabled:NO];
-                [centerContentView setUserInteractionEnabled:NO];
-                break;
-            case MMDrawerOpenCenterInteractionModeNavigationBarOnly:
-                [navBar setUserInteractionEnabled:YES];
-                [centerContentView setUserInteractionEnabled:NO];
-                break;
-                
-            case MMDrawerOpenCenterInteractionModeFull:
-                [navBar setUserInteractionEnabled:YES];
-                [centerContentView setUserInteractionEnabled:YES];
-            default:
-                break;
-        }
-    }
-    else {
-        [navBar setUserInteractionEnabled:YES];
-        [centerContentView setUserInteractionEnabled:YES];
-    }
+    [self.centerContainerView setOpenSide:self.openSide];
+    [self.centerContainerView setCenterInteractionMode:self.centerHiddenInteractionMode];
 }
 
 -(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance{
