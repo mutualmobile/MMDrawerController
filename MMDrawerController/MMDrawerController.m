@@ -580,6 +580,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if (currentSideViewController != nil) {
         [currentSideViewController.view removeFromSuperview];
         [currentSideViewController removeFromParentViewController];
+        [currentSideViewController beginAppearanceTransition:NO animated:NO];
+        [currentSideViewController endAppearanceTransition];
     }
     
     if (drawerSide == MMDrawerSideLeft) {
