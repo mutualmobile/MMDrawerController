@@ -6,11 +6,15 @@
 <img src="http://mutualmobile.github.io/MMDrawerController/ExampleImages/example2.png" width="266" height="500"/></center>
 
 ---
+##Documentation
+Official appledoc documentation can be found at [CocoaDocs](http://cocoadocs.org/docsets/MMDrawerController/).
+
+---
 ##Installing MMDrawerController
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
 ```Ruby
-pod 'MMDrawerController', '~> 0.0.2'
+pod 'MMDrawerController', '~> 0.1.0'
 ```
 
 ---
