@@ -666,7 +666,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(void)setOpenSide:(MMDrawerSide)openSide{
     if(_openSide != openSide){
         _openSide = openSide;
-        [self updateCenterViewUserInteractionState];
+        [self.centerContainerView setOpenSide:openSide];
         if(openSide == MMDrawerSideNone){
             [self.leftDrawerViewController.view setHidden:YES];
             [self.rightDrawerViewController.view setHidden:YES];
@@ -677,7 +677,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(void)setCenterHiddenInteractionMode:(MMDrawerOpenCenterInteractionMode)centerHiddenInteractionMode{
     if(_centerHiddenInteractionMode!=centerHiddenInteractionMode){
         _centerHiddenInteractionMode = centerHiddenInteractionMode;
-        [self updateCenterViewUserInteractionState];
+        [self.centerContainerView setCenterInteractionMode:centerHiddenInteractionMode];
     }
 }
 
@@ -943,11 +943,6 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     else {
         centerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectNull].CGPath;
     }
-}
-
--(void)updateCenterViewUserInteractionState{
-    [self.centerContainerView setOpenSide:self.openSide];
-    [self.centerContainerView setCenterInteractionMode:self.centerHiddenInteractionMode];
 }
 
 -(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance{
