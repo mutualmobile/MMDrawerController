@@ -139,7 +139,7 @@ Designed and Developed by these fine folks at [Mutual Mobile](http://mutualmobil
 
 * [Kevin Harwood](http://twitter.com/kevinharwood)
 * [Lars Anderson](http://twitter.com/theonlylars)
-* [Rene Cacheaux](http://twitter,com/rcachatx)
+* [Rene Cacheaux](http://twitter.com/rcachatx)
 * [Conrad Stoll](http://twitter.com/conradstoll)
 
 ###Design
