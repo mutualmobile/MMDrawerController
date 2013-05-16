@@ -41,7 +41,7 @@ NSTimeInterval const MMDrawerMinimumAnimationDuration = 0.15f;
 
 CGFloat const MMDrawerBezelRange = 20.0f;
 
-CGFloat const MMDrawerPanVelocityXAnimationThreshold = 100.0f;
+CGFloat const MMDrawerPanVelocityXAnimationThreshold = 200.0f;
 
 /** The amount of overshoot that is panned linearly. The remaining percentage nonlinearly asymptotes to the max percentage. */
 CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
@@ -181,10 +181,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL))completion{
+    [self closeDrawerAnimated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+}
+
+-(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion{
     CGRect newFrame = self.view.bounds;
     
     CGFloat distance = ABS(CGRectGetMinX(self.centerContainerView.frame));
-    NSTimeInterval duration = [self animationDurationForAnimationDistance:distance];
+    NSTimeInterval duration = MAX(distance/ABS(velocity),MMDrawerMinimumAnimationDuration);
     
     BOOL leftDrawerVisible = CGRectGetMinX(self.centerContainerView.frame) > 0;
     BOOL rightDrawerVisible = CGRectGetMinX(self.centerContainerView.frame) < 0;
@@ -212,14 +216,14 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     [UIView
      animateWithDuration:(animated?duration:0.0)
      delay:0.0
-     options:UIViewAnimationOptionCurveEaseInOut
+     options:options
      animations:^{
          [self.centerContainerView setFrame:newFrame];
          [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
      }
      completion:^(BOOL finished) {
          [sideDrawerViewController endAppearanceTransition];
-         [self setOpenSide:MMDrawerSideNone];         
+         [self setOpenSide:MMDrawerSideNone];
          [self resetDrawerVisualStateForDrawerSide:visibleSide];
          
          if(completion){
@@ -229,6 +233,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void (^)(BOOL))completion{
+    NSParameterAssert(drawerSide != MMDrawerSideNone);
+    
+    [self openDrawerSide:drawerSide animated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+}
+
+-(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
     UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
@@ -252,12 +262,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         }
         
         CGFloat distance = ABS(CGRectGetMinX(oldFrame)-newFrame.origin.x);
-        NSTimeInterval duration = [self animationDurationForAnimationDistance:distance];
+        NSTimeInterval duration = MAX(distance/ABS(velocity),MMDrawerMinimumAnimationDuration);
         
         [UIView
          animateWithDuration:(animated?duration:0.0)
          delay:0.0
-         options:UIViewAnimationOptionCurveEaseInOut
+         options:options
          animations:^{
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
@@ -789,13 +799,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(void)finishAnimationForPanGestureWithXVelocity:(CGFloat)xVelocity completion:(void(^)(BOOL finished))completion{
     CGFloat currentOriginX = CGRectGetMinX(self.centerContainerView.frame);
     
+    CGFloat animationVelocity = MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2);
+    
     if(self.openSide == MMDrawerSideLeft) {
         CGFloat midPoint = self.maximumLeftDrawerWidth / 2.0;
         if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
-            [self openDrawerSide:MMDrawerSideLeft animated:YES completion:completion];
+            [self openDrawerSide:MMDrawerSideLeft animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
-            [self closeDrawerAnimated:YES completion:completion];
+            [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX < midPoint){
             [self closeDrawerAnimated:YES completion:completion];
@@ -808,10 +820,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         currentOriginX = CGRectGetMaxX(self.centerContainerView.frame);
         CGFloat midPoint = (CGRectGetWidth(self.view.bounds)-self.maximumRightDrawerWidth) + (self.maximumRightDrawerWidth / 2.0);
         if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
-            [self closeDrawerAnimated:YES completion:completion];
+            [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if (xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
-            [self openDrawerSide:MMDrawerSideRight animated:YES completion:completion];
+            [self openDrawerSide:MMDrawerSideRight animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX > midPoint){
             [self closeDrawerAnimated:YES completion:completion];
