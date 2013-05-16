@@ -799,13 +799,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 -(void)finishAnimationForPanGestureWithXVelocity:(CGFloat)xVelocity completion:(void(^)(BOOL finished))completion{
     CGFloat currentOriginX = CGRectGetMinX(self.centerContainerView.frame);
     
+    CGFloat animationVelocity = MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2);
+    
     if(self.openSide == MMDrawerSideLeft) {
         CGFloat midPoint = self.maximumLeftDrawerWidth / 2.0;
         if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
-            [self openDrawerSide:MMDrawerSideLeft animated:YES velocity:MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2) animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
+            [self openDrawerSide:MMDrawerSideLeft animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
-            [self closeDrawerAnimated:YES velocity:MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2) animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
+            [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX < midPoint){
             [self closeDrawerAnimated:YES completion:completion];
@@ -818,10 +820,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         currentOriginX = CGRectGetMaxX(self.centerContainerView.frame);
         CGFloat midPoint = (CGRectGetWidth(self.view.bounds)-self.maximumRightDrawerWidth) + (self.maximumRightDrawerWidth / 2.0);
         if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
-            [self closeDrawerAnimated:YES velocity:MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2) animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
+            [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if (xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
-            [self openDrawerSide:MMDrawerSideRight animated:YES velocity:MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2) animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
+            [self openDrawerSide:MMDrawerSideRight animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX > midPoint){
             [self closeDrawerAnimated:YES completion:completion];
