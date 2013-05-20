@@ -403,6 +403,7 @@
 				INFOPLIST_FILE = "ExampleFiles/MMDrawerControllerKitchenSink-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = MMDrawerControllerKitchenSink;
+				WARNING_CFLAGS = "-Wdocumentation";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -415,6 +416,7 @@
 				INFOPLIST_FILE = "ExampleFiles/MMDrawerControllerKitchenSink-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = MMDrawerControllerKitchenSink;
+				WARNING_CFLAGS = "-Wdocumentation";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
