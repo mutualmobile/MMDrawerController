@@ -172,8 +172,8 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left view controller, and right view controller. This is the designated initializer.
  
  @param centerViewController The center view controller. This argument must not be `nil`.
- @param leftViewController The left drawer view controller.
- @param rightViewController The right drawer controller.
+ @param leftDrawerViewController The left drawer view controller.
+ @param rightDrawerViewController The right drawer controller.
  
  @return The newly-initialized drawer container view controller.
  */
@@ -183,7 +183,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left view controller.
  
  @param centerViewController The center view controller. This argument must not be `nil`.
- @param leftViewController The left drawer view controller.
+ @param leftDrawerViewController The left drawer view controller.
  
  @return The newly-initialized drawer container view controller.
  */
@@ -193,7 +193,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  Creates and initializes an `MMDrawerController` object with the specified center view controller, right view controller.
  
  @param centerViewController The center view controller. This argument must not be `nil`.
- @param rightViewController The right drawer controller.
+ @param rightDrawerViewController The right drawer controller.
  
  @return The newly-initialized drawer container view controller.
  */
@@ -214,7 +214,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 -(void)toggleDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
 
 /**
- Closes the the open drawer.
+ Closes the open drawer.
  
  @param animated Determines whether the drawer side should be closed animated
  @param completion The block that is called when the close is complete
@@ -239,7 +239,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Sets the new `centerViewController`. This sets the view controller and will automatically adjust the frame based on the current state of the drawer container view controller. If `closeAnimated` is YES, it will immediately change the center view controller, and close the drawer from its current position.
  
- @param newCenterViewController The new `centerViewController`.
+ @param centerViewController The new `centerViewController`.
  @param closeAnimated Determines whether the drawer should be closed with an animation.
  @param completion The block called when the animation is finsihed.
  
@@ -316,7 +316,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
     - transform: CATransform3DIdentity
     - anchorPoint: (0.5,0.5)
  
- @param block A block object to be called that allows the implementer to update visual state properties on the drawer. `percentVisible` represents the amount of the drawer space that is current visible, with drawer space being defined as the edge of the screen to the maxmimum drawer width. Note that you do have access to the drawerController, which will allow you to update things like the anchor point of the side drawer layer. 
+ @param drawerVisualStateBlock A block object to be called that allows the implementer to update visual state properties on the drawer. `percentVisible` represents the amount of the drawer space that is current visible, with drawer space being defined as the edge of the screen to the maxmimum drawer width. Note that you do have access to the drawerController, which will allow you to update things like the anchor point of the side drawer layer.
  */
 -(void)setDrawerVisualStateBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible))drawerVisualStateBlock;
 
