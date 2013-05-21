@@ -137,6 +137,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         [self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
         [self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
         
+        [self setLeftDrawerWidthPadding:0];
+        [self setRightDrawerWidthPadding:0];
+        
         [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
         
         [self setShowsShadow:YES];
