@@ -40,6 +40,22 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
 										   rightDrawerViewController:rightDrawer];
 ```
 
+
+---
+##Storyboard Support
+
+XCode/UIKit doesn't support programatic "embed" segue definition on a custom container view controller.  We can largely work around this shortcoming via custom segues.  MMDrawerController storyboard support is implemented via a category extension requiring no alteration to the core MMDrawerController code.  If/when XCode/UIKit adds support for programatic "embed" segues then this extension can go away fairly painlessly.
+
+The category extension `MMDrawerController+Storyboard` enables basic storyboard support.  Include MMDrawerController+Storyboard.m in your build if you intend to use storyboard support.
+
+In your storyboard you should lay out the drawer view controller, a center view controller, and optionally left and/or right view controllers.  Set the drawer view controller class to `MMDrawerController`, and delete any defined view.  The view will be created in code and not instantiated by the storyboard.
+
+From the drawer controller, control-drag to define a segue from the drawer controller to your center controller.  Select "drawer controller", or "custom" from the segue-type contextual pick list.  If you pick custom, set the segue class to `MMDrawerControllerSegue'.  Set the segue identifier to `mm_center'.
+
+In similar fashion, define segue(s) for the left and/or right drawer controllers.  Set the segue identifers to `mm_left` and `mm_right` respectively.
+
+The example project `MMDrawerControllerKitchenSinkStoryboard` demonstrates this mechanism.
+
 ---
 ##Features
 
@@ -150,6 +166,7 @@ Designed and Developed by these fine folks at [Mutual Mobile](http://mutualmobil
 * [Lars Anderson](http://twitter.com/theonlylars)
 * [Rene Cacheaux](http://twitter.com/rcachatx)
 * [Conrad Stoll](http://twitter.com/conradstoll)
+* Nick Hodapp
 
 ###Design
 
