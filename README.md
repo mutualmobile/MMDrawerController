@@ -44,9 +44,9 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
 ---
 ##Storyboard Support
 
-XCode/UIKit doesn't support programatic "embed" segue definition on a custom container view controller.  We can largely work around this shortcoming via custom segues.  MMDrawerController storyboard support is implemented via a category extension requiring no alteration to the core MMDrawerController code.  If/when XCode/UIKit adds support for programatic "embed" segues then this extension can go away fairly painlessly.
+XCode/UIKit doesn't support programatic "embed" segue definition on a custom container view controller.  We can largely work around this shortcoming via custom segues.  `MMDrawerController` storyboard support is implemented via a category extension requiring no alteration to the core `MMDrawerController` code.  If/when XCode/UIKit adds support for programatic "embed" segues then this extension can go away fairly painlessly.
 
-The category extension `MMDrawerController+Storyboard` enables basic storyboard support.  Include MMDrawerController+Storyboard.m in your build if you intend to use storyboard support.
+The category extension `MMDrawerController+Storyboard` enables basic storyboard support.  Include `MMDrawerController+Storyboard.m` in your build if you intend to use storyboard support.
 
 In your storyboard you should lay out the drawer view controller, a center view controller, and optionally left and/or right view controllers.  Set the drawer view controller class to `MMDrawerController`, and delete any defined view.  The view will be created in code and not instantiated by the storyboard.
 
