@@ -49,6 +49,8 @@ CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
 /** The percent of the possible overshoot width to use as the actual overshoot percentage. */
 CGFloat const MMDrawerOvershootPercentage = 0.1f;
 
+typedef void (^MMDrawerGestureCompletionBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture);
+
 static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat distance, UIView * view) {
 	CGFloat factors[32] = {0, 32, 60, 83, 100, 114, 124, 128, 128, 124, 114, 100, 83, 60, 32,
 		0, 24, 42, 54, 62, 64, 62, 54, 42, 24, 0, 18, 28, 32, 28, 18, 0};
@@ -120,6 +122,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 @property (nonatomic, assign) CGRect startingPanRect;
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
+@property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 
 @end
 
@@ -524,6 +527,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     [self setDrawerVisualState:drawerVisualStateBlock];
 }
 
+#pragma mark - Setting the Gesture Completion Block
+-(void)setGestureCompletionBlock:(void (^)(MMDrawerController *, UIGestureRecognizer *))gestureCompletionBlock{
+    [self setGestureCompletion:gestureCompletionBlock];
+}
+
 #pragma mark - Subclass Methods
 -(BOOL)shouldAutomaticallyForwardAppearanceMethods{
     return NO;
@@ -737,7 +745,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(void)tapGesture:(UITapGestureRecognizer *)tapGesture{
     if(self.openSide != MMDrawerSideNone){
-        [self closeDrawerAnimated:YES completion:nil];
+        [self closeDrawerAnimated:YES completion:^(BOOL finished) {
+            if(self.gestureCompletion){
+                self.gestureCompletion(self, tapGesture);
+            }
+        }];
     }
 }
 
@@ -788,7 +800,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         case UIGestureRecognizerStateEnded:{
             self.startingPanRect = CGRectNull;
             CGPoint velocity = [panGesture velocityInView:self.view];
-            [self finishAnimationForPanGestureWithXVelocity:velocity.x completion:nil];
+            [self finishAnimationForPanGestureWithXVelocity:velocity.x completion:^(BOOL finished) {
+                if(self.gestureCompletion){
+                    self.gestureCompletion(self, panGesture);
+                }
+            }];
             break;
         }
         default:
