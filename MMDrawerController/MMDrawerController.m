@@ -49,7 +49,7 @@ CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
 /** The percent of the possible overshoot width to use as the actual overshoot percentage. */
 CGFloat const MMDrawerOvershootPercentage = 0.1f;
 
-typedef void (^MMDrawerGestureCompletionBlock)(MMDrawerController * drawerController);
+typedef void (^MMDrawerGestureCompletionBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture);
 
 static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat distance, UIView * view) {
 	CGFloat factors[32] = {0, 32, 60, 83, 100, 114, 124, 128, 128, 124, 114, 100, 83, 60, 32,
@@ -528,7 +528,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 #pragma mark - Setting the Gesture Completion Block
--(void)setGestureCompletionBlock:(void (^)(MMDrawerController *))gestureCompletionBlock{
+-(void)setGestureCompletionBlock:(void (^)(MMDrawerController *, UIGestureRecognizer *))gestureCompletionBlock{
     [self setGestureCompletion:gestureCompletionBlock];
 }
 
@@ -747,7 +747,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if(self.openSide != MMDrawerSideNone){
         [self closeDrawerAnimated:YES completion:^(BOOL finished) {
             if(self.gestureCompletion){
-                self.gestureCompletion(self);
+                self.gestureCompletion(self, tapGesture);
             }
         }];
     }
@@ -802,7 +802,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             CGPoint velocity = [panGesture velocityInView:self.view];
             [self finishAnimationForPanGestureWithXVelocity:velocity.x completion:^(BOOL finished) {
                 if(self.gestureCompletion){
-                    self.gestureCompletion(self);
+                    self.gestureCompletion(self, panGesture);
                 }
             }];
             break;

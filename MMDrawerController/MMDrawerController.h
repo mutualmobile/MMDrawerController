@@ -374,6 +374,6 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @param gestureCompletionBlock A block object to be called that allows the implementer be notified when a gesture action has been completed.
  */
--(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController))gestureCompletionBlock;
+-(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture))gestureCompletionBlock;
 
 @end
