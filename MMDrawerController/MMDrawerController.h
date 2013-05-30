@@ -39,6 +39,9 @@
  ## How Open/Close Gestures are handled
  Two gestures are added to every instance of a drawer controller, one for pan and one for touch. `MMDrawerController` is the delegate for each of the gesture recoginzers, and determines if a touch should be sent to the appropriate gesture when a touch is detected compared with the masks set for open and close gestures and the state of the drawer controller.
  
+ ##Subclassing MMDrawerController
+ If you would like to subclass MMDrawerController and you only need to override public methods, you don't need to do anything different. If you would like to use some of the additional methods used under the hood for MMDrawerController, you will need to add the cocoapod subspec "`Subclass`" (`pod 'MMDrawerController/Subclass'`). Your MMDrawerController subclass will also need to import the file "`MMDrawerController+Subclass.h`" in order to have access to the subclass methods only available to MMDrawerController subclasses.
+ 
  ## What this library doesn't do.
  This library is not meant for:
     - Top or bottom drawer views
