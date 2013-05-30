@@ -368,6 +368,19 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 -(void)setDrawerVisualStateBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible))drawerVisualStateBlock;
 
 ///---------------------------------------
+/// @name Gesture Completion Handling
+///---------------------------------------
+
+/**
+ Sets a callback to be called when a gesture has been completed.
+ 
+ This block is called when a gesture action has been completed. You can query the `openSide` of the `drawerController` to determine what the new state of the drawer is.
+ 
+ @param gestureCompletionBlock A block object to be called that allows the implementer be notified when a gesture action has been completed.
+ */
+-(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture))gestureCompletionBlock;
+
+///---------------------------------------
 /// @name Custom Gesture Handler
 ///---------------------------------------
 
