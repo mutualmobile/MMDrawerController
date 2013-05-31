@@ -200,8 +200,6 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left drawer view controller, and right drawer view controller. 
  
- This is the designated initializer.
- 
  @param centerViewController The center view controller. This argument must not be `nil`.
  @param leftDrawerViewController The left drawer view controller.
  @param rightDrawerViewController The right drawer controller.
