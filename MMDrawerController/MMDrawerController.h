@@ -131,6 +131,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) CGFloat maximumRightDrawerWidth;
 
 /**
+ The width padding of the left `leftDrawerViewController`
+ 
+ By default, this is set to 0. but can be increase to let rounded corners be covered by the drawer background color
+ */
+@property (nonatomic, assign) CGFloat leftDrawerWidthPadding;
+
+/**
+ The width padding of the left `rightDrawerViewController`
+ 
+ By default, this is set to 0. but can be increase to let rounded corners be covered by the drawer background color
+ */
+@property (nonatomic, assign) CGFloat rightDrawerWidthPadding;
+
+/**
  The visible width of the `leftDrawerViewController`. 
  
  Note this value can be greater than `maximumLeftDrawerWidth` during the full close animation when setting a new center view controller;
