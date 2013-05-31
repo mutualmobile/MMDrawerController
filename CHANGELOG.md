@@ -1,5 +1,15 @@
 #MMDrawerController Changelog
 
+##[0.2.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=5&state=closed)
+###New
+* Added support for using the panning velocity to complete the animation. It now looks *much* better ([#18](https://github.com/mutualmobile/MMDrawerController/issues/18)). (Kevin Harwood)
+* Added a new callback block to get notified when a gesture animation has completed ([#20](https://github.com/mutualmobile/MMDrawerController/issues/20)). (Kevin Harwood)
+
+###Fixed
+* **FIXED** an issue([#23](https://github.com/mutualmobile/MMDrawerController/issues/23)) where the drawer could bounce, even if a drawer was open. (Kevin Harwood)
+* **FIXED** an issue([#38](https://github.com/mutualmobile/MMDrawerController/issues/38)) the designator initializer for `UIViewController` was not properly setting default values. (poteryaysya)
+* **FIXED** an issue([#24](https://github.com/mutualmobile/MMDrawerController/issues/24)) where some documentation was incorrect. (Kevin Harwood)
+
 ##[0.1.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=3&page=1&state=closed) (Wednesday, May 15th, 2013)
 ###New
 * `MMDrawerController` now properly supports full view controller containment. The drawer view controllers will properly receive their view appearance methods at the correct time now, including every time they are about to become visible. Please note that `mm_drawerWillApear` has now been deprecated. More notes below. (Kevin Harwood, Lars Anderson)
