@@ -145,7 +145,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 		[self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
 		[self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
 	}
-
 	return self;
 }
 
@@ -153,7 +152,6 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     NSParameterAssert(centerViewController);
     self = [self init];
     if(self){
-
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
         [self setRightDrawerViewController:rightDrawerViewController];
