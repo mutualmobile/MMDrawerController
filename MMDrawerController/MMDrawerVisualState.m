@@ -34,6 +34,7 @@
         CGFloat distance = maxDistance * percentVisible;
         CATransform3D translateTransform;
         UIViewController * sideDrawerViewController;
+        
         if(drawerSide == MMDrawerSideLeft) {
             sideDrawerViewController = drawerController.leftDrawerViewController;
             translateTransform = CATransform3DMakeTranslation((maxDistance-distance), 0.0, 0.0);
@@ -103,8 +104,8 @@
             if (drawerSide == MMDrawerSideRight) {
                 scalingModifier = -1.f;
             }
-            
-            overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*maxDrawerWidth/2, 0.f, 0.f);
+            CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+            overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*maxDrawerWidth/2-translationCorrection, 0.f, 0.f);
             swingingDoorTransform = overshootTransform;
         }
         
@@ -118,28 +119,32 @@
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
         NSParameterAssert(parallaxFactor >= 1.0);
         CATransform3D transform;
-        UIViewController * sideDrawerViewController;
-        if(drawerSide == MMDrawerSideLeft) {
+        UIViewController * sideDrawerViewController = nil;
+        CGFloat maxDrawerWidth = 0.f;
+        CGFloat scalingModifier = 1.f;
+        CGFloat unscaledMaxWidth = 0.f;
+        
+        if (drawerSide == MMDrawerSideLeft) {
             sideDrawerViewController = drawerController.leftDrawerViewController;
-            CGFloat distance = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
-            if (percentVisible <= 1.f) {
-                transform = CATransform3DMakeTranslation((-distance)/parallaxFactor+(distance*percentVisible/parallaxFactor), 0.0, 0.0);
-            }
-            else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
-            }
+            maxDrawerWidth = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
+            scalingModifier = 1.f;
+            unscaledMaxWidth = drawerController.maximumLeftDrawerWidth;
         }
-        else if(drawerSide == MMDrawerSideRight){
+        else{
+            scalingModifier = -1.f;
             sideDrawerViewController = drawerController.rightDrawerViewController;
-            CGFloat distance = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
-            if(percentVisible <= 1.f){
-                transform = CATransform3DMakeTranslation((distance)/parallaxFactor-(distance*percentVisible)/parallaxFactor, 0.0, 0.0);
-            }
-            else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
-            }
+            maxDrawerWidth = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
+            unscaledMaxWidth = drawerController.maximumRightDrawerWidth;
+        }
+        
+        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+        
+        if(percentVisible <= 1.f){
+            transform = CATransform3DMakeTranslation((-scalingModifier*maxDrawerWidth)/parallaxFactor+scalingModifier*(unscaledMaxWidth*percentVisible)/parallaxFactor, 0.0, 0.0);
+        }
+        else{
+            transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+            transform = CATransform3DTranslate(transform, scalingModifier*unscaledMaxWidth*(percentVisible-1.f)/2-translationCorrection, 0.f, 0.f);
         }
         
         [sideDrawerViewController.view.layer setTransform:transform];
