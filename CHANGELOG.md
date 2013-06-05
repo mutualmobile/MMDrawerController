@@ -1,6 +1,6 @@
 #MMDrawerController Changelog
 
-##[0.2.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=5&state=closed)
+##[0.2.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=5&state=closed) (Tuesday, June 4th, 2013)
 ###New
 * Added support for using the panning velocity to complete the animation. It now looks *much* better ([#18](https://github.com/mutualmobile/MMDrawerController/issues/18)). (Kevin Harwood)
 * Added a new callback block to get notified when a gesture animation has completed ([#20](https://github.com/mutualmobile/MMDrawerController/issues/20)). (Kevin Harwood)
