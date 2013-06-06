@@ -862,6 +862,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self openDrawerSide:MMDrawerSideRight animated:YES completion:completion];
         }
     }
+    else {
+        if(completion){
+            completion(NO);
+        }
+    }
 }
 
 -(void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
