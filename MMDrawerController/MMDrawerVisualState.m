@@ -104,7 +104,7 @@
             if (drawerSide == MMDrawerSideRight) {
                 scalingModifier = -1.f;
             }
-            CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+            CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*0.1f)*(percentVisible-1);
             overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*maxDrawerWidth/2-translationCorrection, 0.f, 0.f);
             swingingDoorTransform = overshootTransform;
         }
@@ -137,7 +137,7 @@
             unscaledMaxWidth = drawerController.maximumRightDrawerWidth;
         }
         
-        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*0.1f)*(percentVisible-1);
         
         if(percentVisible <= 1.f){
             transform = CATransform3DMakeTranslation((-scalingModifier*maxDrawerWidth)/parallaxFactor+scalingModifier*(unscaledMaxWidth*percentVisible)/parallaxFactor, 0.0, 0.0);

@@ -43,9 +43,6 @@ CGFloat const MMDrawerBezelRange = 20.0f;
 
 CGFloat const MMDrawerPanVelocityXAnimationThreshold = 200.0f;
 
-/** The amount of overshoot that is panned linearly. The remaining percentage nonlinearly asymptotes to the max percentage. */
-CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
-
 /** The percent of the possible overshoot width to use as the actual overshoot percentage. */
 CGFloat const MMDrawerOvershootPercentage = 0.1f;
 
@@ -902,7 +899,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         if (drawerSide == MMDrawerSideRight) {
             scalingModifier = -1.f;
         }
-        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*0.1f)*(percentVisible-1);
         overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*unscaledMaxWidth*(percentVisible-1.f)/2-translationCorrection, 0.f, 0.f);
         
         sideDrawerViewController.view.layer.transform = overshootTransform;
@@ -922,8 +919,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     if (originX < -self.maximumRightDrawerWidth) {
         if (self.shouldStretchDrawer &&
             self.rightDrawerViewController) {
-            CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumRightDrawerWidth)*MMDrawerOvershootPercentage;
-            return originXForDrawerOriginAndTargetOriginOffset(originX, -self.maximumRightDrawerWidth, maxOvershoot);
+            return originXForDrawerOriginAndTargetOriginOffset(originX, -self.maximumRightDrawerWidth, self.maximumRightDrawerWidth);
         }
         else{
             return -self.maximumRightDrawerWidth;
@@ -932,8 +928,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     else if(originX > self.maximumLeftDrawerWidth){
         if (self.shouldStretchDrawer &&
             self.leftDrawerViewController) {
-            CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumLeftDrawerWidth)*MMDrawerOvershootPercentage;
-            return originXForDrawerOriginAndTargetOriginOffset(originX, self.maximumLeftDrawerWidth, maxOvershoot);
+            return originXForDrawerOriginAndTargetOriginOffset(originX, self.maximumLeftDrawerWidth, self.maximumLeftDrawerWidth);
         }
         else{
             return self.maximumLeftDrawerWidth;
@@ -943,17 +938,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     return originX;
 }
 
-static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat originX, CGFloat targetOffset, CGFloat maxOvershoot){
-    CGFloat delta = ABS(originX - targetOffset);
-    CGFloat maxLinearPercentage = MMDrawerOvershootLinearRangePercentage;
-    CGFloat nonLinearRange = maxOvershoot * maxLinearPercentage;
-    CGFloat nonLinearScalingDelta = (delta - nonLinearRange);
-    CGFloat overshoot = nonLinearRange + nonLinearScalingDelta * nonLinearRange/sqrt(pow(nonLinearScalingDelta,2.f) + 15000);
+static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat originX, CGFloat targetOffset, CGFloat width){
+    CGFloat delta = ABS(targetOffset-originX);
+    CGFloat overshootCoefficient = 2/MMDrawerOvershootPercentage-1;
+    CGFloat overshoot = 2*delta*width/(delta+overshootCoefficient*width);
     
-    if (delta < nonLinearRange) {
-        return originX;
-    }
-    else if (targetOffset < 0) {
+    if (targetOffset < 0) {
         return targetOffset - round(overshoot);
     }
     else{

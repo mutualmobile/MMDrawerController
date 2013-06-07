@@ -85,12 +85,6 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
     MMDrawerOpenCenterInteractionModeNavigationBarOnly,
 };
 
-/**
- The percent of the possible overshoot width to use as the actual overshoot percentage.
-   Exposed here to compensate for overshoot calculations in the visual state blocks.
- */
-extern CGFloat const MMDrawerOvershootPercentage;
-
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
 
