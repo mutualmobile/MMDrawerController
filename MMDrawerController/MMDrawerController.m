@@ -771,6 +771,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         case UIGestureRecognizerStateBegan:
             self.startingPanRect = self.centerContainerView.frame;
         case UIGestureRecognizerStateChanged:{
+            [CATransaction begin];
+            /** Disable implicit animations for layer changes since this is a continuous pan */
+            [CATransaction setDisableActions:YES];
+            
             CGRect newFrame = self.startingPanRect;
             CGPoint translatedPoint = [panGesture translationInView:self.centerContainerView];
             newFrame.origin.x = [self roundedOriginXForDrawerConstriants:CGRectGetMinX(self.startingPanRect)+translatedPoint.x];
@@ -807,6 +811,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
             
             [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
+            
+            [CATransaction commit];
             break;
         }
         case UIGestureRecognizerStateCancelled:
@@ -870,6 +876,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
+    /** This logic is broken in the demo project since drawerVisualState is never nil */
     if(self.drawerVisualState){
         self.drawerVisualState(self,drawerSide,percentVisible);
     }
@@ -881,17 +888,29 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 - (void)applyOvershootScaleTransformForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
     
     if (percentVisible >= 1.f) {
-        CATransform3D transform;
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+        CGFloat maxDrawerWidth = 0.f;
+        CGFloat unscaledMaxWidth = 0.f;
+        
         if(drawerSide == MMDrawerSideLeft) {
-            transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-            transform = CATransform3DTranslate(transform, self.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+            maxDrawerWidth = MAX(self.maximumLeftDrawerWidth, self.visibleLeftDrawerWidth);
+            unscaledMaxWidth = self.maximumLeftDrawerWidth;
         }
         else if(drawerSide == MMDrawerSideRight){
-            transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-            transform = CATransform3DTranslate(transform, -self.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+            maxDrawerWidth = MAX(self.maximumRightDrawerWidth, self.visibleRightDrawerWidth);
+            unscaledMaxWidth = self.maximumRightDrawerWidth;
         }
-        sideDrawerViewController.view.layer.transform = transform;
+        
+        CATransform3D overshootTransform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+        
+        NSInteger scalingModifier = 1.f;
+        if (drawerSide == MMDrawerSideRight) {
+            scalingModifier = -1.f;
+        }
+        CGFloat translationCorrection = scalingModifier*(maxDrawerWidth*MMDrawerOvershootPercentage)*(percentVisible-1);
+        overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*unscaledMaxWidth*(percentVisible-1.f)/2-translationCorrection, 0.f, 0.f);
+        
+        sideDrawerViewController.view.layer.transform = overshootTransform;
     }
 }
 

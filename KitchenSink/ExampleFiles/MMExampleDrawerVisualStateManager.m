@@ -63,32 +63,21 @@
         default:
             visualStateBlock =  ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
                 
-                UIViewController * sideDrawerViewController;
-                CATransform3D transform;
-                CGFloat maxDrawerWidth;
-                
-                if(drawerSide == MMDrawerSideLeft){
-                    sideDrawerViewController = drawerController.leftDrawerViewController;
-                    maxDrawerWidth = drawerController.maximumLeftDrawerWidth;
+                if (percentVisible > 1.f) {
+                    MMDrawerControllerDrawerVisualStateBlock stateBlock = [MMDrawerVisualState parallaxVisualStateBlockWithParallaxFactor:1.f];
+                    stateBlock(drawerController, drawerSide, percentVisible);
                 }
-                else if(drawerSide == MMDrawerSideRight){
-                    sideDrawerViewController = drawerController.rightDrawerViewController;
-                    maxDrawerWidth = drawerController.maximumRightDrawerWidth;
-                }
-                
-                if(percentVisible > 1.0){
-                    transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                    
-                    if(drawerSide == MMDrawerSideLeft){
-                        transform = CATransform3DTranslate(transform, maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
-                    }else if(drawerSide == MMDrawerSideRight){
-                        transform = CATransform3DTranslate(transform, -maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                else{
+                    UIViewController *viewController = nil;
+                    if (drawerSide == MMDrawerSideLeft) {
+                        viewController = drawerController.leftDrawerViewController;
                     }
+                    else if(drawerSide == MMDrawerSideRight){
+                        viewController = drawerController.rightDrawerViewController;
+                    }
+                    
+                    viewController.view.layer.transform = CATransform3DIdentity;
                 }
-                else {
-                    transform = CATransform3DIdentity;
-                }
-                [sideDrawerViewController.view.layer setTransform:transform];
             };
             break;
     }
