@@ -2,7 +2,7 @@
 
 ##[0.2.1](https://github.com/mutualmobile/MMDrawerController/issues?milestone=7&state=closed) (Friday, June 21st, 2013)
 ###Fixed
-* **FIXED** an issue([#42](https://github.com/mutualmobile/MMDrawerController/issues/23)) where the gesture completion block was not being called if the gesture action closed the drawer completely. (Kevin Harwood)
+* **FIXED** an issue([#42](https://github.com/mutualmobile/MMDrawerController/issues/42)) where the gesture completion block was not being called if the gesture action closed the drawer completely. (Kevin Harwood)
 
 ##[0.2.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=5&state=closed) (Tuesday, June 4th, 2013)
 ###New
