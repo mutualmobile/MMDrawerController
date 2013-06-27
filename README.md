@@ -80,7 +80,7 @@ For example, to set the alpha of the side drawer controller from 0 to 1 during a
 		 else if(drawerSide == MMDrawerSideRight){
 			 sideDrawerViewController = drawerController.rightDrawerViewController;
 		 }
-		 [sideDrawerViewController setAlpha:percentVisible];
+		 [sideDrawerViewController.view setAlpha:percentVisible];
      }];
 ```
 
