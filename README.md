@@ -19,10 +19,11 @@ Official appledoc documentation can be found at [CocoaDocs](http://cocoadocs.org
 
 ---
 ##Installing MMDrawerController
+<img src="http://cocoapod-badges.herokuapp.com/v/MMDrawerController/badge.png"/><br/>
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
 ```Ruby
-pod 'MMDrawerController', '~> 0.1.0'
+pod 'MMDrawerController', '~> 0.2.1'
 ```
 
 ---
@@ -79,7 +80,7 @@ For example, to set the alpha of the side drawer controller from 0 to 1 during a
 		 else if(drawerSide == MMDrawerSideRight){
 			 sideDrawerViewController = drawerController.rightDrawerViewController;
 		 }
-		 [sideDrawerViewController setAlpha:percentVisible];
+		 [sideDrawerViewController.view setAlpha:percentVisible];
      }];
 ```
 
