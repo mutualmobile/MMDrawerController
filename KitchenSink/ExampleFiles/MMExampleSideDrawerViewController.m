@@ -50,6 +50,8 @@
                                                    blue:71.0/255.0
                                                   alpha:1.0]];
     
+    [self.navigationController.navigationBar setBarTintColor:[UIColor darkGrayColor]];
+    
     self.drawerWidths = @[@(160),@(200),@(240),@(280),@(320)];
     
     CGSize logoSize = CGSizeMake(58, 62);

@@ -69,11 +69,11 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     [self setupLeftMenuButton];
     [self setupRightMenuButton];
     
-    [self.navigationController.navigationBar setTintColor:[UIColor
-                                                           colorWithRed:78.0/255.0
-                                                           green:156.0/255.0
-                                                           blue:206.0/255.0
-                                                           alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor
+                                                              colorWithRed:78.0/255.0
+                                                              green:156.0/255.0
+                                                              blue:206.0/255.0
+                                                              alpha:1.0]];
     
     
     MMLogoView * logo = [[MMLogoView alloc] initWithFrame:CGRectMake(0, 0, 29, 31)];
@@ -326,13 +326,15 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             else {
                 if(drawerSide == MMDrawerSideLeft){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
-                    [self.mm_drawerController setLeftDrawerViewController:vc];
+                    UINavigationController * navC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [self.mm_drawerController setLeftDrawerViewController:navC];
                     [self setupLeftMenuButton];
                     
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
-                    [self.mm_drawerController setRightDrawerViewController:vc];
+                    UINavigationController * navC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [self.mm_drawerController setRightDrawerViewController:navC];
                     [self setupRightMenuButton];
                 }
                 [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];

@@ -34,17 +34,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
+    UINavigationController * leftSideNavController = [[UINavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
     
     UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
+    UINavigationController * rightSideNavController = [[UINavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
     
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
     
     MMDrawerController * drawerController = [[MMDrawerController alloc]
                                             initWithCenterViewController:navigationController
-                                            leftDrawerViewController:leftSideDrawerViewController
-                                            rightDrawerViewController:rightSideDrawerViewController];
+                                            leftDrawerViewController:leftSideNavController
+                                            rightDrawerViewController:rightSideNavController];
     [drawerController setMaximumRightDrawerWidth:200.0];
     [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
@@ -64,6 +66,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
