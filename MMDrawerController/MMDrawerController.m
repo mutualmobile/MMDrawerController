@@ -224,7 +224,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
      delay:0.0
      options:options
      animations:^{
-         [self setNeedsStatusBarAppearanceUpdate];
+         [self setNeedsStatusBarAppearanceUpdateIfSupported];
          [self.centerContainerView setFrame:newFrame];
          [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
      }
@@ -276,7 +276,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          delay:0.0
          options:options
          animations:^{
-             [self setNeedsStatusBarAppearanceUpdate];
+             [self setNeedsStatusBarAppearanceUpdateIfSupported];
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
          }
@@ -705,7 +705,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self.leftDrawerViewController.view setHidden:YES];
             [self.rightDrawerViewController.view setHidden:YES];
         }
-        [self setNeedsStatusBarAppearanceUpdate];
+        [self setNeedsStatusBarAppearanceUpdateIfSupported];
     }
 }
 
@@ -835,6 +835,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(UIViewController*)childViewControllerForStatusBarHidden{
     return [self childViewControllerForSide:self.openSide];
+}
+
+-(void)setNeedsStatusBarAppearanceUpdateIfSupported{
+    if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
 }
 
 #pragma mark - Animation helpers
