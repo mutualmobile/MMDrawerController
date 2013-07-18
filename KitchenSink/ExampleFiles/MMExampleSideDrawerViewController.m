@@ -36,14 +36,11 @@
     [self.tableView setDataSource:self];
     [self.view addSubview:self.tableView];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [self.tableView setSeparatorColor:[UIColor colorWithRed:49.0/255.0
-                                                      green:54.0/255.0
-                                                       blue:57.0/255.0
-                                                      alpha:1.0]];
     [self.tableView setBackgroundColor:[UIColor colorWithRed:77.0/255.0
                                                        green:79.0/255.0
                                                         blue:80.0/255.0
                                                        alpha:1.0]];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:66.0/255.0
                                                   green:69.0/255.0
@@ -51,6 +48,9 @@
                                                   alpha:1.0]];
     
     [self.navigationController.navigationBar setBarTintColor:[UIColor darkGrayColor]];
+    NSDictionary *navBarTitleDict;
+    navBarTitleDict = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+    [self.navigationController.navigationBar setTitleTextAttributes:navBarTitleDict];
     
     self.drawerWidths = @[@(160),@(200),@(240),@(280),@(320)];
     

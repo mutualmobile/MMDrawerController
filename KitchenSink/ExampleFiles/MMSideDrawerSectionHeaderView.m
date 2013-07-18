@@ -39,7 +39,7 @@
                                                  alpha:1.0]];
         
         _label = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, 10.0, 2.0)];
-        [self.label setFont:[UIFont boldSystemFontOfSize:16.0]];
+        [self.label setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]];
         [self.label setBackgroundColor:[UIColor clearColor]];
         [self.label setTextColor:[UIColor colorWithRed:203.0/255.0
                                             green:206.0/255.0
@@ -56,7 +56,7 @@
 
 -(void)setTitle:(NSString *)title{
     _title = title;
-    [self.label setText:self.title];
+    [self.label setText:[self.title uppercaseString]];
 }
 
 -(void)drawRect:(CGRect)rect{
