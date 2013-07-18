@@ -224,6 +224,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
      delay:0.0
      options:options
      animations:^{
+         [self setNeedsStatusBarAppearanceUpdate];
          [self.centerContainerView setFrame:newFrame];
          [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
      }
@@ -275,6 +276,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          delay:0.0
          options:options
          animations:^{
+             [self setNeedsStatusBarAppearanceUpdate];
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
          }
@@ -703,6 +705,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
             [self.leftDrawerViewController.view setHidden:YES];
             [self.rightDrawerViewController.view setHidden:YES];
         }
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 
@@ -823,6 +826,15 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         default:
             break;
     }
+}
+
+#pragma mark - iOS 7 Status Bar Helpers
+-(UIViewController*)childViewControllerForStatusBarStyle{
+    return [self childViewControllerForSide:self.openSide];
+}
+
+-(UIViewController*)childViewControllerForStatusBarHidden{
+    return [self childViewControllerForSide:self.openSide];
 }
 
 #pragma mark - Animation helpers
@@ -999,13 +1011,34 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 
 -(UIViewController*)sideDrawerViewControllerForSide:(MMDrawerSide)drawerSide{
     UIViewController * sideDrawerViewController = nil;
-    if(drawerSide == MMDrawerSideLeft){
-        sideDrawerViewController = self.leftDrawerViewController;
-    }
-    else if(drawerSide == MMDrawerSideRight){
-        sideDrawerViewController = self.rightDrawerViewController;
+    if(drawerSide != MMDrawerSideNone){
+        sideDrawerViewController = [self childViewControllerForSide:drawerSide];
     }
     return sideDrawerViewController;
+}
+
+-(UIViewController*)childViewControllerForSide:(MMDrawerSide)drawerSide{
+    UIViewController * childViewController = nil;
+    switch (drawerSide) {
+        case MMDrawerSideLeft:
+            if(self.leftDrawerViewController){
+                childViewController = self.leftDrawerViewController;
+            }
+            break;
+        case MMDrawerSideRight:
+            if(self.rightDrawerViewController){
+                childViewController = self.rightDrawerViewController;
+            }
+            break;
+        case MMDrawerSideNone:
+            if(self.centerViewController){
+                childViewController = self.centerViewController;
+            }
+            break;
+        default:
+            break;
+    }
+    return childViewController;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
