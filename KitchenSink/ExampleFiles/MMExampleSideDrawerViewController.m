@@ -24,6 +24,7 @@
 #import "MMSideDrawerTableViewCell.h"
 #import "MMSideDrawerSectionHeaderView.h"
 #import "MMLogoView.h"
+#import "MMNavigationController.h"
 
 @implementation MMExampleSideDrawerViewController
 
@@ -317,7 +318,7 @@
         case MMDrawerSectionViewSelection:{
             MMExampleCenterTableViewController * center = [[MMExampleCenterTableViewController alloc] init];
             
-            UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:center];
+            UINavigationController * nav = [[MMNavigationController alloc] initWithRootViewController:center];
             
             if(indexPath.row%2==0){
                 [self.mm_drawerController
