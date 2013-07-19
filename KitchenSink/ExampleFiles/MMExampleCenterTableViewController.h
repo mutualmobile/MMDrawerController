@@ -20,7 +20,9 @@
 
 
 #import <UIKit/UIKit.h>
+#import "MMExampleViewController.h"
 
-@interface MMExampleCenterTableViewController : UITableViewController
+@interface MMExampleCenterTableViewController : MMExampleViewController <UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic,strong) UITableView * tableView;
 
 @end

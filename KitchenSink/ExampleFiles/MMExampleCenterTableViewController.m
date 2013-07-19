@@ -44,18 +44,15 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 @implementation MMExampleCenterTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    [self.view addSubview:self.tableView];
+    [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
     UITapGestureRecognizer * doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
     [doubleTap setNumberOfTapsRequired:2];
@@ -124,6 +121,10 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 -(void)setupRightMenuButton{
     MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
     [self.navigationItem setRightBarButtonItem:rightDrawerButton animated:YES];
+}
+
+-(void)contentSizeDidChange:(NSString *)size{
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source

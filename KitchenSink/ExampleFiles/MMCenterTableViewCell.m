@@ -31,10 +31,13 @@
                                                          green:88.0/255.0
                                                           blue:161.0/255.0
                                                          alpha:1.0]];
-        if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
-            [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
-        }
     }
     return self;
+}
+
+-(void)updateContentForNewContentSize{
+    if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
+        [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
+    }
 }
 @end

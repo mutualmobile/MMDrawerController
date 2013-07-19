@@ -37,7 +37,7 @@
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
     UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
     
-    UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] init];
     
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
     UINavigationController * rightSideNavController = [[MMNavigationController alloc] initWithRootViewController:rightSideDrawerViewController];

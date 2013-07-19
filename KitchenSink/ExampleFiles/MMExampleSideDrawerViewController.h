@@ -21,6 +21,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIViewController+MMDrawerController.h"
+#import "MMExampleViewController.h"
 
 typedef NS_ENUM(NSInteger, MMDrawerSection){
     MMDrawerSectionViewSelection,
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSInteger, MMDrawerSection){
     MMDrawerSectionStretchDrawer,
 };
 
-@interface MMExampleSideDrawerViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface MMExampleSideDrawerViewController : MMExampleViewController <UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic,strong) NSArray * drawerWidths;
 
