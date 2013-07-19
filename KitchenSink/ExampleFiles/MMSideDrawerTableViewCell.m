@@ -45,15 +45,17 @@
                                       alpha:1.0]];
         [self.textLabel setShadowColor:[[UIColor blackColor] colorWithAlphaComponent:.5]];
         [self.textLabel setShadowOffset:CGSizeMake(0, 1)];
-        if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
-            [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
-        }
-        else {
-            [self.textLabel setFont:[UIFont boldSystemFontOfSize:16.0]];
-        }
     }
     return self;
 }
 
+-(void)updateContentForNewContentSize{
+    if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
+        [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
+    }
+    else {
+        [self.textLabel setFont:[UIFont boldSystemFontOfSize:16.0]];
+    }
+}
 
 @end

@@ -26,4 +26,6 @@
 @property (nonatomic, strong) UIColor * accessoryCheckmarkColor;
 @property (nonatomic, strong) UIColor * disclosureIndicatorColor;
 
+-(void)updateContentForNewContentSize;
+
 @end

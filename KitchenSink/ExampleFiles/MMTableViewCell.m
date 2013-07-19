@@ -143,6 +143,7 @@
     if (self) {
         [self setAccessoryCheckmarkColor:[UIColor whiteColor]];
         [self setDisclosureIndicatorColor:[UIColor whiteColor]];
+        [self updateContentForNewContentSize];
     }
     return self;
 }
@@ -169,6 +170,15 @@
     else {
         [self setAccessoryView:nil];
     }
+}
+
+-(void)prepareForReuse{
+    [super prepareForReuse];
+    [self updateContentForNewContentSize];
+}
+
+-(void)updateContentForNewContentSize{
+    
 }
 
 @end

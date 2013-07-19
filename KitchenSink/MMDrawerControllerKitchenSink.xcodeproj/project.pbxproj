@@ -34,6 +34,7 @@
 		29E2C6191738A10F00606309 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E2C6151738A10F00606309 /* Icon-72@2x.png */; };
 		29E2C61A1738A10F00606309 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E2C6161738A10F00606309 /* Icon.png */; };
 		29E2C61B1738A10F00606309 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29E2C6171738A10F00606309 /* Icon@2x.png */; };
+		29EEA51E1799923E006D68B7 /* MMExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEA51D1799923E006D68B7 /* MMExampleViewController.m */; };
 		29F6163B172AC22A00B31282 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,8 @@
 		29E2C6151738A10F00606309 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		29E2C6161738A10F00606309 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		29E2C6171738A10F00606309 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		29EEA51C1799923E006D68B7 /* MMExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleViewController.h; sourceTree = "<group>"; };
+		29EEA51D1799923E006D68B7 /* MMExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleViewController.m; sourceTree = "<group>"; };
 		29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,6 +204,8 @@
 				29848B5E173015D3006D8502 /* MMExampleLeftSideDrawerViewController.m */,
 				29848B6317301793006D8502 /* MMExampleRightSideDrawerViewController.h */,
 				29848B6417301793006D8502 /* MMExampleRightSideDrawerViewController.m */,
+				29EEA51C1799923E006D68B7 /* MMExampleViewController.h */,
+				29EEA51D1799923E006D68B7 /* MMExampleViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				29C28487172B07C10089E872 /* MMExampleCenterTableViewController.m in Sources */,
 				29C2848D172EB1710089E872 /* MMExampleSideDrawerViewController.m in Sources */,
 				29848B5F173015D3006D8502 /* MMExampleLeftSideDrawerViewController.m in Sources */,
+				29EEA51E1799923E006D68B7 /* MMExampleViewController.m in Sources */,
 				29848B6517301793006D8502 /* MMExampleRightSideDrawerViewController.m in Sources */,
 				29CFD5EC173192D100E1FABB /* MMDrawerVisualState.m in Sources */,
 				29CFD5EF1731C7DB00E1FABB /* MMExampleDrawerVisualStateManager.m in Sources */,

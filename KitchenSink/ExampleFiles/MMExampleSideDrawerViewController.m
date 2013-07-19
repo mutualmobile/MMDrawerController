@@ -83,6 +83,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)contentSizeDidChange:(NSString *)size{
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -311,7 +315,7 @@
 {
     switch (indexPath.section) {
         case MMDrawerSectionViewSelection:{
-            MMExampleCenterTableViewController * center = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            MMExampleCenterTableViewController * center = [[MMExampleCenterTableViewController alloc] init];
             
             UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:center];
             
