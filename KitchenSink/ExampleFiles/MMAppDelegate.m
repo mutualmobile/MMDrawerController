@@ -26,6 +26,7 @@
 #import "MMExampleRightSideDrawerViewController.h"
 #import "MMDrawerVisualState.h"
 #import "MMExampleDrawerVisualStateManager.h"
+#import "MMNavigationController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -34,14 +35,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
-    UINavigationController * leftSideNavController = [[UINavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
+    UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
     
     UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
-    UINavigationController * rightSideNavController = [[UINavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
+    UINavigationController * rightSideNavController = [[MMNavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
     
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+    UINavigationController * navigationController = [[MMNavigationController alloc] initWithRootViewController:centerViewController];
     
     MMDrawerController * drawerController = [[MMDrawerController alloc]
                                             initWithCenterViewController:navigationController

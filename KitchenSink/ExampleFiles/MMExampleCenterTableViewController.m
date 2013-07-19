@@ -27,6 +27,7 @@
 #import "MMCenterTableViewCell.h"
 #import "MMExampleLeftSideDrawerViewController.h"
 #import "MMExampleRightSideDrawerViewController.h"
+#import "MMNavigationController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -307,14 +308,14 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             else {
                 if(drawerSide == MMDrawerSideLeft){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
                     [self.mm_drawerController setLeftDrawerViewController:navC];
                     [self setupLeftMenuButton];
                     
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
                     [self.mm_drawerController setRightDrawerViewController:navC];
                     [self setupRightMenuButton];
                 }
