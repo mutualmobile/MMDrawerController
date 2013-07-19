@@ -29,9 +29,7 @@
     if (self) {
         [self setAccessoryCheckmarkColor:[UIColor whiteColor]];
 
-        CGRect frame = self.bounds;
-        frame.size.height+=1;
-        UIView * backgroundView = [[UIView alloc] initWithFrame:frame];
+        UIView * backgroundView = [[UIView alloc] initWithFrame:self.bounds];
         [backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         [backgroundView setBackgroundColor:[UIColor colorWithRed:77.0/255.0
                                                            green:79.0/255.0
@@ -47,7 +45,12 @@
                                       alpha:1.0]];
         [self.textLabel setShadowColor:[[UIColor blackColor] colorWithAlphaComponent:.5]];
         [self.textLabel setShadowOffset:CGSizeMake(0, 1)];
-        [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
+        if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
+            [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
+        }
+        else {
+            [self.textLabel setFont:[UIFont boldSystemFontOfSize:16.0]];
+        }
     }
     return self;
 }

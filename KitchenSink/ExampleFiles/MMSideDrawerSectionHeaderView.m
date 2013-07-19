@@ -39,7 +39,14 @@
                                                  alpha:1.0]];
         
         _label = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, 10.0, 2.0)];
-        [self.label setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]];
+        
+        if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
+            [self.label setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]];
+        }
+        else {
+             [self.label setFont:[UIFont boldSystemFontOfSize:12.0]];
+        }
+        
         [self.label setBackgroundColor:[UIColor clearColor]];
         [self.label setTextColor:[UIColor colorWithRed:203.0/255.0
                                             green:206.0/255.0

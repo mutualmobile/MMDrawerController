@@ -69,11 +69,17 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     [self setupLeftMenuButton];
     [self setupRightMenuButton];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor
-                                                              colorWithRed:78.0/255.0
-                                                              green:156.0/255.0
-                                                              blue:206.0/255.0
-                                                              alpha:1.0]];
+    UIColor * barColor = [UIColor
+                          colorWithRed:78.0/255.0
+                          green:156.0/255.0
+                          blue:206.0/255.0
+                          alpha:1.0];
+    if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]){
+        [self.navigationController.navigationBar setBarTintColor:barColor];
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:barColor];
+    }
     
     
     MMLogoView * logo = [[MMLogoView alloc] initWithFrame:CGRectMake(0, 0, 29, 31)];

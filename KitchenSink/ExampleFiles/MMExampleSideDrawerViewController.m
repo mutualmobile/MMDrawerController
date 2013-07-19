@@ -47,7 +47,15 @@
                                                    blue:71.0/255.0
                                                   alpha:1.0]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor darkGrayColor]];
+    UIColor * barColor = [UIColor darkGrayColor];
+    if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]){
+        [self.navigationController.navigationBar setBarTintColor:barColor];
+    }
+    else {
+        [self.navigationController.navigationBar setTintColor:barColor];
+    }
+
+
     NSDictionary *navBarTitleDict;
     navBarTitleDict = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
     [self.navigationController.navigationBar setTitleTextAttributes:navBarTitleDict];
