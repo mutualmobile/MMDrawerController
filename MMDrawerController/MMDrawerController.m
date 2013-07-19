@@ -1027,21 +1027,13 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     UIViewController * childViewController = nil;
     switch (drawerSide) {
         case MMDrawerSideLeft:
-            if(self.leftDrawerViewController){
-                childViewController = self.leftDrawerViewController;
-            }
+            childViewController = self.leftDrawerViewController;
             break;
         case MMDrawerSideRight:
-            if(self.rightDrawerViewController){
-                childViewController = self.rightDrawerViewController;
-            }
+            childViewController = self.rightDrawerViewController;
             break;
         case MMDrawerSideNone:
-            if(self.centerViewController){
-                childViewController = self.centerViewController;
-            }
-            break;
-        default:
+            childViewController = self.centerViewController;
             break;
     }
     return childViewController;
