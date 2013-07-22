@@ -49,6 +49,7 @@ CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
 /** The percent of the possible overshoot width to use as the actual overshoot percentage. */
 CGFloat const MMDrawerOvershootPercentage = 0.1f;
 
+typedef BOOL (^MMDrawerGestureShouldRecognizeTouchBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch);
 typedef void (^MMDrawerGestureCompletionBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture);
 
 static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat distance, UIView * view) {
@@ -122,6 +123,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 @property (nonatomic, assign) CGRect startingPanRect;
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
+@property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 
 @end
@@ -528,6 +530,11 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 #pragma mark - Setting Drawer Visual State
 -(void)setDrawerVisualStateBlock:(void (^)(MMDrawerController *, MMDrawerSide, CGFloat))drawerVisualStateBlock{
     [self setDrawerVisualState:drawerVisualStateBlock];
+}
+
+#pragma mark - Setting Custom Gesture Handler Block
+-(void)setGestureShouldRecognizeTouchBlock:(BOOL (^)(MMDrawerController *, UIGestureRecognizer *, UITouch *))gestureShouldRecognizeTouchBlock{
+    [self setGestureShouldRecognizeTouch:gestureShouldRecognizeTouchBlock];
 }
 
 #pragma mark - Setting the Gesture Completion Block
@@ -1010,23 +1017,24 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    CGPoint point = [touch locationInView:self.view];
+    
     BOOL shouldReceiveTouch = NO;
     if(self.openSide == MMDrawerSideNone){
         MMOpenDrawerGestureMode possibleOpenGestureModes = [self possibleOpenGestureModesForGestureRecognizer:gestureRecognizer
-                                                                                               withTouchPoint:point];
-        shouldReceiveTouch = ((self.openDrawerGestureModeMask & possibleOpenGestureModes)>0);
+                                                                                                    withTouch:touch];
+        return ((self.openDrawerGestureModeMask & possibleOpenGestureModes)>0);
     }
     else{
         MMCloseDrawerGestureMode possibleCloseGestureModes = [self possibleCloseGestureModesForGestureRecognizer:gestureRecognizer
-                                                                                                  withTouchPoint:point];
-        shouldReceiveTouch = ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
+                                                                                                       withTouch:touch];
+        return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
     return shouldReceiveTouch;
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
--(MMCloseDrawerGestureMode)possibleCloseGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouchPoint:(CGPoint)point{
+-(MMCloseDrawerGestureMode)possibleCloseGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
+    CGPoint point = [touch locationInView:self.view];
     MMCloseDrawerGestureMode possibleCloseGestureModes = MMCloseDrawerGestureModeNone;
     if([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]){
         if([self isPointContainedWithinNavigationRect:point]){
@@ -1056,10 +1064,17 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
             possibleCloseGestureModes |= MMCloseDrawerGestureModePanningDrawerView;
         }
     }
+    if((self.closeDrawerGestureModeMask & MMCloseDrawerGestureModeCustom) > 0 &&
+       self.gestureShouldRecognizeTouch){
+        if(self.gestureShouldRecognizeTouch(self,gestureRecognizer,touch)){
+            possibleCloseGestureModes |= MMCloseDrawerGestureModeCustom;
+        }
+    }
     return possibleCloseGestureModes;
 }
 
--(MMOpenDrawerGestureMode)possibleOpenGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouchPoint:(CGPoint)point{
+-(MMOpenDrawerGestureMode)possibleOpenGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
+    CGPoint point = [touch locationInView:self.view];
     MMOpenDrawerGestureMode possibleOpenGestureModes = MMOpenDrawerGestureModeNone;
     if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]){
         if([self isPointContainedWithinNavigationRect:point]){
@@ -1076,11 +1091,15 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
            self.rightDrawerViewController){
             possibleOpenGestureModes |= MMOpenDrawerGestureModeBezelPanningCenterView;
         }
-        
+    }
+    if((self.openDrawerGestureModeMask & MMOpenDrawerGestureModeCustom) > 0 &&
+       self.gestureShouldRecognizeTouch){
+        if(self.gestureShouldRecognizeTouch(self,gestureRecognizer,touch)){
+            possibleOpenGestureModes |= MMOpenDrawerGestureModeCustom;
+        }
     }
     return possibleOpenGestureModes;
 }
-
 
 -(BOOL)isPointContainedWithinNavigationRect:(CGPoint)point{
     CGRect navigationBarRect = CGRectNull;
