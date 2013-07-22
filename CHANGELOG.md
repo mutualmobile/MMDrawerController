@@ -1,5 +1,12 @@
 #MMDrawerController Changelog
 
+##[0.3.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=6&page=1&state=closed) (Monday, July 22nd, 2013)
+###New
+* Added a block to determine if a gesture should be recognized, giving the implementer a chance to define where a gesture should be recognized within their views. Please consult the README for additional details. ([#25](https://github.com/mutualmobile/MMDrawerController/pull/25)). (Kevin Harwood)
+###Fixed
+* **FIXED** an issue ([#56](https://github.com/mutualmobile/MMDrawerController/pull/56)) where the bezel gesture would be detected even if there was no drawer controller on that side. (Kevin Harwood)
+* **FIXED** an issue ([#50](https://github.com/mutualmobile/MMDrawerController/pull/50)) where a subclass could get stuck in an infinite loop in the `init` method. (Tuan Cao)
+
 ##[0.2.1](https://github.com/mutualmobile/MMDrawerController/issues?milestone=7&state=closed) (Friday, June 21st, 2013)
 ###Fixed
 * **FIXED** an issue([#42](https://github.com/mutualmobile/MMDrawerController/issues/42)) where the gesture completion block was not being called if the gesture action closed the drawer completely. (Kevin Harwood)
