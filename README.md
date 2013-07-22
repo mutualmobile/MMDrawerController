@@ -47,6 +47,7 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
  * **MMOpenDrawerGestureModePanningNavigationBar**: The user can open the drawer by panning anywhere on the navigation bar.
  * **MMOpenDrawerGestureModePanningCenterView**: The user can open the drawer by panning anywhere on the center view.
  * **MMOpenDrawerGestureModeBezelPanningCenterView**: The user can open the drawer by starting a pan anywhere within 20 points of the bezel.
+ * **MMOpenDrawerGestureModeCustom**: The developer can provide a callback block to determine if the gesture should be recognized. More information below.
 
 * **MMCloseDrawerGestureMode**
  * **MMCloseDrawerGestureModePanningNavigationBar**: The user can close the drawer by panning anywhere on the navigation bar.
@@ -55,8 +56,29 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
  * **MMCloseDrawerGestureModeTapNavigationBar**: The user can close the drawer by tapping the navigation bar.
  * **MMCloseDrawerGestureModeTapCenterView**: The user can close the drawer by tapping the center view.
  * **MMCloseDrawerGestureModePanningDrawerView**: The user can close the drawer by panning anywhere on the drawer view.
+ * **MMCloseDrawerGestureModeCustom**: The developer can provide a callback block to determine if the gesture should be recognized. More information below.
  
 You are free to set whatever combination you want for opening and closing. Note that these gestures may impact touches sent to the child view controllers, so be sure to use these appropriately for your application. For example, you wouldn't want `MMOpenDrawerGestureModePanningCenterView` set if a `MKMapView` is your center view controller, since it would intercept the pan meant for moving around the map.
+
+####Custom Gesture Recognizer Support
+Starting with version 0.3.0, you can now provide a callback block to determine if a gesture should be recognized using the `setGestureShouldRecognizeTouchBlock:` method. This method provides three parameters - the drawer controller, the gesture, and the touch. As a developer, you are responsible for inspecting those elements and determining if the gesture should be recognized or not. Note the block is only consulting if you have set `MMOpenDrawerGestureModeCustom`/`MMCloseDrawerGestureModeCustom` on the appropriate mask.
+
+For example, lets say you have a center view controller that contains a few elements, and you only want the pan gesture to be recognized to open the drawer when the touch begins within a certain subview. You would make sure that the `openDrawerGestureModeMask` contains `MMOpenDrawerGestureModeCustom`, and you could set a block below as so:
+
+```Objective-C
+[myDrawerController
+ setGestureShouldRecognizeTouchBlock:^BOOL(MMDrawerController *drawerController, UIGestureRecognizer *gesture, UITouch *touch) {
+     BOOL shouldRecognizeTouch = NO;
+     if(drawerController.openSide == MMDrawerSideNone &&
+        [gesture isKindOfClass:[UIPanGestureRecognizer class]]){
+         UIView * customView = [drawerController.centerViewController myCustomSubview];
+         CGPoint location = [touch locationInView:customView];
+         shouldRecognizeTouch = (CGRectContainsPoint(customView.bounds, location));
+     }
+     return shouldRecognizeTouch;
+ }];
+ ```
+ Note that you would not want the `openDrawerGestureModeMask` to contain `MMOpenDrawerGestureModePanningCenterView`, since that would take over and be applied automatically regardless of where the touch begins within the center view.
 
 ###Custom Drawer Open/Close Animations
 `MMDrawerController` provides a callback block that allows you to implement your own custom state for the drawer controller when an open/close or pan gesture event happens. Within the block, you are responsible for updating the visual state of the drawer controller, and the drawer controller will handle animating to that state.
