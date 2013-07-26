@@ -40,7 +40,13 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     //// Color Declarations
-    UIColor* shadow = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.46];
+    UIColor* shadow;
+    if(OSVersionIsAtLeastiOS7()){
+        shadow = [UIColor clearColor];
+    }
+    else {
+        shadow = [UIColor colorWithRed: 0 green: 0 blue: 0 alpha: 0.46];
+    }
     UIColor* chevronColor = self.color;
     
     //// Shadow Declarations
