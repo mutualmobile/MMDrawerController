@@ -7,6 +7,7 @@
 //
 
 #import "MMNavigationController.h"
+#import "UIViewController+MMDrawerController.h"
 
 @interface MMNavigationController ()
 
@@ -15,7 +16,12 @@
 @implementation MMNavigationController
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleDefault;
+    if(self.mm_drawerController.showsStatusBarBackgroundView){
+        return UIStatusBarStyleLightContent;
+    }
+    else {
+        return UIStatusBarStyleDefault;
+    }
 }
 
 @end

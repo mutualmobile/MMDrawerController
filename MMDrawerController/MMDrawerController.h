@@ -197,6 +197,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, assign) BOOL showsShadow;
 
+/**
+ The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
+ 
+ By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
+ */
+@property (nonatomic, assign) BOOL showsStatusBarBackgroundView;
+
+/**
+ The color of the status bar background view if `showsStatusBarBackgroundView` is set to YES. This value is ignored in < iOS 7.0.
+ 
+ By default, this is set `[UIColor blackColor]`.
+ */
+@property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
