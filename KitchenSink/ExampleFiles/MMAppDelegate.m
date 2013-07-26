@@ -51,6 +51,7 @@
                             initWithCenterViewController:navigationController
                             leftDrawerViewController:leftSideNavController
                             rightDrawerViewController:rightSideNavController];
+        [drawerController setShowsShadow:NO];
     }
     else{
         drawerController = [[MMDrawerController alloc]
