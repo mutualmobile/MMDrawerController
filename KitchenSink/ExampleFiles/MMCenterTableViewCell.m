@@ -37,7 +37,7 @@
 
 -(void)updateContentForNewContentSize{
     if([[UIFont class] respondsToSelector:@selector(preferredFontForTextStyle:)]){
-        [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
+        [self.textLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody]];
     }
 }
 @end
