@@ -48,7 +48,10 @@
                                                    blue:71.0/255.0
                                                   alpha:1.0]];
     
-    UIColor * barColor = [UIColor darkGrayColor];
+    UIColor * barColor = [UIColor colorWithRed:161.0/255.0
+                                         green:164.0/255.0
+                                          blue:166.0/255.0
+                                         alpha:1.0];
     if([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]){
         [self.navigationController.navigationBar setBarTintColor:barColor];
     }
@@ -58,7 +61,11 @@
 
 
     NSDictionary *navBarTitleDict;
-    navBarTitleDict = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+    UIColor * titleColor = [UIColor colorWithRed:55.0/255.0
+                                           green:70.0/255.0
+                                            blue:77.0/255.0
+                                           alpha:1.0];
+    navBarTitleDict = @{NSForegroundColorAttributeName:titleColor};
     [self.navigationController.navigationBar setTitleTextAttributes:navBarTitleDict];
     
     self.drawerWidths = @[@(160),@(200),@(240),@(280),@(320)];

@@ -36,19 +36,28 @@
 {
     
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
-    UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
-    
+
     UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] init];
     
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
-    UINavigationController * rightSideNavController = [[MMNavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
     
     UINavigationController * navigationController = [[MMNavigationController alloc] initWithRootViewController:centerViewController];
     
-    MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                            initWithCenterViewController:navigationController
-                                            leftDrawerViewController:leftSideNavController
-                                            rightDrawerViewController:rightSideNavController];
+    MMDrawerController * drawerController = nil;
+    if(OSVersionIsAtLeastiOS7()){
+        UINavigationController * rightSideNavController = [[MMNavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
+        UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
+        drawerController = [[MMDrawerController alloc]
+                            initWithCenterViewController:navigationController
+                            leftDrawerViewController:leftSideNavController
+                            rightDrawerViewController:rightSideNavController];
+    }
+    else{
+        drawerController = [[MMDrawerController alloc]
+                            initWithCenterViewController:navigationController
+                            leftDrawerViewController:leftSideDrawerViewController
+                            rightDrawerViewController:rightSideDrawerViewController];
+    }
     [drawerController setMaximumRightDrawerWidth:200.0];
     [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
