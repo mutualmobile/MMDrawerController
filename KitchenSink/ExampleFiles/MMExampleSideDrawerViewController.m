@@ -58,6 +58,7 @@
                                                    alpha:1.0];
     }
     [self.tableView setBackgroundColor:tableViewBackgroundColor];
+    
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:66.0/255.0
