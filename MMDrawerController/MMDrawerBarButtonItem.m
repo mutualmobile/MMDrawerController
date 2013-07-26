@@ -112,49 +112,77 @@
 }
 
 -(void)drawRect:(CGRect)rect{
-    //// General Declarations
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    //Sizes
-    CGFloat buttonWidth = CGRectGetWidth(self.bounds)*.80;
-    CGFloat buttonHeight = CGRectGetHeight(self.bounds)*.16;
-    CGFloat xOffset = CGRectGetWidth(self.bounds)*.10;
-    CGFloat yOffset = CGRectGetHeight(self.bounds)*.12;
-    CGFloat cornerRadius = 1.0;
-    
-    //// Color Declarations
-    UIColor*  buttonColor = [self menuButtonColorForState:self.state];
-    UIColor*  shadowColor = [self shadowColorForState:self.state];
+    NSArray *sysVersion = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    float majorVersion = [[sysVersion objectAtIndex:0] floatValue];
+    if(majorVersion >= 7.0){
+        //// Color Declarations
+        UIColor* fillColor = self.tintColor;
+        
+        //// Frames
+        CGRect frame = self.bounds;
+        
+        //// Bottom Bar Drawing
+        UIBezierPath* bottomBarPath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 16) * 0.50000 + 0.5), CGRectGetMinY(frame) + floor((CGRectGetHeight(frame) - 1) * 0.72000 + 0.5), 16, 1)];
+        [fillColor setFill];
+        [bottomBarPath fill];
+        
+        
+        //// Middle Bar Drawing
+        UIBezierPath* middleBarPath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 16) * 0.50000 + 0.5), CGRectGetMinY(frame) + floor((CGRectGetHeight(frame) - 1) * 0.48000 + 0.5), 16, 1)];
+        [fillColor setFill];
+        [middleBarPath fill];
+        
+        
+        //// Top Bar Drawing
+        UIBezierPath* topBarPath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 16) * 0.50000 + 0.5), CGRectGetMinY(frame) + floor((CGRectGetHeight(frame) - 1) * 0.24000 + 0.5), 16, 1)];
+        [fillColor setFill];
+        [topBarPath fill];
+    }
+    else {
+        //// General Declarations
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        //Sizes
+        CGFloat buttonWidth = CGRectGetWidth(self.bounds)*.80;
+        CGFloat buttonHeight = CGRectGetHeight(self.bounds)*.16;
+        CGFloat xOffset = CGRectGetWidth(self.bounds)*.10;
+        CGFloat yOffset = CGRectGetHeight(self.bounds)*.12;
+        CGFloat cornerRadius = 1.0;
+        
+        //// Color Declarations
+        UIColor*  buttonColor = [self menuButtonColorForState:self.state];
+        UIColor*  shadowColor = [self shadowColorForState:self.state];
 
-    
-    //// Shadow Declarations
-    UIColor* shadow =  shadowColor;
-    CGSize shadowOffset = CGSizeMake(0.0, 1.0);
-    CGFloat shadowBlurRadius = 0;
-    
-    //// Top Bun Drawing
-    UIBezierPath* topBunPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
-    CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-    [buttonColor setFill];
-    [topBunPath fill];
-    CGContextRestoreGState(context);
-    
-    //// Meat Drawing
-    UIBezierPath* meatPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset*2 + buttonHeight, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
-    CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-    [buttonColor setFill];
-    [meatPath fill];
-    CGContextRestoreGState(context);
-    
-    //// Bottom Bun Drawing
-    UIBezierPath* bottomBunPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset*3 + buttonHeight*2, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
-    CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
-    [buttonColor setFill];
-    [bottomBunPath fill];
-    CGContextRestoreGState(context);
+        
+        //// Shadow Declarations
+        UIColor* shadow =  shadowColor;
+        CGSize shadowOffset = CGSizeMake(0.0, 1.0);
+        CGFloat shadowBlurRadius = 0;
+        
+        //// Top Bun Drawing
+        UIBezierPath* topBunPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
+        CGContextSaveGState(context);
+        CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
+        [buttonColor setFill];
+        [topBunPath fill];
+        CGContextRestoreGState(context);
+        
+        //// Meat Drawing
+        UIBezierPath* meatPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset*2 + buttonHeight, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
+        CGContextSaveGState(context);
+        CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
+        [buttonColor setFill];
+        [meatPath fill];
+        CGContextRestoreGState(context);
+        
+        //// Bottom Bun Drawing
+        UIBezierPath* bottomBunPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(xOffset, yOffset*3 + buttonHeight*2, buttonWidth, buttonHeight) cornerRadius:cornerRadius];
+        CGContextSaveGState(context);
+        CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, shadow.CGColor);
+        [buttonColor setFill];
+        [bottomBunPath fill];
+        CGContextRestoreGState(context);
+    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -179,6 +207,13 @@
 
 - (void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
+    [self setNeedsDisplay];
+}
+
+- (void)setTintColor:(UIColor *)tintColor{
+    if([super respondsToSelector:@selector(tintColor:)]){
+        [super setTintColor:tintColor];
+    }
     [self setNeedsDisplay];
 }
 @end
