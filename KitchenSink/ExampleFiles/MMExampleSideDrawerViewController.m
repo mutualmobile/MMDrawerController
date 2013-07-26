@@ -32,7 +32,12 @@
 {
     [super viewDidLoad];
 
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    if(OSVersionIsAtLeastiOS7()){
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    }
+    else {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    }
     
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -323,7 +328,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if(OSVersionIsAtLeastiOS7()){
-        return 60.0;
+        return 56.0;
     }
     else {
         return 23.0;

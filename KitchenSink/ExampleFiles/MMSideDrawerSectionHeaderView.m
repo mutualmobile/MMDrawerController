@@ -47,7 +47,7 @@
         }
         
         if(OSVersionIsAtLeastiOS7()){
-            _label = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.bounds)-29,CGRectGetWidth(self.bounds)-30, 20)];
+            _label = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.bounds)-28,CGRectGetWidth(self.bounds)-30, 22)];
         }
         else {
             _label = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, 10.0, 2.0)];
