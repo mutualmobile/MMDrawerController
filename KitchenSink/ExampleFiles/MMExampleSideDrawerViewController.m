@@ -33,14 +33,26 @@
     [super viewDidLoad];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.view addSubview:self.tableView];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [self.tableView setBackgroundColor:[UIColor colorWithRed:77.0/255.0
-                                                       green:79.0/255.0
-                                                        blue:80.0/255.0
-                                                       alpha:1.0]];
+    
+    UIColor * tableViewBackgroundColor;
+    if(OSVersionIsAtLeastiOS7()){
+        tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
+                                                   green:113.0/255.0
+                                                    blue:115.0/255.0
+                                                   alpha:1.0];
+    }
+    else {
+        tableViewBackgroundColor = [UIColor colorWithRed:77.0/255.0
+                                                   green:79.0/255.0
+                                                    blue:80.0/255.0
+                                                   alpha:1.0];
+    }
+    [self.tableView setBackgroundColor:tableViewBackgroundColor];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:66.0/255.0
@@ -310,7 +322,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 23.0;
+    if(OSVersionIsAtLeastiOS7()){
+        return 60.0;
+    }
+    else {
+        return 23.0;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
