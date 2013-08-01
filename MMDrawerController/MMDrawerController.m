@@ -75,6 +75,12 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 	return animation;
 }
 
+static NSString *MMDrawerRestorationIdentifier = @"MMDrawer";
+static NSString *MMDrawerLeftDrawerKey = @"MMDrawerLeftDrawer";
+static NSString *MMDrawerRightDrawerKey = @"MMDrawerRightDrawer";
+static NSString *MMDrawerCenterKey = @"MMDrawerCenter";
+static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
+
 @interface MMDrawerCenterContainerView : UIView
 @property (nonatomic,assign) MMDrawerOpenCenterInteractionMode centerInteractionMode;
 @property (nonatomic,assign) MMDrawerSide openSide;
@@ -146,6 +152,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 		[self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
 		[self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
 		[self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+		self.restorationIdentifier = MMDrawerRestorationIdentifier;
 	}
 	return self;
 }
@@ -157,6 +164,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
         [self setRightDrawerViewController:rightDrawerViewController];
+        self.restorationIdentifier = MMDrawerRestorationIdentifier;
     }
     return self;
 }
@@ -167,6 +175,41 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
+}
+
+#pragma mark - State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
+    if (self.leftDrawerViewController)
+        [coder encodeObject:self.leftDrawerViewController forKey:MMDrawerLeftDrawerKey];
+
+    if (self.rightDrawerViewController)
+        [coder encodeObject:self.rightDrawerViewController forKey:MMDrawerRightDrawerKey];
+
+    if (self.centerViewController)
+        [coder encodeObject:self.centerViewController forKey:MMDrawerCenterKey];
+
+    [coder encodeInteger:self.openSide forKey:MMDrawerOpenSideKey];
+
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    UIViewController *controller;
+    MMDrawerSide openside;
+
+    if ((controller = [coder decodeObjectForKey:MMDrawerLeftDrawerKey]))
+        self.leftDrawerViewController = controller;
+
+    if ((controller = [coder decodeObjectForKey:MMDrawerRightDrawerKey]))
+        self.rightDrawerViewController = controller;
+
+    if ((controller = [coder decodeObjectForKey:MMDrawerRightDrawerKey]))
+        self.centerViewController = controller;
+
+    if ((openside = [coder decodeIntegerForKey:MMDrawerOpenSideKey]))
+        [self openDrawerSide:openside animated:false completion:nil];
+
+    [super decodeRestorableStateWithCoder:coder];
 }
 
 #pragma mark - Open/Close methods
