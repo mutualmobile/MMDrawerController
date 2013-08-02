@@ -179,6 +179,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 #pragma mark - State Restoration
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (self.leftDrawerViewController)
         [coder encodeObject:self.leftDrawerViewController forKey:MMDrawerLeftDrawerKey];
 
@@ -194,6 +195,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     UIViewController *controller;
     MMDrawerSide openside;
 

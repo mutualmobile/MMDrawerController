@@ -21,11 +21,38 @@
 
 #import "MMExampleRightSideDrawerViewController.h"
 
-@interface MMExampleRightSideDrawerViewController ()
+@interface MMExampleRightSideDrawerViewController () <UIViewControllerRestoration>
 
 @end
 
 @implementation MMExampleRightSideDrawerViewController
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        self.restorationIdentifier = @"rightDrawer";
+        self.restorationClass = [self class];
+    }
+    return self;
+}
+
+#pragma mark - State Restoration
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return [self new];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super decodeRestorableStateWithCoder:coder];
+}
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

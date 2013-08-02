@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     MMCenterViewControllerSectionRightDrawerAnimation,
 };
 
-@interface MMExampleCenterTableViewController ()
+@interface MMExampleCenterTableViewController () <UIViewControllerRestoration>
 
 @end
 
@@ -45,11 +45,31 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self.restorationIdentifier = @"centerViewController";
+        self.restorationClass = [self class];
     }
     return self;
+}
+
+#pragma mark - State Restoration
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return [[self alloc] initWithStyle:UITableViewStyleGrouped];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [super decodeRestorableStateWithCoder:coder];
 }
 
 - (void)viewDidLoad

@@ -27,6 +27,34 @@
 
 @implementation MMExampleSideDrawerViewController
 
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+//        self.restorationIdentifier = @"sideDrawer";
+//        self.restorationClass = [self class];
+    }
+    return self;
+}
+
+#pragma mark - State Restoration
+//+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    return [self new];
+//}
+//
+//- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+//{
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    [super encodeRestorableStateWithCoder:coder];
+//}
+//
+//- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+//{
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    [super decodeRestorableStateWithCoder:coder];
+//}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

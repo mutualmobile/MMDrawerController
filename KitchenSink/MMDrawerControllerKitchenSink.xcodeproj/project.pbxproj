@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A290A1E17AB2B200023A758 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A290A1D17AB2B200023A758 /* MMDrawerController.m */; };
 		294A1D1117199537005BF6B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294A1D1017199537005BF6B1 /* UIKit.framework */; };
 		294A1D1317199537005BF6B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294A1D1217199537005BF6B1 /* Foundation.framework */; };
 		294A1D1517199537005BF6B1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294A1D1417199537005BF6B1 /* CoreGraphics.framework */; };
@@ -16,7 +17,6 @@
 		294A1D2317199537005BF6B1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2217199537005BF6B1 /* Default.png */; };
 		294A1D2517199537005BF6B1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2417199537005BF6B1 /* Default@2x.png */; };
 		294A1D2717199537005BF6B1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2617199537005BF6B1 /* Default-568h@2x.png */; };
-		294A1D301719982B005BF6B1 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D2F1719982B005BF6B1 /* MMDrawerController.m */; };
 		294A1D3317199844005BF6B1 /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D3217199844005BF6B1 /* UIViewController+MMDrawerController.m */; };
 		2961190717383AFC00CD4063 /* MMLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2961190617383AFC00CD4063 /* MMLogoView.m */; };
 		2961190A1738416400CD4063 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 296119091738416400CD4063 /* MMCenterTableViewCell.m */; };
@@ -38,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A290A1C17AB2B200023A758 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
+		0A290A1D17AB2B200023A758 /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerController.m; sourceTree = "<group>"; };
 		294A1D0D17199537005BF6B1 /* MMDrawerControllerKitchenSink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMDrawerControllerKitchenSink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		294A1D1017199537005BF6B1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		294A1D1217199537005BF6B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -51,8 +53,6 @@
 		294A1D2217199537005BF6B1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		294A1D2417199537005BF6B1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		294A1D2617199537005BF6B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		294A1D2E1719982B005BF6B1 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
-		294A1D2F1719982B005BF6B1 /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerController.m; sourceTree = "<group>"; };
 		294A1D3117199844005BF6B1 /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
 		294A1D3217199844005BF6B1 /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
 		2961190517383AFC00CD4063 /* MMLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMLogoView.h; sourceTree = "<group>"; };
@@ -162,8 +162,8 @@
 		294A1D2D17199819005BF6B1 /* MMDrawerController */ = {
 			isa = PBXGroup;
 			children = (
-				294A1D2E1719982B005BF6B1 /* MMDrawerController.h */,
-				294A1D2F1719982B005BF6B1 /* MMDrawerController.m */,
+				0A290A1C17AB2B200023A758 /* MMDrawerController.h */,
+				0A290A1D17AB2B200023A758 /* MMDrawerController.m */,
 				294A1D3117199844005BF6B1 /* UIViewController+MMDrawerController.h */,
 				294A1D3217199844005BF6B1 /* UIViewController+MMDrawerController.m */,
 				29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */,
@@ -306,7 +306,7 @@
 			files = (
 				294A1D1D17199537005BF6B1 /* main.m in Sources */,
 				294A1D2117199537005BF6B1 /* MMAppDelegate.m in Sources */,
-				294A1D301719982B005BF6B1 /* MMDrawerController.m in Sources */,
+				0A290A1E17AB2B200023A758 /* MMDrawerController.m in Sources */,
 				294A1D3317199844005BF6B1 /* UIViewController+MMDrawerController.m in Sources */,
 				29F6163B172AC22A00B31282 /* MMDrawerBarButtonItem.m in Sources */,
 				29C28487172B07C10089E872 /* MMExampleCenterTableViewController.m in Sources */,
