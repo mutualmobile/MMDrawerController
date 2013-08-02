@@ -362,7 +362,8 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withFullCloseAnimation:(BOOL)animated completion:(void(^)(BOOL))completion{
-    if(self.openSide != MMDrawerSideNone){
+    if(self.openSide != MMDrawerSideNone &&
+       animated){
         
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:self.openSide];
         
@@ -425,6 +426,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     }
     else {
         [self setCenterViewController:newCenterViewController animated:animated];
+        if(self.openSide != MMDrawerSideNone){
+            [self closeDrawerAnimated:animated completion:completion];
+        }
     }
 }
 
