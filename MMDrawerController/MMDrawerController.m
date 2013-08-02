@@ -336,10 +336,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withCloseAnimation:(BOOL)animated completion:(void(^)(BOOL))completion{
-    UIViewController * currentCenterViewController = self.centerViewController;
-    [currentCenterViewController beginAppearanceTransition:NO animated:NO];
     [self setCenterViewController:newCenterViewController animated:animated];
-    [currentCenterViewController endAppearanceTransition];
     
     if(self.openSide != MMDrawerSideNone){
         [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
