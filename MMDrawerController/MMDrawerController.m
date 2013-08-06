@@ -125,6 +125,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
+@property (nonatomic, assign) BOOL isClosingCenterViewController;
 
 @end
 
@@ -193,6 +194,10 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion{
+    if (self.isClosingCenterViewController && animated) {
+        return;
+    }
+    self.isClosingCenterViewController = YES;
     CGRect newFrame = self.view.bounds;
     
     CGFloat distance = ABS(CGRectGetMinX(self.centerContainerView.frame));
@@ -233,7 +238,7 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
          [sideDrawerViewController endAppearanceTransition];
          [self setOpenSide:MMDrawerSideNone];
          [self resetDrawerVisualStateForDrawerSide:visibleSide];
-         
+         self.isClosingCenterViewController = NO;
          if(completion){
              completion(finished);
          }
