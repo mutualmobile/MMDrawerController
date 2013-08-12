@@ -129,6 +129,8 @@ A few extras to make your life easier...
 ###MMDrawerBarButtonItem
 Using Paint Code, we created a standard Menu Button that you can use in any `UINavigationBar`, and make it whatever color you want. It's included as a subspec to this library. Enjoy.
 
+Starting with iOS 7, the drawer button is now drawn in a much thinner stroke. In addition, the color methods have been deprecated, and the color will now be determined by the `tintColor.` Also note that the shadow has been deprecated to be more in line with the design themes of the OS.
+
 ###Prebuilt Example Animations
 In order to make it as easy as possible for you to use this library, we built some of the common animations we see out there today. Simply include the `MMDrawerVisualState` subspec, and use any of the prebuilt visual states.
 
