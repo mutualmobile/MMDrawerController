@@ -111,6 +111,17 @@ When a drawer is open, you can control how a user can interact with the center v
 ###Accessing the Drawer Controller from a Child View Controller
 You can use the `UIViewController+MMDrawerController` category in order to query the drawerController directly from child view controllers.
 
+##iOS 7 Status Bar Support
+###Child View Controller Support
+Beginning with iOS 7, the child view controllers will by default determine the state of the status bar, including its' style and whether or not it is hidden. This value will also be updated anytime the open side changes state, meaning that a side drawer can provide a different value than the center view controller.
+
+If you do not want the drawer controller to consult the child view controllers for this state, you should subclass `MMDrawerController`, override `childViewControllerForStatusBarStyle` and `childViewControllerForStatusBarHidden`, and return nil for both.
+
+###Custom Status Bar Background View
+If you have a contrasting colors between your center view controller and your drawer controllers, the new iOS 7 status bar handling could cause your application to look less than ideal. Starting with iOS 7, `MMDrawerController` supports drawing a custom status bar area at the top of the screen, to give you an area to display the status bar with a constant color, while allowing you to drawer custom content below the status bar without worrying about the color of your navigation bars or the top of your content running up underneath the status bar. Using the feature essentially mimics <= iOS 6.X behavior. 
+
+To enable a custom status bar, simple set `showsStatusBarBackgroundView` to `YES`. By default, this will draw a black a view underneath the status bar, and adjust your to content to be laid out lower than the status bar. If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
+
 ---
 ##Bells and Whistles
 A few extras to make your life easier...
