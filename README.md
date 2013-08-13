@@ -112,6 +112,12 @@ When a drawer is open, you can control how a user can interact with the center v
 You can use the `UIViewController+MMDrawerController` category in order to query the drawerController directly from child view controllers.
 
 ---
+##Subclassing
+If you plan to subclass `MMDrawerController`, import `MMDrawerController+Subclass.h` into your subclass to access protected methods for `MMDrawerController.` Note that several methods assume and require you to call super, so be sure to follow that convention.
+
+If there is specific functionality you need that is not supported by these methods, please open a Github issue explaining your needs and we can try and find a way to open up methods that can help you out.
+
+---
 ##Bells and Whistles
 A few extras to make your life easier...
 
