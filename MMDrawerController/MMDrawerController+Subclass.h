@@ -65,15 +65,6 @@
  */
 -(void)prepareToPresentDrawer:(MMDrawerSide)drawer animated:(BOOL)animated __attribute((objc_requires_super));
 
-/** 
- The animation duration for open/close animations with a given distance that a view has to travel.
- 
- You can use override this method to provide a custom duration for the open/close animations based on the distance is needs to travel.
- 
- @param distance The distance a view has to travel to arrive at its final destination
- */
--(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance;
-
 ///---------------------------------------
 /// @name `UIViewController` Subclass Methods
 ///---------------------------------------
