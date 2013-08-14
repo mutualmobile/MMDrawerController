@@ -136,20 +136,18 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 #pragma mark - Init
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
-		[self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
-		[self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
+        [self commonSetup];
+	}
+	return self;
+}
 
-		[self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
-
-		[self setShowsShadow:YES];
-		[self setShouldStretchDrawer:YES];
-
-		[self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
-		[self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
-		[self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+- (id)initWithCoder:(NSCoder *)aDecoder{
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+        [self commonSetup];
 	}
 	return self;
 }
@@ -171,6 +169,20 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
+}
+
+-(void)commonSetup{
+    [self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
+    [self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
+    
+    [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
+    
+    [self setShowsShadow:YES];
+    [self setShouldStretchDrawer:YES];
+    
+    [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
+    [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
+    [self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
 }
 
 #pragma mark - Open/Close methods
