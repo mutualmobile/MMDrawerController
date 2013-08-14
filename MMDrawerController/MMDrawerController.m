@@ -138,20 +138,18 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 #pragma mark - Init
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
-		[self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
-		[self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
+        [self commonSetup];
+	}
+	return self;
+}
 
-		[self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
-
-		[self setShowsShadow:YES];
-		[self setShouldStretchDrawer:YES];
-
-		[self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
-		[self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
-		[self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+- (id)initWithCoder:(NSCoder *)aDecoder{
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+        [self commonSetup];
 	}
 	return self;
 }
@@ -173,6 +171,20 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
+}
+
+-(void)commonSetup{
+    [self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
+    [self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
+    
+    [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
+    
+    [self setShowsShadow:YES];
+    [self setShouldStretchDrawer:YES];
+    
+    [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
+    [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
+    [self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
 }
 
 #pragma mark - State Restoration
@@ -215,8 +227,6 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         [self openDrawerSide:openside animated:false completion:nil];
     }
 }
-
-
 #pragma mark - Open/Close methods
 -(void)toggleDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
     NSParameterAssert(drawerSide!=MMDrawerSideNone);
