@@ -58,9 +58,11 @@ typedef NS_OPTIONS(NSInteger, MMOpenDrawerGestureMode) {
     MMOpenDrawerGestureModePanningNavigationBar     = 1 << 1,
     MMOpenDrawerGestureModePanningCenterView        = 1 << 2,
     MMOpenDrawerGestureModeBezelPanningCenterView   = 1 << 3,
-    MMOpenDrawerGestureModeAll                      =   MMOpenDrawerGestureModePanningNavigationBar |
-                                                        MMOpenDrawerGestureModePanningCenterView    |
-                                                        MMOpenDrawerGestureModeBezelPanningCenterView,
+    MMOpenDrawerGestureModeCustom                   = 1 << 4,
+    MMOpenDrawerGestureModeAll                      =   MMOpenDrawerGestureModePanningNavigationBar     |
+                                                        MMOpenDrawerGestureModePanningCenterView        |
+                                                        MMOpenDrawerGestureModeBezelPanningCenterView   |
+                                                        MMOpenDrawerGestureModeCustom,
 };
 
 typedef NS_OPTIONS(NSInteger, MMCloseDrawerGestureMode) {
@@ -71,12 +73,14 @@ typedef NS_OPTIONS(NSInteger, MMCloseDrawerGestureMode) {
     MMCloseDrawerGestureModeTapNavigationBar        = 1 << 4,
     MMCloseDrawerGestureModeTapCenterView           = 1 << 5,
     MMCloseDrawerGestureModePanningDrawerView       = 1 << 6,
+    MMCloseDrawerGestureModeCustom                  = 1 << 7,
     MMCloseDrawerGestureModeAll                     =   MMCloseDrawerGestureModePanningNavigationBar    |
                                                         MMCloseDrawerGestureModePanningCenterView       |
                                                         MMCloseDrawerGestureModeBezelPanningCenterView  |
                                                         MMCloseDrawerGestureModeTapNavigationBar        |
                                                         MMCloseDrawerGestureModeTapCenterView           |
-                                                        MMCloseDrawerGestureModePanningDrawerView,
+                                                        MMCloseDrawerGestureModePanningDrawerView       |
+                                                        MMCloseDrawerGestureModeCustom,
 };
 
 typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
@@ -200,8 +204,6 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left drawer view controller, and right drawer view controller. 
  
- This is the designated initializer.
- 
  @param centerViewController The center view controller. This argument must not be `nil`.
  @param leftDrawerViewController The left drawer view controller.
  @param rightDrawerViewController The right drawer controller.
@@ -279,7 +281,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param completion The block called when the animation is finsihed.
  
  */
--(void)setCenterViewController:(UIViewController *)centerViewController withCloseAnimation:(BOOL)closeAnimated completion:(void(^)(BOOL))completion;
+-(void)setCenterViewController:(UIViewController *)centerViewController withCloseAnimation:(BOOL)closeAnimated completion:(void(^)(BOOL finished))completion;
 
 /**
  Sets the new `centerViewController`. 
@@ -291,7 +293,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param completion The block called when the animation is finsihed.
  
  */
--(void)setCenterViewController:(UIViewController *)newCenterViewController withFullCloseAnimation:(BOOL)fullCloseAnimated completion:(void(^)(BOOL))completion;
+-(void)setCenterViewController:(UIViewController *)newCenterViewController withFullCloseAnimation:(BOOL)fullCloseAnimated completion:(void(^)(BOOL finished))completion;
 
 ///---------------------------------------
 /// @name Animating the Width of a Drawer
@@ -362,5 +364,33 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param drawerVisualStateBlock A block object to be called that allows the implementer to update visual state properties on the drawer. `percentVisible` represents the amount of the drawer space that is current visible, with drawer space being defined as the edge of the screen to the maxmimum drawer width. Note that you do have access to the drawerController, which will allow you to update things like the anchor point of the side drawer layer.
  */
 -(void)setDrawerVisualStateBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible))drawerVisualStateBlock;
+
+///---------------------------------------
+/// @name Gesture Completion Handling
+///---------------------------------------
+
+/**
+ Sets a callback to be called when a gesture has been completed.
+ 
+ This block is called when a gesture action has been completed. You can query the `openSide` of the `drawerController` to determine what the new state of the drawer is.
+ 
+ @param gestureCompletionBlock A block object to be called that allows the implementer be notified when a gesture action has been completed.
+ */
+-(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture))gestureCompletionBlock;
+
+///---------------------------------------
+/// @name Custom Gesture Handler
+///---------------------------------------
+
+/**
+ Sets a callback to be called to determine if a UIGestureRecognizer should recieve the given UITouch.
+ 
+ This block provides a way to allow a gesture to be recognized with custom logic. For example, you may have a certain part of your view that should accept a pan gesture recognizer to open the drawer, but not another a part. If you return YES, the gesture is recognized and the appropriate action is taken. This provides similar support to how Facebook allows you to pan on the background view of the main table view, but not the content itself. You can inspect the `openSide` property of the `drawerController` to determine the current state of the drawer, and apply the appropriate logic within your block.
+ 
+ Note that either `openDrawerGestureModeMask` must contain `MMOpenDrawerGestureModeCustom`, or `closeDrawerGestureModeMask` must contain `MMCloseDrawerGestureModeCustom` for this block to be consulted.
+ 
+ @param gestureShouldRecognizeTouchBlock A block object to be called to determine if the given `touch` should be recognized by the given gesture.
+ */
+-(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
 
 @end
