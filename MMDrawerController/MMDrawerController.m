@@ -133,20 +133,35 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
 
 #pragma mark - Init
 
+-(void)commomInit
+{
+    [self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
+    [self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
+    
+    [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
+    
+    [self setShowsShadow:YES];
+    [self setShouldStretchDrawer:YES];
+    
+    [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
+    [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
+    [self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+	if (self) {
+		[self commomInit];
+	}
+	return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
-		[self setMaximumLeftDrawerWidth:MMDrawerDefaultWidth];
-		[self setMaximumRightDrawerWidth:MMDrawerDefaultWidth];
-
-		[self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
-
-		[self setShowsShadow:YES];
-		[self setShouldStretchDrawer:YES];
-
-		[self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
-		[self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
-		[self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+		[self commomInit];
 	}
 	return self;
 }
@@ -155,6 +170,9 @@ static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat di
     NSParameterAssert(centerViewController);
     self = [super init];
     if(self){
+        
+        [self commomInit];
+        
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
         [self setRightDrawerViewController:rightDrawerViewController];
