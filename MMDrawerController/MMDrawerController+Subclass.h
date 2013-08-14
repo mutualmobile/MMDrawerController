@@ -87,7 +87,7 @@
  @param animationOptions A mask defining the animation options of the animation
  @param completion A completion block to be called when the drawer is finished opening
  */
--(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));;
+-(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));
 
 ///---------------------------------------
 /// @name `UIViewController` Subclass Methods
