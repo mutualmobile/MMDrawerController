@@ -29,10 +29,15 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@implementation MMAppDelegate
+@interface MMAppDelegate ()
 
-- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+@property (nonatomic,strong) MMDrawerController * drawerController;
+
+@end
+
+@implementation MMAppDelegate
+-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
     
     UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -40,60 +45,63 @@
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
     
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-    navigationController.restorationIdentifier = @"centerNav";
+    [navigationController setRestorationIdentifier:@"MMExampleCenterNavigationControllerRestorationKey"];
     
-    MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                            initWithCenterViewController:navigationController
-                                            leftDrawerViewController:leftSideDrawerViewController
-                                            rightDrawerViewController:rightSideDrawerViewController];
-    [drawerController setMaximumRightDrawerWidth:200.0];
-    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
-    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    self.drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:navigationController
+                                             leftDrawerViewController:leftSideDrawerViewController
+                                             rightDrawerViewController:rightSideDrawerViewController];
+    [self.drawerController setRestorationIdentifier:@"MMDrawer"];
+    [self.drawerController setMaximumRightDrawerWidth:200.0];
+    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     
-    [drawerController
+    [self.drawerController
      setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
          MMDrawerControllerDrawerVisualStateBlock block;
          block = [[MMExampleDrawerVisualStateManager sharedManager]
-                        drawerVisualStateBlockForDrawerSide:drawerSide];
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
          if(block){
              block(drawerController, drawerSide, percentVisible);
          }
      }];
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window setRootViewController:drawerController];
-    // Override point for customization after application launch.
+    [self.window setRootViewController:self.drawerController];
+
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return true;
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return true;
+    return YES;
 }
 
-- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
-    NSLog(@"identifiers: %@", identifierComponents);
-
-    MMDrawerController *drawerController = (MMDrawerController *)self.window.rootViewController;
-
-    NSLog(@"drawer id: %@", drawerController.restorationIdentifier);
-    NSString *identifier = [identifierComponents lastObject];
-
-    if ([identifier isEqualToString:@"MMDrawer"])
-        return drawerController;
-
-    if ([identifier isEqualToString:@"centerNav"])
-        return drawerController.centerViewController;
-
+- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    NSString * key = [identifierComponents lastObject];
+    if([key isEqualToString:@"MMDrawer"]){
+        return self.window.rootViewController;
+    }
+    else if ([key isEqualToString:@"MMExampleCenterNavigationControllerRestorationKey"]) {
+        return ((MMDrawerController *)self.window.rootViewController).centerViewController;
+    }
+    else if ([key isEqualToString:@"MMExampleLeftSideDrawerController"]){
+        return ((MMDrawerController *)self.window.rootViewController).leftDrawerViewController;
+    }
+    else if ([key isEqualToString:@"MMExampleRightSideDrawerController"]){
+        return ((MMDrawerController *)self.window.rootViewController).rightDrawerViewController;
+    }
     return nil;
 }
 

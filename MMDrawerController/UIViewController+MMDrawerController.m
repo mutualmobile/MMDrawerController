@@ -25,16 +25,14 @@
 
 
 -(MMDrawerController*)mm_drawerController{
-    if([self.parentViewController isKindOfClass:[MMDrawerController class]]){
-        return (MMDrawerController*)self.parentViewController;
+    UIViewController *parentViewController = self.parentViewController;
+    while (parentViewController != nil) {
+        if([parentViewController isKindOfClass:[MMDrawerController class]]){
+            return (MMDrawerController *)parentViewController;
+        }
+        parentViewController = parentViewController.parentViewController;
     }
-    else if([self.parentViewController isKindOfClass:[UINavigationController class]] &&
-            [self.parentViewController.parentViewController isKindOfClass:[MMDrawerController class]]){
-        return (MMDrawerController*)[self.parentViewController parentViewController];
-    }
-    else{
-        return nil;
-    }
+    return nil;
 }
 
 -(CGRect)mm_visibleDrawerFrame{

@@ -22,39 +22,19 @@
 #import "MMExampleLeftSideDrawerViewController.h"
 #import "MMTableViewCell.h"
 
-@interface MMExampleLeftSideDrawerViewController () <UIViewControllerRestoration>
+@interface MMExampleLeftSideDrawerViewController ()
 
 @end
 
 @implementation MMExampleLeftSideDrawerViewController
 
-- (instancetype)init{
+-(id)init{
     self = [super init];
-    if (self) {
-        self.restorationIdentifier = @"leftDrawer";
-        self.restorationClass = [self class];
+    if(self){
+        [self setRestorationIdentifier:@"MMExampleLeftSideDrawerController"];
     }
     return self;
 }
-
-#pragma mark - State Restoration
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return [self new];
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [super decodeRestorableStateWithCoder:coder];
-}
-
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -78,7 +58,7 @@
 
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
+
     if(section == MMDrawerSectionDrawerWidth)
         return @"Left Drawer Width";
     else
