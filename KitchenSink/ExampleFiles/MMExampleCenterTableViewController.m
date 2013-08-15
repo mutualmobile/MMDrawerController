@@ -37,7 +37,12 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     MMCenterViewControllerSectionRightDrawerAnimation,
 };
 
-@interface MMExampleCenterTableViewController ()
+static NSString *MMDrawerLeftDrawerEnabledKey = @"MMDrawerLeftDrawerEnabled";
+static NSString *MMDrawerAnimationTypeLeftKey = @"MMDrawerAnimationTypeLeft";
+static NSString *MMDrawerRightDrawerEnabledKey = @"MMDrawerRightDrawerEnabled";
+static NSString *MMDrawerAnimationTypeRightKey = @"MMDrawerAnimationTypeRight";
+
+@interface MMExampleCenterTableViewController () <UIViewControllerRestoration>
 
 @end
 
@@ -48,8 +53,46 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     self = [super initWithStyle:style];
     if (self) {
         [self setRestorationIdentifier:@"MMExampleCenterControllerRestorationKey"];
+        [self setRestorationClass:[self class]];
     }
     return self;
+}
+
+#pragma mark - State Restoration
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
+    return [[self alloc] initWithStyle:UITableViewStyleGrouped];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
+    MMDrawerAnimationType leftDrawerAnimationType = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+    [coder encodeInteger:leftDrawerAnimationType forKey:MMDrawerAnimationTypeLeftKey];
+
+    MMDrawerAnimationType rightDrawerAnimationType = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
+    [coder encodeInteger:rightDrawerAnimationType forKey:MMDrawerAnimationTypeRightKey];
+
+    [coder encodeBool:(self.mm_drawerController.leftDrawerViewController != nil) forKey:MMDrawerLeftDrawerEnabledKey];
+    [coder encodeBool:(self.mm_drawerController.rightDrawerViewController != nil) forKey:MMDrawerRightDrawerEnabledKey];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    MMDrawerAnimationType leftDrawerAnimationType = [coder decodeIntegerForKey:MMDrawerAnimationTypeLeftKey];
+    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:leftDrawerAnimationType];
+
+    MMDrawerAnimationType rightDrawerAnimationType = [coder decodeIntegerForKey:MMDrawerAnimationTypeRightKey];
+    [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:rightDrawerAnimationType];
+
+    BOOL leftDrawerEnabled = [coder decodeBoolForKey:MMDrawerLeftDrawerEnabledKey];
+    BOOL rightDrawerEnabled = [coder decodeBoolForKey:MMDrawerRightDrawerEnabledKey];
+
+    if (!leftDrawerEnabled) {
+        [self.mm_drawerController setLeftDrawerViewController:nil];
+        [self.navigationItem setLeftBarButtonItems:nil animated:NO];
+    }
+
+    if (!rightDrawerEnabled) {
+        [self.mm_drawerController setRightDrawerViewController:nil];
+        [self.navigationItem setRightBarButtonItems:nil animated:NO];
+    }
 }
 
 - (void)viewDidLoad
