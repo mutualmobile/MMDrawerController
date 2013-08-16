@@ -44,6 +44,15 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 @implementation MMExampleCenterTableViewController
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setRestorationIdentifier:@"MMExampleCenterControllerRestorationKey"];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

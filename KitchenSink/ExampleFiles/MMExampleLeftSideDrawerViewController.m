@@ -28,6 +28,14 @@
 
 @implementation MMExampleLeftSideDrawerViewController
 
+-(id)init{
+    self = [super init];
+    if(self){
+        [self setRestorationIdentifier:@"MMExampleLeftSideDrawerController"];
+    }
+    return self;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSLog(@"Left will appear");
