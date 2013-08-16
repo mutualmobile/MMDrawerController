@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        [self setRestorationIdentifier:@"MMExampleCenterControllerRestorationKey"];
     }
     return self;
 }
