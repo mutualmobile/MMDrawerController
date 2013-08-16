@@ -26,6 +26,13 @@
 @end
 
 @implementation MMExampleRightSideDrawerViewController
+-(id)init{
+    self = [super init];
+    if(self){
+        [self setRestorationIdentifier:@"MMExampleRightSideDrawerController"];
+    }
+    return self;
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

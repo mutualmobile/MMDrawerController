@@ -39,6 +39,9 @@
  ## How Open/Close Gestures are handled
  Two gestures are added to every instance of a drawer controller, one for pan and one for touch. `MMDrawerController` is the delegate for each of the gesture recoginzers, and determines if a touch should be sent to the appropriate gesture when a touch is detected compared with the masks set for open and close gestures and the state of the drawer controller.
  
+ ## Integrating with State Restoration
+ In order to opt in to state restoration for `MMDrawerController`, you must set the `restorationIdentifier` of your drawer controller. Instances of your centerViewController, leftDrawerViewController and rightDrawerViewController must also be configured with their own `restorationIdentifier` (and optionally a restorationClass) if you intend for those to be restored as well. If your MMDrawerController had an open drawer when your app was sent to the background, that state will also be restored.
+ 
  ## What this library doesn't do.
  This library is not meant for:
     - Top or bottom drawer views
