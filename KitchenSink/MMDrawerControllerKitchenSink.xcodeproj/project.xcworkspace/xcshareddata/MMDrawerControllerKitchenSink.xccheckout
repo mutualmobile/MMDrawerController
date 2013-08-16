@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4C4E27BF-53C6-43BF-A4EF-1C812D609BDD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MMDrawerControllerKitchenSink</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</key>
+		<string>https://github.com/mutualmobile/MMDrawerController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>KitchenSink/MMDrawerControllerKitchenSink.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/mutualmobile/MMDrawerController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MMDrawerController-GitHub</string>
+		</dict>
+	</array>
+</dict>
+</plist>

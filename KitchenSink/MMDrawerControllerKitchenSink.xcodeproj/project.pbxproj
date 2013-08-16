@@ -84,6 +84,7 @@
 		29E2C6171738A10F00606309 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
+		462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +165,7 @@
 			children = (
 				294A1D2E1719982B005BF6B1 /* MMDrawerController.h */,
 				294A1D2F1719982B005BF6B1 /* MMDrawerController.m */,
+				462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */,
 				294A1D3117199844005BF6B1 /* UIViewController+MMDrawerController.h */,
 				294A1D3217199844005BF6B1 /* UIViewController+MMDrawerController.m */,
 				29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */,
