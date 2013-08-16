@@ -25,13 +25,43 @@
 #import "MMSideDrawerSectionHeaderView.h"
 #import "MMLogoView.h"
 
+static NSString *MMSideDrawerShowsShadowKey = @"MMSideDrawerShowsShadow";
+static NSString *MMSideDrawerOpenCenterInteractionModeKey = @"MMSideDrawerOpenCenterInteractionMode";
+static NSString *MMSideDrawerCloseDrawerGestureModeKey = @"MMSideDrawerCloseDrawerGestureMode";
+static NSString *MMSideDrawerOpenDrawerGestureModeKey = @"MMSideDrawerOpenDrawerGestureMode";
+static NSString *MMSideDrawerShouldStretchDrawerKey = @"MMSideDrawerShouldStretchDrawer";
+static NSString *MMSideDrawerMaximumRightDrawerWidthKey = @"MMSideDrawerMaximumRightDrawerWidth";
+static NSString *MMSideDrawerMaximumLeftDrawerWidthKey = @"MMSideDrawerMaximumLeftDrawerWidth";
+
 @implementation MMExampleSideDrawerViewController
+
+#pragma mark - State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
+    [coder encodeBool:self.mm_drawerController.showsShadow forKey:MMSideDrawerShowsShadowKey];
+    [coder encodeInteger:self.mm_drawerController.centerHiddenInteractionMode forKey:MMSideDrawerOpenCenterInteractionModeKey];
+    [coder encodeInteger:self.mm_drawerController.openDrawerGestureModeMask forKey:MMSideDrawerOpenDrawerGestureModeKey];
+    [coder encodeInteger:self.mm_drawerController.closeDrawerGestureModeMask forKey:MMSideDrawerCloseDrawerGestureModeKey];
+    [coder encodeBool:self.mm_drawerController.shouldStretchDrawer forKey:MMSideDrawerShouldStretchDrawerKey];
+    [coder encodeFloat:self.mm_drawerController.maximumLeftDrawerWidth forKey:MMSideDrawerMaximumLeftDrawerWidthKey];
+    [coder encodeFloat:self.mm_drawerController.maximumRightDrawerWidth forKey:MMSideDrawerMaximumRightDrawerWidthKey];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    [self.mm_drawerController setShowsShadow:[coder decodeBoolForKey:MMSideDrawerShowsShadowKey]];
+    [self.mm_drawerController setCenterHiddenInteractionMode:[coder decodeIntegerForKey:MMSideDrawerOpenCenterInteractionModeKey]];
+    [self.mm_drawerController setOpenDrawerGestureModeMask:[coder decodeIntegerForKey:MMSideDrawerOpenDrawerGestureModeKey]];
+    [self.mm_drawerController setCloseDrawerGestureModeMask:[coder decodeIntegerForKey:MMSideDrawerCloseDrawerGestureModeKey]];
+    [self.mm_drawerController setShouldStretchDrawer:[coder decodeBoolForKey:MMSideDrawerShouldStretchDrawerKey]];
+    [self.mm_drawerController setMaximumLeftDrawerWidth:[coder decodeFloatForKey:MMSideDrawerMaximumLeftDrawerWidthKey]];
+    [self.mm_drawerController setMaximumRightDrawerWidth:[coder decodeFloatForKey:MMSideDrawerMaximumRightDrawerWidthKey]];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.tableView setRestorationIdentifier:@"MMSideDrawer"];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.view addSubview:self.tableView];
@@ -44,14 +74,14 @@
                                                        green:79.0/255.0
                                                         blue:80.0/255.0
                                                        alpha:1.0]];
-    
+
     [self.view setBackgroundColor:[UIColor colorWithRed:66.0/255.0
                                                   green:69.0/255.0
                                                    blue:71.0/255.0
                                                   alpha:1.0]];
-    
+
     self.drawerWidths = @[@(160),@(200),@(240),@(280),@(320)];
-    
+
     CGSize logoSize = CGSizeMake(58, 62);
     MMLogoView * logo = [[MMLogoView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.tableView.bounds)-logoSize.width/2.0,
                                                                      -logoSize.height-logoSize.height/4.0,
@@ -107,14 +137,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
+
         cell = [[MMSideDrawerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
-    
+
     switch (indexPath.section) {
         case MMDrawerSectionViewSelection:
             if(indexPath.row == 0){
@@ -238,7 +268,7 @@
                     else
                         [cell setAccessoryType:UITableViewCellAccessoryNone];
                     break;
-                    
+
                 default:
                     break;
             }
@@ -255,7 +285,7 @@
         default:
             break;
     }
-    
+
     return cell;
 }
 
@@ -302,9 +332,9 @@
     switch (indexPath.section) {
         case MMDrawerSectionViewSelection:{
             MMExampleCenterTableViewController * center = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            
+
             UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:center];
-            
+
             if(indexPath.row%2==0){
                 [self.mm_drawerController
                  setCenterViewController:nav
@@ -319,7 +349,7 @@
             }
             break;
         }
-            
+
         case MMDrawerSectionDrawerWidth:{
             //Implement in Subclass
             break;

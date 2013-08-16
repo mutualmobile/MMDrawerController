@@ -37,7 +37,12 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     MMCenterViewControllerSectionRightDrawerAnimation,
 };
 
-@interface MMExampleCenterTableViewController ()
+static NSString *MMDrawerLeftDrawerEnabledKey = @"MMDrawerLeftDrawerEnabled";
+static NSString *MMDrawerAnimationTypeLeftKey = @"MMDrawerAnimationTypeLeft";
+static NSString *MMDrawerRightDrawerEnabledKey = @"MMDrawerRightDrawerEnabled";
+static NSString *MMDrawerAnimationTypeRightKey = @"MMDrawerAnimationTypeRight";
+
+@interface MMExampleCenterTableViewController () <UIViewControllerRestoration>
 
 @end
 
@@ -48,39 +53,77 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     self = [super initWithStyle:style];
     if (self) {
         [self setRestorationIdentifier:@"MMExampleCenterControllerRestorationKey"];
+        [self setRestorationClass:[self class]];
     }
     return self;
+}
+
+#pragma mark - State Restoration
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder{
+    return [[self alloc] initWithStyle:UITableViewStyleGrouped];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
+    MMDrawerAnimationType leftDrawerAnimationType = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
+    [coder encodeInteger:leftDrawerAnimationType forKey:MMDrawerAnimationTypeLeftKey];
+
+    MMDrawerAnimationType rightDrawerAnimationType = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
+    [coder encodeInteger:rightDrawerAnimationType forKey:MMDrawerAnimationTypeRightKey];
+
+    [coder encodeBool:(self.mm_drawerController.leftDrawerViewController != nil) forKey:MMDrawerLeftDrawerEnabledKey];
+    [coder encodeBool:(self.mm_drawerController.rightDrawerViewController != nil) forKey:MMDrawerRightDrawerEnabledKey];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder{
+    MMDrawerAnimationType leftDrawerAnimationType = [coder decodeIntegerForKey:MMDrawerAnimationTypeLeftKey];
+    [[MMExampleDrawerVisualStateManager sharedManager] setLeftDrawerAnimationType:leftDrawerAnimationType];
+
+    MMDrawerAnimationType rightDrawerAnimationType = [coder decodeIntegerForKey:MMDrawerAnimationTypeRightKey];
+    [[MMExampleDrawerVisualStateManager sharedManager] setRightDrawerAnimationType:rightDrawerAnimationType];
+
+    BOOL leftDrawerEnabled = [coder decodeBoolForKey:MMDrawerLeftDrawerEnabledKey];
+    BOOL rightDrawerEnabled = [coder decodeBoolForKey:MMDrawerRightDrawerEnabledKey];
+
+    if (!leftDrawerEnabled) {
+        [self.mm_drawerController setLeftDrawerViewController:nil];
+        [self.navigationItem setLeftBarButtonItems:nil animated:NO];
+    }
+
+    if (!rightDrawerEnabled) {
+        [self.mm_drawerController setRightDrawerViewController:nil];
+        [self.navigationItem setRightBarButtonItems:nil animated:NO];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     UITapGestureRecognizer * doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
     [doubleTap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:doubleTap];
-    
+
     UITapGestureRecognizer * twoFingerDoubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerDoubleTap:)];
     [twoFingerDoubleTap setNumberOfTapsRequired:2];
     [twoFingerDoubleTap setNumberOfTouchesRequired:2];
     [self.view addGestureRecognizer:twoFingerDoubleTap];
-    
+
 
     [self setupLeftMenuButton];
     [self setupRightMenuButton];
-    
+
     [self.navigationController.navigationBar setTintColor:[UIColor
                                                            colorWithRed:78.0/255.0
                                                            green:156.0/255.0
                                                            blue:206.0/255.0
                                                            alpha:1.0]];
-    
-    
+
+
     MMLogoView * logo = [[MMLogoView alloc] initWithFrame:CGRectMake(0, 0, 29, 31)];
     [self.navigationItem setTitleView:logo];
     [self.navigationController.view.layer setCornerRadius:10.0f];
-    
-    
+
+
     UIView *backView = [[UIView alloc] init];
     [backView setBackgroundColor:[UIColor colorWithRed:208.0/255.0
                                                  green:208.0/255.0
@@ -144,14 +187,14 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
+
         cell = [[MMCenterTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
-    
+
     UIColor * selectedColor = [UIColor
                                colorWithRed:1.0/255.0
                                green:15.0/255.0
@@ -162,18 +205,18 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                                  green:93.0/255.0
                                  blue:102.0/255.0
                                  alpha:1.0];
-    
+
     switch (indexPath.section) {
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
-             MMDrawerAnimationType animationTypeForSection;
+            MMDrawerAnimationType animationTypeForSection;
             if(indexPath.section == MMCenterViewControllerSectionLeftDrawerAnimation){
                 animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] leftDrawerAnimationType];
             }
             else {
                 animationTypeForSection = [[MMExampleDrawerVisualStateManager sharedManager] rightDrawerAnimationType];
             }
-            
+
             if(animationTypeForSection == indexPath.row){
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                 [cell.textLabel setTextColor:selectedColor];
@@ -201,7 +244,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                 default:
                     break;
             }
-             break;   
+            break;
         }
         case MMCenterViewControllerSectionLeftViewState:{
             [cell.textLabel setText:@"Enabled"];
@@ -230,7 +273,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
         default:
             break;
     }
-    
+
     return cell;
 }
 
@@ -252,9 +295,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 30)];
-    
+
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectInset(containerView.bounds, 14, 0)];
-    
+
     [titleLabel setBackgroundColor:[UIColor clearColor]];
     [titleLabel setText:[tableView.dataSource tableView:tableView titleForHeaderInSection:section]];
     [titleLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
@@ -264,9 +307,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                                              alpha:1.0]];
     [titleLabel setShadowColor:[[UIColor whiteColor] colorWithAlphaComponent:.5]];
     [titleLabel setShadowOffset:CGSizeMake(0, 1)];
-    
+
     [containerView addSubview:titleLabel];
-    
+
     return containerView;
 }
 
@@ -304,7 +347,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                 sideDrawerViewController = self.mm_drawerController.rightDrawerViewController;
                 drawerSide = MMDrawerSideRight;
             }
-            
+
             if(sideDrawerViewController){
                 [self.mm_drawerController
                  closeDrawerAnimated:YES
@@ -328,7 +371,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
                     [self.mm_drawerController setLeftDrawerViewController:vc];
                     [self setupLeftMenuButton];
-                    
+
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
@@ -339,7 +382,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                 [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
-            
+
             break;
         }
         default:

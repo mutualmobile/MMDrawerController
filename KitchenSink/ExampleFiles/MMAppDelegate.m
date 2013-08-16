@@ -29,6 +29,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+static NSString *MMExampleCenterNavigationControllerRestorationKey = @"MMExampleCenterNavigationControllerRestorationKey";
+
 @interface MMAppDelegate ()
 
 @property (nonatomic,strong) MMDrawerController * drawerController;
@@ -38,23 +40,23 @@
 @implementation MMAppDelegate
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
-    
+
     UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
+
     UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
-    
+
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-    [navigationController setRestorationIdentifier:@"MMExampleCenterNavigationControllerRestorationKey"];
-    
+    [navigationController setRestorationIdentifier:MMExampleCenterNavigationControllerRestorationKey];
+
     self.drawerController = [[MMDrawerController alloc]
-                                             initWithCenterViewController:navigationController
-                                             leftDrawerViewController:leftSideDrawerViewController
-                                             rightDrawerViewController:rightSideDrawerViewController];
+                             initWithCenterViewController:navigationController
+                             leftDrawerViewController:leftSideDrawerViewController
+                             rightDrawerViewController:rightSideDrawerViewController];
     [self.drawerController setRestorationIdentifier:@"MMDrawer"];
     [self.drawerController setMaximumRightDrawerWidth:200.0];
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
-    
+
     [self.drawerController
      setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
          MMDrawerControllerDrawerVisualStateBlock block;
@@ -87,7 +89,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -121,7 +123,7 @@
     if([key isEqualToString:@"MMDrawer"]){
         return self.window.rootViewController;
     }
-    else if ([key isEqualToString:@"MMExampleCenterNavigationControllerRestorationKey"]) {
+    else if ([key isEqualToString:MMExampleCenterNavigationControllerRestorationKey]) {
         return ((MMDrawerController *)self.window.rootViewController).centerViewController;
     }
     else if ([key isEqualToString:@"MMExampleLeftSideDrawerController"]){

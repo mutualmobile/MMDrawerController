@@ -58,7 +58,7 @@
 
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
+
     if(section == MMDrawerSectionDrawerWidth)
         return @"Left Drawer Width";
     else

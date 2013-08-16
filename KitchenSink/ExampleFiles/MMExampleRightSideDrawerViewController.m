@@ -55,7 +55,7 @@
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
+
     if(section == MMDrawerSectionDrawerWidth)
         return @"Right Drawer Width";
     else
@@ -73,7 +73,7 @@
             [cell setAccessoryType:UITableViewCellAccessoryNone];
         [cell.textLabel setText:[NSString stringWithFormat:@"Width %d",[self.drawerWidths[indexPath.row] intValue]]];
     }
-    
+
     return cell;
 }
 
