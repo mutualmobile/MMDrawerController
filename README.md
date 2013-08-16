@@ -123,6 +123,12 @@ If you have a contrasting colors between your center view controller and your dr
 To enable a custom status bar, simple set `showsStatusBarBackgroundView` to `YES`. By default, this will draw a black a view underneath the status bar, and adjust your to content to be laid out lower than the status bar. If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
 
 ---
+##Subclassing
+If you plan to subclass `MMDrawerController`, import `MMDrawerController+Subclass.h` into your subclass to access protected methods for `MMDrawerController.` Note that several methods assume and require you to call super, so be sure to follow that convention.
+
+If there is specific functionality you need that is not supported by these methods, please open a Github issue explaining your needs and we can try and find a way to open up methods that can help you out.
+
+---
 ##Bells and Whistles
 A few extras to make your life easier...
 

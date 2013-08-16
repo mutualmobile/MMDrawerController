@@ -25,4 +25,9 @@ Pod::Spec.new do |s|
       ss.source_files = 'MMDrawerController/MMDrawerVisualState.{h,m}'
       ss.dependency 'MMDrawerController/Core'
     end
+    
+  s.subspec 'Subclass' do |ss|
+      ss.source_files = 'MMDrawerController/MMDrawerController+Subclass.h'
+      ss.dependency 'MMDrawerController/Core'
+  end
 end
