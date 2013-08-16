@@ -2,35 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<<<<<<< HEAD
-	<key>IDESourceControlProjectIdentifier</key>
-	<string>6B1C18DF-61CC-4E05-A4EE-4588FE98B88E</string>
-=======
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>4C4E27BF-53C6-43BF-A4EF-1C812D609BDD</string>
->>>>>>> master
+	<string>88813EDE-C4BC-4EAD-BA3F-F5FC71109468</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MMDrawerControllerKitchenSink</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-<<<<<<< HEAD
-		<key>9D026F6F-753B-49DE-9A87-ECAD445BB18F</key>
-=======
-		<key>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</key>
->>>>>>> master
+		<key>C486FB0C-7803-4607-BCA9-799E743ECFBA</key>
 		<string>https://github.com/mutualmobile/MMDrawerController.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>KitchenSink/MMDrawerControllerKitchenSink.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-<<<<<<< HEAD
-		<key>9D026F6F-753B-49DE-9A87-ECAD445BB18F</key>
-=======
-		<key>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</key>
->>>>>>> master
+		<key>C486FB0C-7803-4607-BCA9-799E743ECFBA</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -38,22 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-<<<<<<< HEAD
-	<string>9D026F6F-753B-49DE-9A87-ECAD445BB18F</string>
-=======
-	<string>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</string>
->>>>>>> master
+	<string>C486FB0C-7803-4607-BCA9-799E743ECFBA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-<<<<<<< HEAD
-			<string>9D026F6F-753B-49DE-9A87-ECAD445BB18F</string>
-=======
-			<string>E52E2B19-E9AC-4E28-86DB-511AF3178D5E</string>
->>>>>>> master
+			<string>C486FB0C-7803-4607-BCA9-799E743ECFBA</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MMDrawerController-GitHub</string>
 		</dict>
