@@ -74,4 +74,9 @@
  */
 -(void)setShadowColor:(UIColor *)color forState:(UIControlState)state;
 
+/**
+ If YES, then on iOS 7 the default color for the menu button will be the tint color. YES by default on iOS 7, has no meaning on iOS 6 and below.
+ */
+@property (nonatomic, assign) BOOL useTintColor;
+
 @end

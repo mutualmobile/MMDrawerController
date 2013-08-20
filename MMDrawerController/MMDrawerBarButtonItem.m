@@ -21,6 +21,10 @@
 
 #import "MMDrawerBarButtonItem.h"
 
+static inline BOOL isiOS7() {
+    return [[[UIDevice currentDevice] systemVersion] integerValue] >= 7;
+}
+
 @interface MMDrawerMenuButtonView : UIButton
 @property (nonatomic,strong) UIColor * menuButtonNormalColor;
 @property (nonatomic,strong) UIColor * menuButtonHighlightedColor;
@@ -34,6 +38,8 @@
 -(UIColor *)shadowColorForState:(UIControlState)state;
 -(void)setShadowColor:(UIColor *)color forState:(UIControlState)state;
 
+@property (nonatomic, assign) BOOL useTintColor;
+
 @end
 
 @implementation MMDrawerMenuButtonView
@@ -41,6 +47,7 @@
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if(self){
+        _useTintColor = YES;
         [self setMenuButtonNormalColor:[[UIColor whiteColor] colorWithAlphaComponent:0.9f]];
         [self setMenuButtonHighlightedColor:[UIColor colorWithRed:139.0/255.0
                                                             green:135.0/255.0
@@ -52,6 +59,17 @@
     }
     return self;
 }
+
+#ifdef __IPHONE_7_0
+- (void)tintColorDidChange
+{
+    if (self.useTintColor && isiOS7()) {
+        [self setMenuButtonNormalColor:self.tintColor];
+        [self setShadowNormalColor:[UIColor clearColor]];
+        [self setShadowHighlightedColor:[UIColor clearColor]];
+    }
+}
+#endif
 
 -(UIColor *)menuButtonColorForState:(UIControlState)state{
     UIColor * color;
@@ -214,6 +232,14 @@
 
 -(void)setShadowColor:(UIColor *)color forState:(UIControlState)state{
     [self.buttonView setShadowColor:color forState:state];
+}
+
+- (BOOL)useTintColor{
+    return self.buttonView.useTintColor;
+}
+
+- (void)setUseTintColor:(BOOL)useTintColor{
+    self.buttonView.useTintColor = useTintColor;
 }
 
 @end
