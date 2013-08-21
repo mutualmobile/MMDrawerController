@@ -211,11 +211,15 @@
 }
 
 - (void)setTintColor:(UIColor *)tintColor{
-    if([super respondsToSelector:@selector(tintColor:)]){
+    if([super respondsToSelector:@selector(setTintColor:)]){
         [super setTintColor:tintColor];
     }
-    [self setNeedsDisplay];
 }
+
+- (void)tintColorDidChange{
+     [self setNeedsDisplay];
+}
+
 @end
 
 @interface MMDrawerBarButtonItem ()
@@ -249,6 +253,15 @@
 
 -(void)setShadowColor:(UIColor *)color forState:(UIControlState)state{
     [self.buttonView setShadowColor:color forState:state];
+}
+
+- (void)setTintColor:(UIColor *)tintColor{
+    if([super respondsToSelector:@selector(setTintColor:)]){
+        [super setTintColor:tintColor];
+    }
+    if([self.buttonView respondsToSelector:@selector(setTintColor:)]){
+        [self.buttonView setTintColor:tintColor];
+    }
 }
 
 @end
