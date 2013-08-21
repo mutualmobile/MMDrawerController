@@ -21,10 +21,6 @@
 
 #import "MMDrawerBarButtonItem.h"
 
-static inline BOOL isiOS7() {
-    return [[[UIDevice currentDevice] systemVersion] integerValue] >= 7;
-}
-
 @interface MMDrawerMenuButtonView : UIButton
 @property (nonatomic,strong) UIColor * menuButtonNormalColor;
 @property (nonatomic,strong) UIColor * menuButtonHighlightedColor;
@@ -63,7 +59,7 @@ static inline BOOL isiOS7() {
 #ifdef __IPHONE_7_0
 - (void)tintColorDidChange
 {
-    if (self.useTintColor && isiOS7()) {
+    if (self.useTintColor) {
         [self setMenuButtonNormalColor:self.tintColor];
         [self setShadowNormalColor:[UIColor clearColor]];
         [self setShadowHighlightedColor:[UIColor clearColor]];
