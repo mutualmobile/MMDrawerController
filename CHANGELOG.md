@@ -1,8 +1,22 @@
 #MMDrawerController Changelog
 
+##[0.4.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=8&page=1&state=closed) (Monday, August 19, 2013)
+###New
+* **State Restoration Support** - `MMDrawerController` now supports state restoration, and will save the state of the open side as well. Consult the [documentation](https://github.com/mutualmobile/MMDrawerController#state-restoration) for more information. ([#69](https://github.com/mutualmobile/MMDrawerController/pull/69)). (Kevin Harwood, djibouti33)
+* **Better Subclass Support** - `MMDrawerController` now contains an additional Subclass header file, to allow subclasses to access protected methods of the framework. Please consult the [documentation](https://github.com/mutualmobile/MMDrawerController#subclassing) for additional details on how to properly subclass `MMDrawerController`. ([#37](https://github.com/mutualmobile/MMDrawerController/pull/37)). (Lars Anderson)
+* **initWithCoder: Support** - `MMDrawerController` now implements `initWithCoder:`, making it easier to integrate with a storyboard. Looks for an official extension from @TomSwift providing storyboard integration. ([#81](https://github.com/mutualmobile/MMDrawerController/pull/81)). (Tom Swift)
+* **Improved parent drawer controller detection** - `mm_drawerController` will now walk up the entire view controller stack looking for the parent, making it easier to access the drawer controller from any child view controller in the hierarchy. ([#70](https://github.com/mutualmobile/MMDrawerController/pull/70)). (messi)
+
+###Fixed
+* **FIXED** an issue ([#66](https://github.com/mutualmobile/MMDrawerController/pull/66)) where you would get unbalanced begin/end appearance transitions when using a non-animated `setCenterViewController:...` method. (Kevin Harwood, jsankey)
+* **FIXED** an issue ([#63](https://github.com/mutualmobile/MMDrawerController/pull/63)) where the visual state block received invalid transform values. (Kevin Harwood)
+* **FIXED** an issue ([#71](https://github.com/mutualmobile/MMDrawerController/pull/71)) where the side drawer could become blank if you called the `closeDrawerAnimated:...` while the drawer was closing. (Kevin Harwood, Bryan Wang)
+* **FIXED** an issue ([#80](https://github.com/mutualmobile/MMDrawerController/pull/80)) where the block parameters were not named appropriately. (Kevin Harwood, Joao Nunes) 
+
 ##[0.3.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=6&page=1&state=closed) (Monday, July 22nd, 2013)
 ###New
 * Added a block to determine if a gesture should be recognized, giving the implementer a chance to define where a gesture should be recognized within their views. Please consult the [README](https://github.com/mutualmobile/mmdrawercontroller#custom-gesture-recognizer-support) for additional details. ([#25](https://github.com/mutualmobile/MMDrawerController/pull/25)). (Kevin Harwood)
+
 ###Fixed
 * **FIXED** an issue ([#56](https://github.com/mutualmobile/MMDrawerController/pull/56)) where the bezel gesture would be detected even if there was no drawer controller on that side. (Kevin Harwood)
 * **FIXED** an issue ([#50](https://github.com/mutualmobile/MMDrawerController/pull/50)) where a subclass could get stuck in an infinite loop in the `init` method. (Tuan Cao)
