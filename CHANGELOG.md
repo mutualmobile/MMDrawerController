@@ -1,5 +1,16 @@
 #MMDrawerController Changelog
 
+##0.5.0 (Tuesday, September 17, 2013)
+###New
+* **iOS 7 Support** - Compiled to work with iOS 7
+* **iOS 7 Status Bar Support** - Now includes a feature to drawer an iOS 6 style status bar, allowing your drawer animations to not impact the status bar area. Consult the README or the documentation for further information.
+* **MMDrawerBarButtonItem Design** - Now designed to fit in with the iOS 7 aesthetic.
+* **MMDrawerBarButtonItem TintColor** - Now uses tintColor in iOS 7.
+* Example project now runs in both iOS 6 and iOS 7 with two different visual designs.
+
+###Known Issues
+* iOS 7 animations transforms are a bit choppy. This issue requires further investigation, and is being tracked [here](https://github.com/mutualmobile/MMDrawerController/issues/101).
+
 ##[0.4.0](https://github.com/mutualmobile/MMDrawerController/issues?milestone=8&page=1&state=closed) (Monday, August 19, 2013)
 ###New
 * **State Restoration Support** - `MMDrawerController` now supports state restoration, and will save the state of the open side as well. Consult the [documentation](https://github.com/mutualmobile/MMDrawerController#state-restoration) for more information. ([#69](https://github.com/mutualmobile/MMDrawerController/pull/69)). (Kevin Harwood, djibouti33)
