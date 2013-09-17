@@ -15,7 +15,5 @@
 
 
 static BOOL OSVersionIsAtLeastiOS7() {
-    NSArray *sysVersion = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    float majorVersion = [[sysVersion objectAtIndex:0] floatValue];
-    return (majorVersion >= 7);
+    return (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1);
 }
