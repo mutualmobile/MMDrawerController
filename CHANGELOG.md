@@ -1,5 +1,9 @@
 #MMDrawerController Changelog
 
+##0.5.1 (Wednesday, September 18, 2013)
+###Fixed
+* **FIXED** an issue ([#110](https://github.com/mutualmobile/MMDrawerController/pull/110)) where you could not compile for iOS 6 using Xcode 4.6.3.
+
 ##0.5.0 (Tuesday, September 17, 2013)
 ###New
 * **iOS 7 Support** - Compiled to work with iOS 7
