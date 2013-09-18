@@ -978,8 +978,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)setNeedsStatusBarAppearanceUpdateIfSupported{
-    if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]){
-        [self setNeedsStatusBarAppearanceUpdate];
+    SEL selector = @selector(setNeedsStatusBarAppearanceUpdate);
+    if ([self respondsToSelector:selector]){
+        [self performSelector:selector];
     }
 }
 
