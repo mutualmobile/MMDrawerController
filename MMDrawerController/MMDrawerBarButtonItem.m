@@ -248,7 +248,7 @@
     }
     else {
         MMDrawerMenuButtonView * buttonView = [[MMDrawerMenuButtonView alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
-        [buttonView addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+        [buttonView addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         self = [self initWithCustomView:buttonView];
         if(self){
             [self setButtonView:buttonView];
