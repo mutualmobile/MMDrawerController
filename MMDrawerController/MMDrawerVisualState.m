@@ -58,7 +58,7 @@
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
         UIViewController * sideDrawerViewController;
-        CGPoint anchorPoint = CGPointMake(0.5, 0.5);
+        CGPoint anchorPoint;
         CGFloat maxDrawerWidth = 0.0;
         CGFloat xOffset;
         CGFloat angle = 0.0;
