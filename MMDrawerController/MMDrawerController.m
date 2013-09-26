@@ -111,6 +111,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         }
         else {
             navBar = [self navigationBarContainedWithinSubviewsOfView:subview];
+            if (navBar != nil) {
+                break;
+            }
         }
     }
     return navBar;
