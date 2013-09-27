@@ -172,23 +172,23 @@
     [self setNeedsDisplay];
 }
 
-- (void)setSelected:(BOOL)selected{
+-(void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     [self setNeedsDisplay];
 }
 
-- (void)setHighlighted:(BOOL)highlighted{
+-(void)setHighlighted:(BOOL)highlighted{
     [super setHighlighted:highlighted];
     [self setNeedsDisplay];
 }
 
-- (void)setTintColor:(UIColor *)tintColor{
+-(void)setTintColor:(UIColor *)tintColor{
     if([super respondsToSelector:@selector(setTintColor:)]){
         [super setTintColor:tintColor];
     }
 }
 
-- (void)tintColorDidChange{
+-(void)tintColorDidChange{
      [self setNeedsDisplay];
 }
 
@@ -201,9 +201,9 @@
 
 @implementation MMDrawerBarButtonItem
 
-+ (UIImage*) drawerButtonItemImage{
++(UIImage*)drawerButtonItemImage{
     
-    static UIImage* drawerButtonImage = nil;
+    static UIImage *drawerButtonImage = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
 
@@ -240,11 +240,11 @@
 
 -(id)initWithTarget:(id)target action:(SEL)action{
     
-    if ( [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ){
-        return [self initWithImage: [self.class drawerButtonItemImage]
-                             style: UIBarButtonItemStylePlain
-                            target: target
-                            action: action];
+    if((floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)){
+        return [self initWithImage:[self.class drawerButtonItemImage]
+                             style:UIBarButtonItemStylePlain
+                            target:target
+                            action:action];
     }
     else {
         MMDrawerMenuButtonView * buttonView = [[MMDrawerMenuButtonView alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
@@ -260,20 +260,16 @@
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
-    
     // non-ideal way to get the target/action, but it works
-    UIBarButtonItem* bbi = [[UIBarButtonItem alloc] initWithCoder: aDecoder];
-    
-    return [self initWithTarget: bbi.target action: bbi.action];
+    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCoder: aDecoder];
+    return [self initWithTarget:barButtonItem.target action:barButtonItem.action];
 }
 
 -(void)touchUpInside:(id)sender{
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    
-    [self.target performSelector: self.action withObject: self];
-    
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"    
+    [self.target performSelector:self.action withObject:sender];
 #pragma clang diagnostic pop;
     
 }
@@ -294,7 +290,7 @@
     [self.buttonView setShadowColor:color forState:state];
 }
 
-- (void)setTintColor:(UIColor *)tintColor{
+-(void)setTintColor:(UIColor *)tintColor{
     if([super respondsToSelector:@selector(setTintColor:)]){
         [super setTintColor:tintColor];
     }
