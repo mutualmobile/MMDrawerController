@@ -1200,6 +1200,10 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     return shouldReceiveTouch;
 }
 
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
 #pragma mark Gesture Recogizner Delegate Helpers
 -(MMCloseDrawerGestureMode)possibleCloseGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
     CGPoint point = [touch locationInView:self.childControllerContainerView];
