@@ -921,8 +921,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CGPoint translatedPoint = [panGesture translationInView:self.centerContainerView];
             newFrame.origin.x = [self roundedOriginXForDrawerConstriants:CGRectGetMinX(self.startingPanRect)+translatedPoint.x];
             newFrame = CGRectIntegral(newFrame);
-            CGFloat xOffset = newFrame.origin.x;
             
+            // Disable drawer gesture if gesture has moved more in vertical than horizontal direction
+            if (fabs(translatedPoint.x) < fabs(translatedPoint.y)) {
+                newFrame.origin.x = 0;
+            }
+            
+            CGFloat xOffset = newFrame.origin.x;
+
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
             if(xOffset > 0){
