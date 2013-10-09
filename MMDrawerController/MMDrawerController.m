@@ -1009,7 +1009,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         else if(currentOriginX < midPoint){
             [self closeDrawerAnimated:YES completion:completion];
         }
-        else {
+        else if (self.openSide == MMDrawerSideNone) {
             [self openDrawerSide:MMDrawerSideLeft animated:YES completion:completion];
         }
     }
