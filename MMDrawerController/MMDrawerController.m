@@ -924,7 +924,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             
             // Disable drawer gesture if gesture has moved more in vertical than horizontal direction
             if (fabs(translatedPoint.x) < fabs(translatedPoint.y)) {
-                newFrame.origin.x = 0;
+                newFrame.origin.x = self.startingPanRect.origin.x;
             }
             
             CGFloat xOffset = newFrame.origin.x;
