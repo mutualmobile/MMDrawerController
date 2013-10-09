@@ -1117,6 +1117,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 #pragma mark - Helpers
 -(void)setupGestureRecognizers{
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureCallback:)];
+    pan.cancelsTouchesInView = NO;
     [pan setDelegate:self];
     [self.view addGestureRecognizer:pan];
     
