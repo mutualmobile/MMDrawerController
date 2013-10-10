@@ -291,7 +291,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Sets the new `centerViewController`. 
  
- This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeAnimated` is YES, it will immediately change the center view controller, and close the drawer from its current position.
+ This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeAnimated` is YES, it will immediately change the center view controller, and close the drawer from its current position.  If the drawer is not currently open then the behaviour is like `animated:NO` in that appearance transition methods like `viewWillAppear` will receive `NO` for their `animated` arguments.
  
  @param centerViewController The new `centerViewController`.
  @param closeAnimated Determines whether the drawer should be closed with an animation.
@@ -303,7 +303,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Sets the new `centerViewController`. 
  
- This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeFullAnimated` is YES, the current center view controller will animate off the screen, the new center view controller will then be set, followed by the drawer closing across the full width of the screen.
+ This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeFullAnimated` is YES, the current center view controller will animate off the screen, the new center view controller will then be set, followed by the drawer closing across the full width of the screen. If the drawer is not currently open then the behaviour is like `animated:NO` in that appearance transition methods like `viewWillAppear` will receive `NO` for their `animated` arguments.
  
  @param newCenterViewController The new `centerViewController`.
  @param fullCloseAnimated Determines whether the drawer should be closed with an animation.
