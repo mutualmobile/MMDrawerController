@@ -409,16 +409,21 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 {
     UIViewController *oldCenterViewController = self.centerViewController;
 
+    // We don't want to call appearence transitions if this container isn't visible, especially during launch and also if the container has been removed
+    BOOL containerIsVisible = self.isViewLoaded && self.view.window;
+    
     // Invoke viewDidLoad
     UIView *v = newCenterViewController.view;
     v = nil;
     
     // Begin appearance transitions...
-    if(oldCenterViewController){
+    if(oldCenterViewController && containerIsVisible){
         [oldCenterViewController beginAppearanceTransition:NO animated:NO];
         [oldCenterViewController willMoveToParentViewController:nil];
     }
-    [newCenterViewController beginAppearanceTransition:YES animated:NO];
+    if (containerIsVisible) {
+        [newCenterViewController beginAppearanceTransition:YES animated:NO];
+    }
     
     // Swap out the Center VC
     [self assignNewCenterViewController:newCenterViewController];
@@ -426,10 +431,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     
     // Appearance transition for the new VC
     [newCenterViewController didMoveToParentViewController:self];
-    if(oldCenterViewController){
+    if(oldCenterViewController && containerIsVisible){
         [oldCenterViewController endAppearanceTransition];
     }
-    [newCenterViewController endAppearanceTransition];
+    if (containerIsVisible) {
+        [newCenterViewController endAppearanceTransition];
+    }
 }
 
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withCloseAnimation:(BOOL)animated completion:(void(^)(BOOL finished))completion{
@@ -437,6 +444,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     // If the drawer isn't open we'll act like animated was NO
     // Even though we could handle this generically wrt animation, we only want appearance transitions to signal `animated:YES` if we've actually done an animation.  This is important in keeping this method in sync with how the FullCloseAnimation version works below
     animated = animated && (self.openSide != MMDrawerSideNone);
+
+    // We don't want to call appearence transitions if this container isn't visible, especially during launch and also if the container has been removed
+    BOOL containerIsVisible = self.isViewLoaded && self.view.window;
     
     if(animated){
         
@@ -447,7 +457,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         v = nil;
         
         // Begin appearance transitions...
-        if(oldCenterViewController){
+        if(oldCenterViewController && containerIsVisible){
             [oldCenterViewController beginAppearanceTransition:NO animated:animated];
             [oldCenterViewController willMoveToParentViewController:nil];
         }
@@ -465,10 +475,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              // Appearance transition for the new VC
              [newCenterViewController didMoveToParentViewController:self];
 
-             if(oldCenterViewController){
+             if(oldCenterViewController && containerIsVisible){
                  [oldCenterViewController endAppearanceTransition];
              }
-             [newCenterViewController endAppearanceTransition];
+             if (containerIsVisible) {
+                 [newCenterViewController endAppearanceTransition];
+             }
              
              // Completion hook
              if(completion){
@@ -495,6 +507,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     // If the drawer isn't open we'll act like animated was NO
     animated = animated && (self.openSide != MMDrawerSideNone);
 
+    // We don't want to call appearence transitions if this container isn't visible, especially during launch and also if the container has been removed
+    BOOL containerIsVisible = self.isViewLoaded && self.view.window;
+    
     // Note, if the drawer isn't open we'll act like animated was NO
     if(animated){
         
@@ -518,7 +533,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         
         CGRect newCenterRect = self.centerContainerView.frame;
         
-        [oldCenterViewController beginAppearanceTransition:NO animated:YES];
+        if (containerIsVisible) {
+            [oldCenterViewController beginAppearanceTransition:NO animated:YES];
+        }
         [oldCenterViewController willMoveToParentViewController:nil];
         newCenterRect.origin.x = targetClosePoint;
         [UIView
@@ -536,8 +553,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              [oldCenterViewController endAppearanceTransition];
              [self.centerContainerView setFrame:oldCenterRect];
              [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
-             [newCenterViewController beginAppearanceTransition:YES animated:YES];
-             [sideDrawerViewController beginAppearanceTransition:NO animated:YES];
+             if (containerIsVisible) {
+                 [newCenterViewController beginAppearanceTransition:YES animated:YES];
+                 [sideDrawerViewController beginAppearanceTransition:NO animated:YES];
+             }
             [UIView
              animateWithDuration:[self animationDurationForAnimationDistance:CGRectGetWidth(self.childControllerContainerView.bounds)]
              delay:MMDrawerDefaultFullAnimationDelay
@@ -547,9 +566,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
              }
              completion:^(BOOL finished) {
-                 [newCenterViewController endAppearanceTransition];
+                 if (containerIsVisible) {
+                     [newCenterViewController endAppearanceTransition];
+                 }
                  [newCenterViewController didMoveToParentViewController:self];
-                 [sideDrawerViewController endAppearanceTransition];
+                 if (containerIsVisible) {
+                     [sideDrawerViewController endAppearanceTransition];
+                 }
                  [self resetDrawerVisualStateForDrawerSide:self.openSide];
 
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
