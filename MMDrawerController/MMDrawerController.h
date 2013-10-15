@@ -411,3 +411,17 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
 
 @end
+
+/**
+ Intended to be implemented by center and side controllers to support certain features e.g. status bar background color tweening.
+ */
+
+@protocol MMDrawerViewControllerProtocol <NSObject>
+@optional
+/**
+ Implement this method on your center and side view controllers to support tweening between status-bar background colors in iOS7.  showsStatusBarBackgroundView must be TRUE on the drawer controller.  If your content controllers are held in a container controller (UINavigationController/UITabBarController) it is your responsibility to forward the method to the visible content controller.
+ 
+ @return the UIColor to paint behind the status bar when this view controller is visible.
+ */
+-(UIColor*)preferredStatusBarBackgroundColor;
+@end

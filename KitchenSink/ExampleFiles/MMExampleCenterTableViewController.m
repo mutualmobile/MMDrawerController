@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     MMCenterViewControllerSectionLeftDrawerAnimation,
     MMCenterViewControllerSectionRightViewState,
     MMCenterViewControllerSectionRightDrawerAnimation,
+    MMCenterViewControllerSectionStatusBarOptions
 };
 
 @interface MMExampleCenterTableViewController ()
@@ -145,7 +146,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -157,6 +158,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             return 5;
         case MMCenterViewControllerSectionLeftViewState:
         case MMCenterViewControllerSectionRightViewState:
+            return 1;
+        case MMCenterViewControllerSectionStatusBarOptions:
             return 1;
         default:
             return 0;
@@ -249,6 +252,18 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             }
             break;
         }
+        case MMCenterViewControllerSectionStatusBarOptions:{
+            [cell.textLabel setText:@"iOS7 Status Bar Background View"];
+            if(self.mm_drawerController.showsStatusBarBackgroundView){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:selectedColor];
+            }
+            else{
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:unselectedColor];
+            }
+            break;
+        }
         default:
             break;
     }
@@ -266,6 +281,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             return @"Left Drawer";
         case MMCenterViewControllerSectionRightViewState:
             return @"Right Drawer";
+        case MMCenterViewControllerSectionStatusBarOptions:
+            return @"Status Bar";
         default:
             return nil;
             break;
@@ -339,6 +356,11 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
             
+            break;
+        }
+        case MMCenterViewControllerSectionStatusBarOptions:{
+            self.mm_drawerController.showsStatusBarBackgroundView = !self.mm_drawerController.showsStatusBarBackgroundView;
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
         }
         default:

@@ -22,7 +22,7 @@
 #import "MMExampleLeftSideDrawerViewController.h"
 #import "MMTableViewCell.h"
 
-@interface MMExampleLeftSideDrawerViewController ()
+@interface MMExampleLeftSideDrawerViewController () <MMDrawerViewControllerProtocol>
 
 @end
 
@@ -34,6 +34,10 @@
         [self setRestorationIdentifier:@"MMExampleLeftSideDrawerController"];
     }
     return self;
+}
+
+-(UIColor*)preferredStatusBarBackgroundColor{
+    return [UIColor grayColor];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
