@@ -56,6 +56,7 @@
                             leftDrawerViewController:leftSideNavController
                             rightDrawerViewController:rightSideNavController];
         [self.drawerController setShowsShadow:NO];
+        [self.drawerController setFadeStatusBarBackgroundView:YES];
     }
     else{
          self.drawerController = [[MMDrawerController alloc]

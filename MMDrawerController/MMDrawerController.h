@@ -214,6 +214,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
 
+/**
+ The flag determining if status bar background view should fade out(alpha 0) when a side drawer is close. If this flag is set to YES, it will change 'showsStatusBarBackgroundView' to YES. This property is only available when 'showsStatusBarBackgroundView' can be set to YES or igonred.
+ 
+ By default, this is set to NO..
+ */
+@property (nonatomic, assign) BOOL fadeStatusBarBackgroundView;
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
