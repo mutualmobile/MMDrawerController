@@ -1188,6 +1188,10 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     
     BOOL shouldReceiveTouch = NO;
     if(self.openSide == MMDrawerSideNone){
+        //This is a hack to avoid conflicting gesture recognition at SShelfController - itemsBuilder's swipeGesture
+        if (touch.view.tag == ktagOverridesMMDrawerGesture) {
+            return NO;
+        }
         MMOpenDrawerGestureMode possibleOpenGestureModes = [self possibleOpenGestureModesForGestureRecognizer:gestureRecognizer
                                                                                                     withTouch:touch];
         return ((self.openDrawerGestureModeMask & possibleOpenGestureModes)>0);
