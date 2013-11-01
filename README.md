@@ -141,7 +141,7 @@ Using Paint Code, we created a standard Menu Button that you can use in any `UIN
 Starting with iOS 7, the drawer button is now drawn in a much thinner stroke. In addition, the color methods have been deprecated, and the color will now be determined by the `tintColor.` Also note that the shadow has been deprecated to be more in line with the design themes of the OS.
 
 ###Prebuilt Example Animations
-In order to make it as easy as possible for you to use this library, we built some of the common animations we see out there today. Simply include the `MMDrawerVisualState` subspec, and use any of the prebuilt visual states.
+In order to make it as easy as possible for you to use this library, we built some of the common animations we see out there today. Simply include the `MMDrawerVisualStates` subspec, and use any of the prebuilt visual states.
 
 For example, if you wanted to use a slide and scale animation, you would do the following:
 
