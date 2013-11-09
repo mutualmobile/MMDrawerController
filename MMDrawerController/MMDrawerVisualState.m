@@ -68,14 +68,14 @@
             sideDrawerViewController = drawerController.leftDrawerViewController;
             anchorPoint =  CGPointMake(1.0, .5);
             maxDrawerWidth = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
-            xOffset = -(maxDrawerWidth/2.0) + (maxDrawerWidth)*percentVisible;
+            xOffset = -(maxDrawerWidth/2.0)/percentVisible + (maxDrawerWidth)*percentVisible;
             angle = -M_PI_2+(percentVisible*M_PI_2);
         }
         else {
             sideDrawerViewController = drawerController.rightDrawerViewController;
             anchorPoint = CGPointMake(0.0, .5);
             maxDrawerWidth = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
-            xOffset = (maxDrawerWidth/2.0) - (maxDrawerWidth)*percentVisible;
+            xOffset = (maxDrawerWidth/2.0)/percentVisible - (maxDrawerWidth)*percentVisible;
             angle = M_PI_2-(percentVisible*M_PI_2);
         }
         
@@ -104,7 +104,7 @@
                 scalingModifier = -1.f;
             }
             
-            overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*maxDrawerWidth/2, 0.f, 0.f);
+            overshootTransform = CATransform3DTranslate(overshootTransform, scalingModifier*maxDrawerWidth/(2*percentVisible), 0.f, 0.f);
             swingingDoorTransform = overshootTransform;
         }
         
@@ -127,7 +127,7 @@
             }
             else{
                 transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/(2*percentVisible), 0.f, 0.f);
             }
         }
         else if(drawerSide == MMDrawerSideRight){
@@ -138,7 +138,7 @@
             }
             else{
                 transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/(2*percentVisible), 0.f, 0.f);
             }
         }
         
