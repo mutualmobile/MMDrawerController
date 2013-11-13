@@ -330,6 +330,19 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         [self setAnimatingDrawer:animated];
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
         CGRect visibleRect = CGRectIntersection(self.childControllerContainerView.bounds,sideDrawerViewController.view.frame);
+        
+        // Quickfix of strange issue where left drawer gets blank
+        // https://github.com/mutualmobile/MMDrawerController/issues/30
+        // For some reason self.centerContainerView.frame.origin.x is sometimes being set to 0.5
+        // at the end of close animation. This causes drawerFullyCovered to be incorrectly set to false.
+        // Note: This is just a quickfix. The actual reason of why origin.x is being set to 0.5 in
+        // the first place should be investigated and corrected in a future version.
+        CGRect centerContainerViewFrame = self.centerContainerView.frame;
+        if (centerContainerViewFrame.origin.x == 0.5) {
+            centerContainerViewFrame.origin.x = 0;
+            self.centerContainerView.frame = centerContainerViewFrame;
+        }
+        
         BOOL drawerFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleRect) ||
                                    CGRectIsNull(visibleRect));
         if(drawerFullyCovered){
