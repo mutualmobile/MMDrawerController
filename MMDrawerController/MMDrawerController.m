@@ -1167,7 +1167,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 	if (self.showsShadow) {
 		centerView.layer.masksToBounds = NO;
 		centerView.layer.shadowRadius = self.shadowRadius;
-		centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
+		centerView.layer.shadowOpacity = self.shadowOpacity;
 		centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
 	}
 	else {
