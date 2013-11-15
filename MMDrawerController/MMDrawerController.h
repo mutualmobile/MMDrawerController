@@ -200,7 +200,19 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, assign) BOOL showsShadow;
 
+/**
+ Property determining the shadow radius in points.
+ 
+ The default value is 10.0.
+ */
 @property (nonatomic, assign) CGFloat shadowRadius;
+
+/**
+ Property determining the opacity of the shadow.
+ 
+ This value can be ranged between 0 to 1. The default is 0.8.
+ */
+@property (nonatomic, assign) CGFloat shadowOpacity;
 
 /**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.

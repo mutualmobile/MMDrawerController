@@ -193,6 +193,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 	_centerHiddenInteractionMode = MMDrawerOpenCenterInteractionModeNavigationBarOnly;
 
 	_shadowRadius = MMDrawerDefaultShadowRadius;
+    _shadowOpacity = MMDrawerDefaultShadowOpacity;
 }
 
 #pragma mark - State Restoration
@@ -795,6 +796,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 		_shadowRadius = shadowRadius;
 		[self updateShadowForCenterView];
 	}
+}
+
+- (void)setShadowOpacity:(CGFloat)shadowOpacity {
+    if (_shadowOpacity != shadowOpacity) {
+        _shadowOpacity = shadowOpacity;
+		[self updateShadowForCenterView];
+    }
 }
 
 - (void)setOpenSide:(MMDrawerSide)openSide {
