@@ -1186,12 +1186,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     
-    BOOL shouldReceiveTouch = NO;
     if(self.openSide == MMDrawerSideNone){
-        //This is a hack to avoid conflicting gesture recognition at SShelfController - itemsBuilder's swipeGesture
-        if (touch.view.tag == ktagOverridesMMDrawerGesture) {
-            return NO;
-        }
         MMOpenDrawerGestureMode possibleOpenGestureModes = [self possibleOpenGestureModesForGestureRecognizer:gestureRecognizer
                                                                                                     withTouch:touch];
         return ((self.openDrawerGestureModeMask & possibleOpenGestureModes)>0);
@@ -1201,7 +1196,6 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                                                                                                        withTouch:touch];
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
-    return shouldReceiveTouch;
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
