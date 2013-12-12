@@ -28,6 +28,7 @@
 #import "MMExampleLeftSideDrawerViewController.h"
 #import "MMExampleRightSideDrawerViewController.h"
 #import "MMNavigationController.h"
+#import "MMOSVersion.h"
 
 #import <QuartzCore/QuartzCore.h>
 

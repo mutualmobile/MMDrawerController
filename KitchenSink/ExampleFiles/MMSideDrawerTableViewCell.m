@@ -20,6 +20,7 @@
 
 
 #import "MMSideDrawerTableViewCell.h"
+#import "MMOSVersion.h"
 
 @implementation MMSideDrawerTableViewCell
 

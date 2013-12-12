@@ -91,6 +91,7 @@
 		29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
+		791908B4185A21F900131C6E /* MMOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMOSVersion.h; path = ExampleFiles/MMOSVersion.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +112,7 @@
 		294A1D0417199537005BF6B1 = {
 			isa = PBXGroup;
 			children = (
+				791908B4185A21F900131C6E /* MMOSVersion.h */,
 				294A1D2D17199819005BF6B1 /* MMDrawerController */,
 				294A1D1617199537005BF6B1 /* ExampleFiles */,
 				294A1D0F17199537005BF6B1 /* Frameworks */,
