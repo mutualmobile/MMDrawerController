@@ -489,7 +489,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self.centerContainerView setFrame:self.childControllerContainerView.bounds];
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
              }
-             completion:^(BOOL finished) {
+             completion:^(BOOL finished2) {
                  [self.centerViewController endAppearanceTransition];
                  [self.centerViewController didMoveToParentViewController:self];
                  [sideDrawerViewController endAppearanceTransition];
@@ -500,7 +500,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self setOpenSide:MMDrawerSideNone];
                  
                  if(completion){
-                     completion(finished);
+                     completion(finished2);
                  }
              }];
          }];
