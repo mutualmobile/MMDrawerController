@@ -335,7 +335,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         [self setAnimatingDrawer:animated];
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
         CGRect visibleRect = CGRectIntersection(self.childControllerContainerView.bounds,sideDrawerViewController.view.frame);
-        
+
         // Quickfix of strange issue where left drawer gets blank
         // https://github.com/mutualmobile/MMDrawerController/issues/30
         // For some reason self.centerContainerView.frame.origin.x is sometimes being set to 0.5
@@ -347,13 +347,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             centerContainerViewFrame.origin.x = 0;
             self.centerContainerView.frame = centerContainerViewFrame;
         }
-        
+
         BOOL drawerFullyCovered = (CGRectContainsRect(self.centerContainerView.frame, visibleRect) ||
                                    CGRectIsNull(visibleRect));
         if(drawerFullyCovered){
             [self prepareToPresentDrawer:drawerSide animated:animated];
         }
-        
+
         if(sideDrawerViewController){
             CGRect newFrame;
             CGRect oldFrame = self.centerContainerView.frame;
@@ -365,10 +365,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                 newFrame = self.centerContainerView.frame;
                 newFrame.origin.x = 0-self.maximumRightDrawerWidth;
             }
-            
+
             CGFloat distance = ABS(CGRectGetMinX(oldFrame)-newFrame.origin.x);
             NSTimeInterval duration = MAX(distance/ABS(velocity),MMDrawerMinimumAnimationDuration);
-            
+
             [UIView
              animateWithDuration:(animated?duration:0.0)
              delay:0.0
@@ -514,9 +514,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self resetDrawerVisualStateForDrawerSide:self.openSide];
 
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
-                 
+
                  [self setOpenSide:MMDrawerSideNone];
-                 
+
                  if(completion){
                      completion(finished2);
                  }
@@ -1186,7 +1186,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 		centerView.layer.masksToBounds = YES;
 		centerView.layer.shadowRadius = 0;
 		centerView.layer.shadowOpacity = 0;
-		centerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectNull].CGPath;
+		centerView.layer.shadowPath = [UIBezierPath bezierPath].CGPath;
 	}
 }
 
