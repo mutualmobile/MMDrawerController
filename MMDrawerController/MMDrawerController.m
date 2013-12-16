@@ -852,8 +852,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 			_showsStatusBarBackgroundView = showsDummyStatusBar;
 			CGRect frame = self.childControllerContainerView.frame;
 			if (_showsStatusBarBackgroundView) {
-				frame.origin.y = 20;
-				frame.size.height = CGRectGetHeight(self.view.bounds) - 20;
+				if (_fadeStatusBarBackgroundView) {
+                    frame.origin.y = 0;
+                    frame.size.height = CGRectGetHeight(self.view.bounds);
+                    [self.dummyStatusBarView setAlpha:0];
+                } else {
+                    frame.origin.y = 20;
+                    frame.size.height = CGRectGetHeight(self.view.bounds)-20;
+                }
 			}
 			else {
 				frame.origin.y = 0;
@@ -871,6 +877,30 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 - (void)setStatusBarViewBackgroundColor:(UIColor *)dummyStatusBarColor {
 	_statusBarViewBackgroundColor = dummyStatusBarColor;
 	[self.dummyStatusBarView setBackgroundColor:_statusBarViewBackgroundColor];
+}
+
+-(void)setFadeStatusBarBackgroundView:(BOOL)fadeStatusBarBackgroundView{
+    if(fadeStatusBarBackgroundView!=_fadeStatusBarBackgroundView){
+        _fadeStatusBarBackgroundView = fadeStatusBarBackgroundView;
+        CGRect frame = self.childControllerContainerView.frame;
+        if (_fadeStatusBarBackgroundView) {
+            if (_showsStatusBarBackgroundView) {
+                frame.origin.y = 0;
+                frame.size.height = CGRectGetHeight(self.view.bounds);
+                [self.dummyStatusBarView setAlpha:0];
+                [self.childControllerContainerView setFrame:frame];
+            } else {
+                [self setShowsStatusBarBackgroundView:YES];
+            }
+        } else {
+            if (_showsStatusBarBackgroundView) {
+                frame.origin.y = 20;
+                frame.size.height = CGRectGetHeight(self.view.bounds)-20;
+                [self.dummyStatusBarView setAlpha:1];
+                [self.childControllerContainerView setFrame:frame];
+            }
+        }
+    }
 }
 
 #pragma mark - Getters
@@ -1066,13 +1096,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 	}
 }
 
-- (void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible {
-	if (self.drawerVisualState) {
-		self.drawerVisualState(self, drawerSide, percentVisible);
-	}
-	else if (self.shouldStretchDrawer) {
-		[self applyOvershootScaleTransformForDrawerSide:drawerSide percentVisible:percentVisible];
-	}
+-(void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
+    if(self.drawerVisualState){
+        self.drawerVisualState(self,drawerSide,percentVisible);
+    }
+    else if(self.shouldStretchDrawer){
+        [self applyOvershootScaleTransformForDrawerSide:drawerSide percentVisible:percentVisible];
+    }
+    if(_showsStatusBarBackgroundView && _fadeStatusBarBackgroundView) {
+        [self.dummyStatusBarView setAlpha:percentVisible];
+    }
 }
 
 - (void)applyOvershootScaleTransformForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible {
