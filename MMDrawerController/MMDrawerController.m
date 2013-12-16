@@ -261,6 +261,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 - (void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion {
+	[self.delegate didCloseDrawer];
+
 	if (self.isAnimatingDrawer) {
 		if (completion) {
 			completion(NO);
@@ -325,6 +327,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
+	[self.delegate didOpenDrawer];
+
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     if (self.isAnimatingDrawer) {
         if(completion){
