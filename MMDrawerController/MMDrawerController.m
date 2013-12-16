@@ -1146,10 +1146,23 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
         centerView.layer.masksToBounds = NO;
         centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
         centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
-        centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
+        
+        /** In the event this gets called a lot, we won't update the shadowPath
+        unless it needs to be updated (like during rotation) */
+        if (centerView.layer.shadowPath == NULL) {
+            centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
+        }
+        else{
+            CGRect currentPath = CGPathGetPathBoundingBox(centerView.layer.shadowPath);
+            if (CGRectEqualToRect(currentPath, centerView.bounds) == NO){
+                centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
+            }
+        }
     }
-    else {
-        centerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectNull].CGPath;
+    else if (centerView.layer.shadowPath != NULL) {
+        centerView.layer.shadowRadius = 0.f;
+        centerView.layer.shadowOpacity = 0.f;
+        centerView.layer.shadowPath = NULL;
         centerView.layer.masksToBounds = YES;
     }
 }
