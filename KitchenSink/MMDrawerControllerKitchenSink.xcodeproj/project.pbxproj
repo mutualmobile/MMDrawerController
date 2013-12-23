@@ -37,6 +37,7 @@
 		29EEA51B17998320006D68B7 /* MMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEA51A17998320006D68B7 /* MMNavigationController.m */; };
 		29EEA51E1799923E006D68B7 /* MMExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEA51D1799923E006D68B7 /* MMExampleViewController.m */; };
 		29F6163B172AC22A00B31282 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */; };
+		9225C615186852D800FFF0E0 /* MMDrawerController+Storyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9225C614186852D800FFF0E0 /* MMDrawerController+Storyboard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,8 @@
 		29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
 		791908B4185A21F900131C6E /* MMOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMOSVersion.h; path = ExampleFiles/MMOSVersion.h; sourceTree = "<group>"; };
+		9225C613186852D800FFF0E0 /* MMDrawerController+Storyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Storyboard.h"; sourceTree = "<group>"; };
+		9225C614186852D800FFF0E0 /* MMDrawerController+Storyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMDrawerController+Storyboard.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +174,8 @@
 		294A1D2D17199819005BF6B1 /* MMDrawerController */ = {
 			isa = PBXGroup;
 			children = (
+				9225C613186852D800FFF0E0 /* MMDrawerController+Storyboard.h */,
+				9225C614186852D800FFF0E0 /* MMDrawerController+Storyboard.m */,
 				294A1D2E1719982B005BF6B1 /* MMDrawerController.h */,
 				294A1D2F1719982B005BF6B1 /* MMDrawerController.m */,
 				462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */,
@@ -322,6 +327,7 @@
 				294A1D2117199537005BF6B1 /* MMAppDelegate.m in Sources */,
 				294A1D301719982B005BF6B1 /* MMDrawerController.m in Sources */,
 				294A1D3317199844005BF6B1 /* UIViewController+MMDrawerController.m in Sources */,
+				9225C615186852D800FFF0E0 /* MMDrawerController+Storyboard.m in Sources */,
 				29F6163B172AC22A00B31282 /* MMDrawerBarButtonItem.m in Sources */,
 				29C28487172B07C10089E872 /* MMExampleCenterTableViewController.m in Sources */,
 				29C2848D172EB1710089E872 /* MMExampleSideDrawerViewController.m in Sources */,
