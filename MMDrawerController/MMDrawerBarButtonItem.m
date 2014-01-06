@@ -240,7 +240,7 @@
 
 -(id)initWithTarget:(id)target action:(SEL)action{
     
-    if((floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)){
+    if((floor(NSFoundationVersionNumber) > 993.0)){
         return [self initWithImage:[self.class drawerButtonItemImage]
                              style:UIBarButtonItemStylePlain
                             target:target
