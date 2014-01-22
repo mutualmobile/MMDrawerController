@@ -30,14 +30,9 @@
 
 @implementation MMDrawerController (Storyboard)
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ( [segue.identifier isEqualToString: @"mm_center"] )
-    {
-        NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
-        [self setCenterViewController: segue.destinationViewController];
-    }
-    else if ( [segue.identifier isEqualToString: @"mm_left"] )
+    if ( [segue.identifier isEqualToString: @"mm_left"] )
     {
         NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
         [self setLeftDrawerViewController: segue.destinationViewController];
@@ -46,6 +41,9 @@
     {
         NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
         [self setRightDrawerViewController: segue.destinationViewController];
+    } else {
+        NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
+        [self setCenterViewController: segue.destinationViewController];
     }
 }
 
