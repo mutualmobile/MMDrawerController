@@ -25,6 +25,7 @@
 #import "MMSideDrawerSectionHeaderView.h"
 #import "MMLogoView.h"
 #import "MMNavigationController.h"
+#import "MMOSVersion.h"
 
 @implementation MMExampleSideDrawerViewController
 

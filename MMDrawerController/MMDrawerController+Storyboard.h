@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Mutual Mobile (http://mutualmobile.com/)
+// Copyright (c) 2013 Тюменьгортранс МКУ (http://tgt72.ru/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,47 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "MMExampleViewController.h"
-#import "MMOSVersion.h"
+#import "MMDrawerController.h"
 
-@interface MMExampleViewController ()
-
-@end
-
-@implementation MMExampleViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    if(OSVersionIsAtLeastiOS7()){
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(contentSizeDidChangeNotification:)
-         name:UIContentSizeCategoryDidChangeNotification
-         object:nil];
-    }
-}
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self];
-}
-
--(void)contentSizeDidChangeNotification:(NSNotification*)notification{
-    [self contentSizeDidChange:notification.userInfo[UIContentSizeCategoryNewValueKey]];
-}
-
--(void)contentSizeDidChange:(NSString *)size{
-    //Implement in subclass
-}
+@interface MMDrawerController (Storyboard)
 
 @end

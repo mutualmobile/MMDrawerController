@@ -20,6 +20,7 @@
 
 #import "MMSideDrawerSectionHeaderView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MMOSVersion.h"
 
 @interface MMSideDrawerSectionHeaderView ()
 @property (nonatomic, strong) UILabel * label;

@@ -20,6 +20,7 @@
 
 
 #import "MMTableViewCell.h"
+#import "MMOSVersion.h"
 
 @interface MMDisclosureIndicator : UIView
 @property (nonatomic, strong) UIColor * color;

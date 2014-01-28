@@ -92,6 +92,15 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
     MMDrawerOpenCenterInteractionModeNavigationBarOnly,
 };
 
+// static const NSInteger ktagOverridesMMDrawerGesture = 10;
+
+@protocol MMDrawerDelegate <NSObject>
+
+- (void) didOpenDrawer;
+- (void) didCloseDrawer;
+
+@end
+
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
 
@@ -101,6 +110,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /// @name Accessing Drawer Container View Controller Properties
 ///---------------------------------------
 
+@property(nonatomic, weak) id <MMDrawerDelegate> delegate;
 /**
  The center view controller. 
  
@@ -201,6 +211,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) BOOL showsShadow;
 
 /**
+ Property determining the shadow radius in points.
+ 
+ The default value is 10.0.
+ */
+@property (nonatomic, assign) CGFloat shadowRadius;
+
+/**
+ Property determining the opacity of the shadow.
+ 
+ This value can be ranged between 0 to 1. The default is 0.8.
+ */
+@property (nonatomic, assign) CGFloat shadowOpacity;
+
+/**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
  
  By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
@@ -213,6 +237,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  By default, this is set `[UIColor blackColor]`.
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
+
+/**
+ The flag determining if status bar background view should fade out(alpha 0) when a side drawer is close. If this flag is set to YES, it will change 'showsStatusBarBackgroundView' to YES. This property is only available when 'showsStatusBarBackgroundView' can be set to YES or igonred.
+ 
+ By default, this is set to NO..
+ */
+@property (nonatomic, assign) BOOL fadeStatusBarBackgroundView;
 
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`

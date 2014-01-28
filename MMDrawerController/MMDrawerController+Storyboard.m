@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Mutual Mobile (http://mutualmobile.com/)
+// Copyright (c) 2013 Тюменьгортранс МКУ (http://tgt72.ru/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,47 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "MMExampleViewController.h"
-#import "MMOSVersion.h"
+#import "MMDrawerController+Storyboard.h"
 
-@interface MMExampleViewController ()
-
+@interface MMDrawerControllerSegue : UIStoryboardSegue
 @end
 
-@implementation MMExampleViewController
+@implementation MMDrawerControllerSegue
+- (void)perform {}
+@end
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+
+@implementation MMDrawerController (Storyboard)
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if ( [segue.identifier isEqualToString: @"mm_left"] )
+    {
+        NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
+        [self setLeftDrawerViewController: segue.destinationViewController];
     }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    if(OSVersionIsAtLeastiOS7()){
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(contentSizeDidChangeNotification:)
-         name:UIContentSizeCategoryDidChangeNotification
-         object:nil];
+    else if ( [segue.identifier isEqualToString: @"mm_right"] )
+    {
+        NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
+        [self setRightDrawerViewController: segue.destinationViewController];
+    } else {
+        NSParameterAssert( [segue isKindOfClass: [MMDrawerControllerSegue class]]);
+        [self setCenterViewController: segue.destinationViewController];
     }
-}
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self];
-}
-
--(void)contentSizeDidChangeNotification:(NSNotification*)notification{
-    [self contentSizeDidChange:notification.userInfo[UIContentSizeCategoryNewValueKey]];
-}
-
--(void)contentSizeDidChange:(NSString *)size{
-    //Implement in subclass
 }
 
 @end
