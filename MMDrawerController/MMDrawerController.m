@@ -461,6 +461,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         
         CGRect newCenterRect = self.centerContainerView.frame;
         
+        [self setAnimatingDrawer:animated];
+        
         UIViewController * oldCenterViewController = self.centerViewController;
         [oldCenterViewController beginAppearanceTransition:NO animated:animated];
         newCenterRect.origin.x = targetClosePoint;
@@ -498,7 +500,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
                  
                  [self setOpenSide:MMDrawerSideNone];
-                 
+                 [self setAnimatingDrawer:NO];
                  if(completion){
                      completion(finished);
                  }
@@ -914,7 +916,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 #pragma mark - Gesture Handlers
 
 -(void)tapGestureCallback:(UITapGestureRecognizer *)tapGesture{
-    if(self.openSide != MMDrawerSideNone){
+    if(self.openSide != MMDrawerSideNone &&
+       self.isAnimatingDrawer == NO){
         [self closeDrawerAnimated:YES completion:^(BOOL finished) {
             if(self.gestureCompletion){
                 self.gestureCompletion(self, tapGesture);
