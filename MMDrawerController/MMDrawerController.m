@@ -874,10 +874,20 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(UIView*)childControllerContainerView{
     if(_childControllerContainerView == nil){
-        _childControllerContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
-        [_childControllerContainerView setBackgroundColor:[UIColor clearColor]];
-        [_childControllerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-        [self.view addSubview:_childControllerContainerView];
+        //Issue #152 (https://github.com/mutualmobile/MMDrawerController/issues/152)
+        //Turns out we have two child container views getting added to the view during init,
+        //because the first request self.view.bounds was kicking off a viewDidLoad, which
+        //caused us to be able to fall through this check twice.
+        //
+        //The fix is to grab the bounds, and then check again that the child container view has
+        //not been created.
+        CGRect childContainerViewFrame = self.view.bounds;
+        if(_childControllerContainerView == nil){
+            _childControllerContainerView = [[UIView alloc] initWithFrame:childContainerViewFrame];
+            [_childControllerContainerView setBackgroundColor:[UIColor clearColor]];
+            [_childControllerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+            [self.view addSubview:_childControllerContainerView];
+
     }
     return _childControllerContainerView;
 }
