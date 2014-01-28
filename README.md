@@ -21,7 +21,7 @@ pod 'MMDrawerController', '~> 0.4.0'
 
 ---
 ##Creating a Drawer Controller
-Creating a `MMDrawerController` is as easy as creating a center view controller and the drawer view controllers, and init'int the drawer.
+Creating a `MMDrawerController` is as easy as creating a center view controller and the drawer view controllers, and init'ing the drawer.
 
 ```Objective-C
 UIViewController * leftDrawer = [[UIViewController alloc] init];
