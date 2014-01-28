@@ -179,6 +179,12 @@ In order to keep this library light-weight, we had to make some design trade off
 We're sure this list will grow over time. But that's the cost of keeping something maintainable :)
 
 ---
+##Workarounds/FAQs
+####How do I support editing/dragging cells in a tableview in the center view controller?
+The best way to support this is to set the open/close mask to `MMOpenDrawerGestureModeNone` / `MMCloseDrawerGestureModeNone` while editing is enabled, and restore the mask when editing is finished. This will allow the proper gestures/touches to be passed all the way to the table view. ([#184](https://github.com/mutualmobile/MMDrawerController/issues/184))
+
+
+---
 ##Credit
 Designed and Developed by these fine folks at [Mutual Mobile](http://mutualmobile.com):
 
