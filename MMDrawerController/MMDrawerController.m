@@ -378,6 +378,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 #pragma mark - Updating the Center View Controller
+//If animated is NO, then we need to handle all the appearance calls within this method. Otherwise,
+//let the method calling this one handle proper appearance methods since they will have more context
 -(void)setCenterViewController:(UIViewController *)centerViewController animated:(BOOL)animated{
     if(_centerContainerView == nil){
         _centerContainerView = [[MMDrawerCenterContainerView alloc] initWithFrame:self.childControllerContainerView.bounds];
@@ -417,9 +419,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withCloseAnimation:(BOOL)animated completion:(void(^)(BOOL finished))completion{
+    
+    if(self.openSide == MMDrawerSideNone){
+        //If a side drawer isn't open, there is nothing to animate...
+        animated = NO;
+    }
     [self setCenterViewController:newCenterViewController animated:animated];
     
-    if(self.openSide != MMDrawerSideNone){
+    if(animated){
         [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
         [self.centerViewController beginAppearanceTransition:YES animated:animated];
         [self
@@ -433,11 +440,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
          }];
     }
     else {
-        [self.centerViewController beginAppearanceTransition:YES animated:NO];
-        [self.centerViewController endAppearanceTransition];
-        [self.centerViewController didMoveToParentViewController:self];
         if(completion) {
-            completion(NO);
+            completion(YES);
         }
     }
 }
