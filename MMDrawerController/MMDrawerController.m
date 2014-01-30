@@ -461,6 +461,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         
         CGRect newCenterRect = self.centerContainerView.frame;
         
+        [self setAnimatingDrawer:animated];
+        
         UIViewController * oldCenterViewController = self.centerViewController;
         [oldCenterViewController beginAppearanceTransition:NO animated:animated];
         newCenterRect.origin.x = targetClosePoint;
@@ -498,7 +500,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
                  
                  [self setOpenSide:MMDrawerSideNone];
-                 
+                 [self setAnimatingDrawer:NO];
                  if(completion){
                      completion(finished);
                  }
@@ -914,7 +916,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 #pragma mark - Gesture Handlers
 
 -(void)tapGestureCallback:(UITapGestureRecognizer *)tapGesture{
-    if(self.openSide != MMDrawerSideNone){
+    if(self.openSide != MMDrawerSideNone &&
+       self.isAnimatingDrawer == NO){
         [self closeDrawerAnimated:YES completion:^(BOOL finished) {
             if(self.gestureCompletion){
                 self.gestureCompletion(self, tapGesture);
@@ -925,8 +928,15 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)panGestureCallback:(UIPanGestureRecognizer *)panGesture{
     switch (panGesture.state) {
-        case UIGestureRecognizerStateBegan:
-            self.startingPanRect = self.centerContainerView.frame;
+        case UIGestureRecognizerStateBegan:{
+            if(self.animatingDrawer){
+                [panGesture setEnabled:NO];
+                break;
+            }
+            else {
+                self.startingPanRect = self.centerContainerView.frame;
+            }
+        }
         case UIGestureRecognizerStateChanged:{
             CGRect newFrame = self.startingPanRect;
             CGPoint translatedPoint = [panGesture translationInView:self.centerContainerView];
@@ -966,7 +976,6 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
             break;
         }
-        case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateEnded:{
             self.startingPanRect = CGRectNull;
             CGPoint velocity = [panGesture velocityInView:self.childControllerContainerView];
@@ -975,6 +984,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                     self.gestureCompletion(self, panGesture);
                 }
             }];
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:{
+            [panGesture setEnabled:YES];
             break;
         }
         default:
