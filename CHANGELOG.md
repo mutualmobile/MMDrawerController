@@ -1,4 +1,17 @@
 #MMDrawerController Changelog
+##0.5.2 (Friday, January 31, 2014)
+###Fixed
+* **FIXED** a Clang Analyzer issue ([#120](https://github.com/mutualmobile/MMDrawerController/pull/120)) found in Xcode 5. (klundberg)
+* **FIXED** an issue ([#124](https://github.com/mutualmobile/MMDrawerController/pull/124)) where the navigation bar gestures would not work if a toolbar was displayed in the center view controller. (tbveralrud)
+* **FIXED** an issue ([#152](https://github.com/mutualmobile/MMDrawerController/pull/152)) where two childControllerContainers view could be init'ed and added to the view hierarchy. (Kevin Harwood, JonasGessner)
+* **FIXED** an issue ([#163](https://github.com/mutualmobile/MMDrawerController/pull/163)) where the navigation bar touch areas were smaller than they were supposed to be. (antonholmquist)
+* **FIXED** an issue ([#177](https://github.com/mutualmobile/MMDrawerController/pull/177)) where disabling the shadow caused a performance issue in iOS 7. (Lars Anderson)
+* **FIXED** an issue ([#211](https://github.com/mutualmobile/MMDrawerController/pull/211)) where the side drawer may become hidden if you try to interact with it during an animation. (Kevin Harwood, antonholmquist)
+* **FIXED** an issue ([#212](https://github.com/mutualmobile/MMDrawerController/pull/212)) where the view controller appearance methods were not correctly send to the center view controller if you exchanged it while neither drawer was open. (Kevin Harwood, Club15CC)
+
+###New
+* **Added Highlighting for iOS 7 Drawer Button Item** - Now supporting button highlighting. Also stream lined code path for iOS 6 menu button. ([#199](https://github.com/mutualmobile/MMDrawerController/pull/119)) (TomSwift)
+
 
 ##0.5.1 (Wednesday, September 18, 2013)
 ###Fixed
