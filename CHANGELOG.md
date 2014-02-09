@@ -1,10 +1,22 @@
 #MMDrawerController Changelog
+##[0.5.2](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.2) (Friday, January 31, 2014)
+###New
+* **Added Highlighting for iOS 7 Drawer Button Item** - Now supporting button highlighting. Also stream lined code path for iOS 6 menu button. ([#199](https://github.com/mutualmobile/MMDrawerController/pull/119)) (TomSwift)
 
-##0.5.1 (Wednesday, September 18, 2013)
+###Fixed
+* **FIXED** a Clang Analyzer issue ([#120](https://github.com/mutualmobile/MMDrawerController/pull/120)) found in Xcode 5. (klundberg)
+* **FIXED** an issue ([#124](https://github.com/mutualmobile/MMDrawerController/pull/124)) where the navigation bar gestures would not work if a toolbar was displayed in the center view controller. (tbveralrud)
+* **FIXED** an issue ([#152](https://github.com/mutualmobile/MMDrawerController/pull/152)) where two childControllerContainers view could be init'ed and added to the view hierarchy. (Kevin Harwood, JonasGessner)
+* **FIXED** an issue ([#163](https://github.com/mutualmobile/MMDrawerController/pull/163)) where the navigation bar touch areas were smaller than they were supposed to be. (antonholmquist)
+* **FIXED** an issue ([#177](https://github.com/mutualmobile/MMDrawerController/pull/177)) where disabling the shadow caused a performance issue in iOS 7. (Lars Anderson)
+* **FIXED** an issue ([#211](https://github.com/mutualmobile/MMDrawerController/pull/211)) where the side drawer may become hidden if you try to interact with it during an animation. (Kevin Harwood, antonholmquist)
+* **FIXED** an issue ([#212](https://github.com/mutualmobile/MMDrawerController/pull/212)) where the view controller appearance methods were not correctly send to the center view controller if you exchanged it while neither drawer was open. (Kevin Harwood, Club15CC)
+
+##[0.5.1](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.1) (Wednesday, September 18, 2013)
 ###Fixed
 * **FIXED** an issue ([#110](https://github.com/mutualmobile/MMDrawerController/pull/110)) where you could not compile for iOS 6 using Xcode 4.6.3.
 
-##0.5.0 (Tuesday, September 17, 2013)
+##[0.5.0](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.0) (Tuesday, September 17, 2013)
 ###New
 * **iOS 7 Support** - Compiled to work with iOS 7
 * **iOS 7 Status Bar Support** - Now includes a feature to drawer an iOS 6 style status bar, allowing your drawer animations to not impact the status bar area. Consult the README or the documentation for further information.
