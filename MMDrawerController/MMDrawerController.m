@@ -143,7 +143,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 #pragma mark - Init
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
         [self commonSetup];
@@ -151,7 +151,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
 	self = [super initWithCoder:aDecoder];
 	if (self) {
         [self commonSetup];
@@ -159,10 +159,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 	return self;
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     NSParameterAssert(centerViewController);
     self = [super init];
     if(self){
+        self.shadowOptions = MMShadowOptionsMake(MMDrawerDefaultShadowRadius, MMDrawerDefaultShadowOpacity, CGSizeZero);
+        
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
         [self setRightDrawerViewController:rightDrawerViewController];
@@ -170,11 +172,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     return self;
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:leftDrawerViewController rightDrawerViewController:nil];
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
 }
 
@@ -731,6 +733,31 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 #pragma mark - Setters
+
+- (void)setCenterViewTopCornerRadius:(CGFloat)centerViewTopCornerRadius {
+    _centerViewTopCornerRadius = centerViewTopCornerRadius;
+    
+    if (_centerViewTopCornerRadius > 0.0f) {
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.centerContainerView.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerTopLeft cornerRadii:CGSizeMake(_centerViewTopCornerRadius, _centerViewTopCornerRadius)];
+        
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        maskLayer.frame = self.centerContainerView.bounds;
+        maskLayer.path = maskPath.CGPath;
+        
+        self.centerViewController.view.layer.mask = maskLayer;
+    }
+    else {
+        self.centerViewController.view.layer.mask = nil;
+    }
+    
+    [self updateShadowForCenterView];
+}
+
+- (void)setShadowOptions:(MMShadowOptions)shadowOptions {
+    _shadowOptions = shadowOptions;
+    [self updateShadowForCenterView];
+}
+
 -(void)setRightDrawerViewController:(UIViewController *)rightDrawerViewController{
     [self setDrawerViewController:rightDrawerViewController forSide:MMDrawerSideRight];
 }
@@ -815,29 +842,6 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)setMaximumRightDrawerWidth:(CGFloat)maximumRightDrawerWidth{
     [self setMaximumRightDrawerWidth:maximumRightDrawerWidth animated:NO completion:nil];
-}
-
--(void)setShowsStatusBarBackgroundView:(BOOL)showsDummyStatusBar{
-    NSArray *sysVersion = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    float majorVersion = [[sysVersion objectAtIndex:0] floatValue];
-    if (majorVersion >= 7){
-        if(showsDummyStatusBar!=_showsStatusBarBackgroundView){
-            _showsStatusBarBackgroundView = showsDummyStatusBar;
-            CGRect frame = self.childControllerContainerView.frame;
-            if(_showsStatusBarBackgroundView){
-                frame.origin.y = 20;
-                frame.size.height = CGRectGetHeight(self.view.bounds)-20;
-            }
-            else {
-                frame.origin.y = 0;
-                frame.size.height = CGRectGetHeight(self.view.bounds);
-            }
-            [self.childControllerContainerView setFrame:frame];
-        }
-    }
-    else {
-        _showsStatusBarBackgroundView = NO;
-    }
 }
 
 -(void)setStatusBarViewBackgroundColor:(UIColor *)dummyStatusBarColor{
@@ -1156,29 +1160,17 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     [sideDrawerViewControllerToPresent beginAppearanceTransition:YES animated:animated];
 }
 
--(void)updateShadowForCenterView{
-    UIView * centerView = self.centerContainerView;
+- (void)updateShadowForCenterView{
+    UIView *centerView = self.centerContainerView;
     if(self.showsShadow){
         centerView.layer.masksToBounds = NO;
-        centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
-        centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
-        
-        /** In the event this gets called a lot, we won't update the shadowPath
-        unless it needs to be updated (like during rotation) */
-        if (centerView.layer.shadowPath == NULL) {
-            centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
-        }
-        else{
-            CGRect currentPath = CGPathGetPathBoundingBox(centerView.layer.shadowPath);
-            if (CGRectEqualToRect(currentPath, centerView.bounds) == NO){
-                centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
-            }
-        }
+        centerView.layer.shadowRadius = self.shadowOptions.shadowRadius;
+        centerView.layer.shadowOpacity = self.shadowOptions.shadowOpacity;
+        centerView.layer.shadowOffset = self.shadowOptions.shadowOffset;
+        centerView.layer.shadowPath = (self.centerViewTopCornerRadius ? [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath] : [[UIBezierPath bezierPathWithRoundedRect:self.centerContainerView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(self.centerViewTopCornerRadius, self.centerViewTopCornerRadius)] CGPath]);
     }
-    else if (centerView.layer.shadowPath != NULL) {
-        centerView.layer.shadowRadius = 0.f;
-        centerView.layer.shadowOpacity = 0.f;
-        centerView.layer.shadowPath = NULL;
+    else {
+        centerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectNull].CGPath;
         centerView.layer.masksToBounds = YES;
     }
 }

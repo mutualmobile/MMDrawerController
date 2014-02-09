@@ -50,6 +50,26 @@
     - Support container view controllers other than `UINavigationController` as the center view controller. 
  */
 
+
+typedef struct {
+    CGFloat shadowRadius;
+    CGFloat shadowOpacity;
+    
+    CGSize shadowOffset;
+} MMShadowOptions;
+
+
+NS_INLINE MMShadowOptions MMShadowOptionsMake(CGFloat shadowRadius, CGFloat shadowOpacity, CGSize shadowOffset) {
+    MMShadowOptions options;
+    
+    options.shadowRadius = shadowRadius;
+    options.shadowOpacity = shadowOpacity;
+    options.shadowOffset = shadowOffset;
+    
+    return options;
+}
+
+
 typedef NS_ENUM(NSInteger,MMDrawerSide){
     MMDrawerSideNone = 0,
     MMDrawerSideLeft,
@@ -194,11 +214,26 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) MMDrawerOpenCenterInteractionMode centerHiddenInteractionMode;
 
 /**
+ A structure containing information about the shadow.
+ 
+ By default, this is set to {0.8f, 10.0f, {0.0f, 0.0f}}
+ */
+@property (nonatomic, assign) MMShadowOptions shadowOptions;
+
+/**
  The flag determining if a shadow should be drawn off of `centerViewController` when a drawer is open. 
  
  By default, this is set to YES.
  */
 @property (nonatomic, assign) BOOL showsShadow;
+
+/**
+ The value by how many points the center view's top corners should be rounded.
+ 
+ By default, this is set to 0.0f;
+ */
+@property (nonatomic, assign) CGFloat centerViewTopCornerRadius;
+
 
 /**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
@@ -227,7 +262,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
 
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left drawer view controller.
@@ -237,7 +272,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController;
 
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, right drawer view controller.
@@ -247,7 +282,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
 
 ///---------------------------------------
 /// @name Opening and Closing a Drawer
