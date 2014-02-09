@@ -249,6 +249,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
 
+
+/**
+ Returns if the drawer is currently moving.
+ */
+- (BOOL)isAnimatingDrawer;
+
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
@@ -308,6 +315,11 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  */
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+
+/**
+ Closes the open drawer by performing a full animation.
+ */
+- (void)closeDrawerWithFullAnimation:(void (^)(void))completion;
 
 /**
  Opens the `drawer` passed in.
