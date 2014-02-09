@@ -185,6 +185,12 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, assign) BOOL shouldStretchDrawer;
 
+
+/**
+ A boolean that determines whether or not the side drawers should be stretched with the center drawer. This only has any effects when \c shouldStretchDrawer is set to \c YES.
+ */
+@property (nonatomic, assign) BOOL shouldStrechSideDrawers;
+
 /**
  The current open side of the drawer. 
  
