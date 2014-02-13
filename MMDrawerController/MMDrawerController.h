@@ -165,9 +165,17 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, assign) BOOL shouldStretchDrawer;
 
+
+/**
+ A boolean that determines if the status bar pan with the drawer.
+ 
+ By default, this value is set to NO. 
+ */
+@property (nonatomic, assign) BOOL shouldPanStatusBar;
+
 /**
  The current open side of the drawer. 
- 
+
  Note this value will change as soon as a pan gesture opens a drawer, or when a open/close animation is finished.
  */
 @property (nonatomic, assign, readonly) MMDrawerSide openSide;

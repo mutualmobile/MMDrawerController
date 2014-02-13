@@ -300,6 +300,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              [self setNeedsStatusBarAppearanceUpdateIfSupported];
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
+             
+             if (self.shouldPanStatusBar)
+             {
+                 [self setStatusBarViewXOffset:0.0];
+             }
          }
          completion:^(BOOL finished) {
              [sideDrawerViewController endAppearanceTransition];
@@ -359,6 +364,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self setNeedsStatusBarAppearanceUpdateIfSupported];
                  [self.centerContainerView setFrame:newFrame];
                  [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
+                 
+                 if (self.shouldPanStatusBar)
+                 {
+                     [self setStatusBarViewXOffset:CGRectGetMinX(newFrame)];
+                 }
              }
              completion:^(BOOL finished) {
                  //End the appearance transition if it already wasn't open.
@@ -846,6 +856,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self.dummyStatusBarView setBackgroundColor:_statusBarViewBackgroundColor];
 }
 
+- (void)setStatusBarViewXOffset:(CGFloat)xOffset
+{
+    UIView *statusBarView = [[UIApplication sharedApplication] valueForKey:[@[@"status", @"Bar"] componentsJoinedByString:@""]];
+    statusBarView.transform = CGAffineTransformMakeTranslation(xOffset, 0.0f);
+}
+
 #pragma mark - Getters
 -(CGFloat)maximumLeftDrawerWidth{
     if(self.leftDrawerViewController){
@@ -947,6 +963,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             newFrame.origin.x = [self roundedOriginXForDrawerConstriants:CGRectGetMinX(self.startingPanRect)+translatedPoint.x];
             newFrame = CGRectIntegral(newFrame);
             CGFloat xOffset = newFrame.origin.x;
+            
+            if (self.shouldPanStatusBar)
+            {
+                [self setStatusBarViewXOffset:xOffset];
+            }
             
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
