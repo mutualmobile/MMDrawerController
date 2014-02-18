@@ -381,6 +381,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 //If animated is NO, then we need to handle all the appearance calls within this method. Otherwise,
 //let the method calling this one handle proper appearance methods since they will have more context
 -(void)setCenterViewController:(UIViewController *)centerViewController animated:(BOOL)animated{
+    if ([self.centerViewController isEqual:centerViewController]) {
+        return;
+    }
+    
     if(_centerContainerView == nil){
         _centerContainerView = [[MMDrawerCenterContainerView alloc] initWithFrame:self.childControllerContainerView.bounds];
         [self.centerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
@@ -424,16 +428,22 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         //If a side drawer isn't open, there is nothing to animate...
         animated = NO;
     }
+  
+    BOOL forwardAppearanceMethodsToCenterViewController = ([self.centerViewController isEqual:newCenterViewController] == NO);
     [self setCenterViewController:newCenterViewController animated:animated];
     
     if(animated){
         [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
-        [self.centerViewController beginAppearanceTransition:YES animated:animated];
+        if (forwardAppearanceMethodsToCenterViewController) {
+            [self.centerViewController beginAppearanceTransition:YES animated:animated];
+        }
         [self
          closeDrawerAnimated:animated
          completion:^(BOOL finished) {
-             [self.centerViewController endAppearanceTransition];
-             [self.centerViewController didMoveToParentViewController:self];
+             if (forwardAppearanceMethodsToCenterViewController) {
+                 [self.centerViewController endAppearanceTransition];
+                 [self.centerViewController didMoveToParentViewController:self];
+             }
              if(completion){
                  completion(finished);
              }
@@ -449,6 +459,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 -(void)setCenterViewController:(UIViewController *)newCenterViewController withFullCloseAnimation:(BOOL)animated completion:(void(^)(BOOL finished))completion{
     if(self.openSide != MMDrawerSideNone &&
        animated){
+        
+        BOOL forwardAppearanceMethodsToCenterViewController = ([self.centerViewController isEqual:newCenterViewController] == NO);
         
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:self.openSide];
         
@@ -468,7 +480,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         [self setAnimatingDrawer:animated];
         
         UIViewController * oldCenterViewController = self.centerViewController;
-        [oldCenterViewController beginAppearanceTransition:NO animated:animated];
+        if(forwardAppearanceMethodsToCenterViewController ){
+            [oldCenterViewController beginAppearanceTransition:NO animated:animated];
+        }
         newCenterRect.origin.x = targetClosePoint;
         [UIView
          animateWithDuration:firstDuration
@@ -482,10 +496,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
              CGRect oldCenterRect = self.centerContainerView.frame;
              [self setCenterViewController:newCenterViewController animated:animated];
-             [oldCenterViewController endAppearanceTransition];
              [self.centerContainerView setFrame:oldCenterRect];
              [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
-             [self.centerViewController beginAppearanceTransition:YES animated:animated];
+             if(forwardAppearanceMethodsToCenterViewController) {
+                 [oldCenterViewController endAppearanceTransition];
+                 [self.centerViewController beginAppearanceTransition:YES animated:animated];
+             }
              [sideDrawerViewController beginAppearanceTransition:NO animated:animated];
             [UIView
              animateWithDuration:[self animationDurationForAnimationDistance:CGRectGetWidth(self.childControllerContainerView.bounds)]
@@ -496,8 +512,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
              }
              completion:^(BOOL finished) {
-                 [self.centerViewController endAppearanceTransition];
-                 [self.centerViewController didMoveToParentViewController:self];
+                 if (forwardAppearanceMethodsToCenterViewController) {
+                     [self.centerViewController endAppearanceTransition];
+                     [self.centerViewController didMoveToParentViewController:self];
+                 }
                  [sideDrawerViewController endAppearanceTransition];
                  [self resetDrawerVisualStateForDrawerSide:self.openSide];
 
