@@ -1,4 +1,8 @@
 #MMDrawerController Changelog
+##[0.5.3](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.3) (Tuesday, February 18, 2014)
+###Fixed
+* **FIXED** an issue ([#219](https://github.com/mutualmobile/MMDrawerController/pull/219)) where you would get an unbalanced appearance method call if you set the center view controller to the same center view controller.
+
 ##[0.5.2](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.2) (Friday, January 31, 2014)
 ###New
 * **Added Highlighting for iOS 7 Drawer Button Item** - Now supporting button highlighting. Also stream lined code path for iOS 6 menu button. ([#199](https://github.com/mutualmobile/MMDrawerController/pull/119)) (TomSwift)
