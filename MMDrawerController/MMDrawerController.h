@@ -56,6 +56,13 @@ typedef NS_ENUM(NSInteger,MMDrawerSide){
     MMDrawerSideRight,
 };
 
+typedef NS_ENUM(NSInteger,MMDrawerShadowSide) {
+    MMDrawerShadowSideNone  = 0,
+    MMDrawerShadowSideLeft  = 1 << MMDrawerSideLeft,
+    MMDrawerShadowSideRight = 1 << MMDrawerSideRight,
+    MMDrawerShadowSideBoth  = MMDrawerShadowSideLeft | MMDrawerShadowSideRight
+};
+
 typedef NS_OPTIONS(NSInteger, MMOpenDrawerGestureMode) {
     MMOpenDrawerGestureModeNone                     = 0,
     MMOpenDrawerGestureModePanningNavigationBar     = 1 << 1,
@@ -199,6 +206,12 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  By default, this is set to YES.
  */
 @property (nonatomic, assign) BOOL showsShadow;
+
+/**
+ A mask determining which side or sides of the `centerViewController` should have a shadow. If `showsShadow` is `NO`, no shadows are drawn.
+ By default, this is set to `MMDrawerShadowSideBoth`.
+ */
+@property (nonatomic, assign) MMDrawerShadowSide shadowSideMask;
 
 /**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.

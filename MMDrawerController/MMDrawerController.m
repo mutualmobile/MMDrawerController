@@ -186,6 +186,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
     
     [self setShowsShadow:YES];
+    [self setShadowSideMask:MMDrawerShadowSideBoth];
     [self setShouldStretchDrawer:YES];
     
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
@@ -808,6 +809,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
 }
 
+-(void)setShadowSideMask:(MMDrawerShadowSide)shadowSideMask {
+    _shadowSideMask = shadowSideMask;
+    [self updateShadowForCenterView];
+}
+
 -(void)setOpenSide:(MMDrawerSide)openSide{
     if(_openSide != openSide){
         _openSide = openSide;
@@ -1186,6 +1192,19 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     [sideDrawerViewControllerToPresent beginAppearanceTransition:YES animated:animated];
 }
 
+-(CGRect)rectForShadowPath
+{
+    CGRect bounds = self.centerContainerView.bounds;
+    
+    CGFloat leftDrawerX  = (self.shadowSideMask & MMDrawerShadowSideLeft)  ? CGRectGetMinX(bounds) : CGRectGetMidX(bounds);
+    CGFloat rightDrawerX = (self.shadowSideMask & MMDrawerShadowSideRight) ? CGRectGetMaxX(bounds) : CGRectGetMidX(bounds);
+    CGFloat width = rightDrawerX - leftDrawerX;
+    
+    CGRect rect = CGRectMake(leftDrawerX, CGRectGetMinY(bounds), width, CGRectGetHeight(bounds));
+    
+    return rect;
+}
+
 -(void)updateShadowForCenterView{
     UIView * centerView = self.centerContainerView;
     if(self.showsShadow){
@@ -1196,12 +1215,12 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
         /** In the event this gets called a lot, we won't update the shadowPath
         unless it needs to be updated (like during rotation) */
         if (centerView.layer.shadowPath == NULL) {
-            centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
+            centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:[self rectForShadowPath]] CGPath];
         }
         else{
             CGRect currentPath = CGPathGetPathBoundingBox(centerView.layer.shadowPath);
             if (CGRectEqualToRect(currentPath, centerView.bounds) == NO){
-                centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.centerContainerView.bounds] CGPath];
+                centerView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:[self rectForShadowPath]] CGPath];
             }
         }
     }
