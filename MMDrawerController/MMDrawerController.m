@@ -811,6 +811,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)setShadowSideMask:(MMDrawerShadowSide)shadowSideMask {
     _shadowSideMask = shadowSideMask;
+    self.centerContainerView.layer.shadowPath = NULL;
     [self updateShadowForCenterView];
 }
 
