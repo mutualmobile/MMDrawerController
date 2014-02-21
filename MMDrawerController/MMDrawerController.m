@@ -743,7 +743,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    self.startingPanRect = self.centerContainerView.frame;
+    if (self.animatingDrawer);
+    {
+        self.startingPanRect = self.centerContainerView.frame;
+    }
     for(UIViewController * childViewController in self.childViewControllers){
         [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
@@ -958,6 +961,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             }
             else {
                 self.startingPanRect = self.centerContainerView.frame;
+                self.animatingDrawer = YES;
             }
         }
         case UIGestureRecognizerStateChanged:{
@@ -1001,6 +1005,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         }
         case UIGestureRecognizerStateEnded:{
             self.startingPanRect = CGRectNull;
+            self.animatingDrawer = NO;
             CGPoint velocity = [panGesture velocityInView:self.childControllerContainerView];
             [self finishAnimationForPanGestureWithXVelocity:velocity.x completion:^(BOOL finished) {
                 if(self.gestureCompletion){
@@ -1011,6 +1016,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         }
         case UIGestureRecognizerStateCancelled:{
             [panGesture setEnabled:YES];
+            self.animatingDrawer = NO;
             break;
         }
         default:
