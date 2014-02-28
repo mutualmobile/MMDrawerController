@@ -487,6 +487,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
          animations:^{
              [self.centerContainerView setFrame:newCenterRect];
              [sideDrawerViewController.view setFrame:self.childControllerContainerView.bounds];
+             if (self.shouldPanStatusBar)
+             {
+                 [self setStatusBarViewXOffset:CGRectGetMinX(newCenterRect)];
+             }
          }
          completion:^(BOOL finished) {
 
@@ -504,6 +508,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              animations:^{
                  [self.centerContainerView setFrame:self.childControllerContainerView.bounds];
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
+                 if (self.shouldPanStatusBar)
+                 {
+                     [self setStatusBarViewXOffset:0.0];
+                 }
              }
              completion:^(BOOL finished) {
                  [self.centerViewController endAppearanceTransition];
