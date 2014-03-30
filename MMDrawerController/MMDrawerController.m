@@ -396,6 +396,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     
     UIViewController * oldCenterViewController = self.centerViewController;
     if(oldCenterViewController){
+        [oldCenterViewController willMoveToParentViewController:nil];
         if(animated == NO){
             [oldCenterViewController beginAppearanceTransition:NO animated:NO];
         }
