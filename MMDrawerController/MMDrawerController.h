@@ -92,6 +92,12 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
     MMDrawerOpenCenterInteractionModeNavigationBarOnly,
 };
 
+typedef NS_ENUM(NSInteger, MMStatusBarBackgroundViewMode) {
+    MMStatusBarBackgroundViewModeNone = 0,
+    MMStatusBarBackgroundViewModeOpaque,
+    MMStatusBarBackgroundViewModeVariable,
+};
+
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
 
@@ -205,7 +211,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
  */
-@property (nonatomic, assign) BOOL showsStatusBarBackgroundView;
+@property (nonatomic, assign) MMStatusBarBackgroundViewMode statusBarBackgroundViewMode;
 
 /**
  The color of the status bar background view if `showsStatusBarBackgroundView` is set to YES. This value is ignored in < iOS 7.0.

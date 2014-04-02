@@ -300,6 +300,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              [self setNeedsStatusBarAppearanceUpdateIfSupported];
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
+             [self updateStatusBarBackgroundViewAlpha:0.0f];
          }
          completion:^(BOOL finished) {
              [sideDrawerViewController endAppearanceTransition];
@@ -359,6 +360,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self setNeedsStatusBarAppearanceUpdateIfSupported];
                  [self.centerContainerView setFrame:newFrame];
                  [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
+                 [self updateStatusBarBackgroundViewAlpha:1.0f];
              }
              completion:^(BOOL finished) {
                  //End the appearance transition if it already wasn't open.
@@ -835,14 +837,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setMaximumRightDrawerWidth:maximumRightDrawerWidth animated:NO completion:nil];
 }
 
--(void)setShowsStatusBarBackgroundView:(BOOL)showsDummyStatusBar{
+-(void)setStatusBarBackgroundViewMode:(MMStatusBarBackgroundViewMode)dummyStatusBarMode{
     NSArray *sysVersion = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     float majorVersion = [[sysVersion objectAtIndex:0] floatValue];
     if (majorVersion >= 7){
-        if(showsDummyStatusBar!=_showsStatusBarBackgroundView){
-            _showsStatusBarBackgroundView = showsDummyStatusBar;
+        if(dummyStatusBarMode!=_statusBarBackgroundViewMode){
+            _statusBarBackgroundViewMode = dummyStatusBarMode;
             CGRect frame = self.childControllerContainerView.frame;
-            if(_showsStatusBarBackgroundView){
+            if(_statusBarBackgroundViewMode == MMStatusBarBackgroundViewModeOpaque){
                 frame.origin.y = 20;
                 frame.size.height = CGRectGetHeight(self.view.bounds)-20;
             }
@@ -851,11 +853,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                 frame.size.height = CGRectGetHeight(self.view.bounds);
             }
             [self.childControllerContainerView setFrame:frame];
-            [self.dummyStatusBarView setHidden:!showsDummyStatusBar];
+            [self.dummyStatusBarView setHidden:!dummyStatusBarMode];
         }
     }
     else {
-        _showsStatusBarBackgroundView = NO;
+        _statusBarBackgroundViewMode = MMStatusBarBackgroundViewModeNone;
     }
 }
 
@@ -922,7 +924,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         _dummyStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 20)];
         [_dummyStatusBarView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_dummyStatusBarView setBackgroundColor:self.statusBarViewBackgroundColor];
-        [_dummyStatusBarView setHidden:!_showsStatusBarBackgroundView];
+        [_dummyStatusBarView setHidden:!_statusBarBackgroundViewMode];
         [self.view addSubview:_dummyStatusBarView];
     }
     return _dummyStatusBarView;
@@ -993,6 +995,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                 [self setOpenSide:MMDrawerSideNone];
             }
             
+            [self updateStatusBarBackgroundViewAlpha:percentVisible];
             [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
             
             [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
@@ -1029,6 +1032,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 -(void)setNeedsStatusBarAppearanceUpdateIfSupported{
     if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]){
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+}
+
+-(void)updateStatusBarBackgroundViewAlpha:(CGFloat)alpha
+{
+    if (_statusBarBackgroundViewMode == MMStatusBarBackgroundViewModeVariable) {
+        [_dummyStatusBarView setAlpha:alpha];
     }
 }
 
