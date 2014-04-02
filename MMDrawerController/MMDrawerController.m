@@ -675,12 +675,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [super viewWillAppear:animated];
     [self.centerViewController beginAppearanceTransition:YES animated:animated];
     
-    if(self.openSide == MMDrawerSideLeft)
-    {
+    if(self.openSide == MMDrawerSideLeft) {
         [self.leftDrawerViewController beginAppearanceTransition:YES animated:animated];
     }
-    else if(self.openSide == MMDrawerSideRight)
-    {
+    else if(self.openSide == MMDrawerSideRight) {
         [self.rightDrawerViewController beginAppearanceTransition:YES animated:animated];
     }
 }
@@ -690,12 +688,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
     [self.centerViewController endAppearanceTransition];
     
-    if(self.openSide == MMDrawerSideLeft)
-    {
+    if(self.openSide == MMDrawerSideLeft) {
         [self.leftDrawerViewController endAppearanceTransition];
     }
-    else if(self.openSide == MMDrawerSideRight)
-    {
+    else if(self.openSide == MMDrawerSideRight) {
         [self.rightDrawerViewController endAppearanceTransition];
     }
 }
@@ -703,15 +699,23 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.centerViewController beginAppearanceTransition:NO animated:animated];
-    [self.leftDrawerViewController beginAppearanceTransition:NO animated:animated];
-    [self.rightDrawerViewController beginAppearanceTransition:NO animated:animated];
+    if(self.openSide == MMDrawerSideLeft) {
+        [self.leftDrawerViewController beginAppearanceTransition:NO animated:animated];
+    }
+    else if (self.openSide == MMDrawerSideRight) {
+        [self.rightDrawerViewController beginAppearanceTransition:NO animated:animated];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self.centerViewController endAppearanceTransition];
-    [self.leftDrawerViewController endAppearanceTransition];
-    [self.rightDrawerViewController endAppearanceTransition];
+    if(self.openSide == MMDrawerSideLeft) {
+        [self.leftDrawerViewController endAppearanceTransition];
+    }
+    else if (self.openSide == MMDrawerSideRight) {
+        [self.rightDrawerViewController endAppearanceTransition];
+    }
 }
 
 #pragma mark Rotation
