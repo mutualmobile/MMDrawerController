@@ -323,15 +323,24 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             else {
                 if(drawerSide == MMDrawerSideLeft){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
-                    [self.mm_drawerController setLeftDrawerViewController:navC];
+                    if(OSVersionIsAtLeastiOS7()){
+                        UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
+                        [self.mm_drawerController setLeftDrawerViewController:navC];
+                    }
+                    else {
+                        [self.mm_drawerController setLeftDrawerViewController:vc];
+                    }
                     [self setupLeftMenuButton];
-                    
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
-                    [self.mm_drawerController setRightDrawerViewController:navC];
+                    if(drawerSide == MMDrawerSideLeft){
+                        UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
+                        [self.mm_drawerController setRightDrawerViewController:navC];
+                    }
+                    else {
+                        [self.mm_drawerController setRightDrawerViewController:vc];
+                    }
                     [self setupRightMenuButton];
                 }
                 [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
