@@ -193,7 +193,6 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             if(self.mm_drawerController.statusBarBackgroundViewMode == indexPath.row){
                 [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                 [cell.textLabel setTextColor:selectedColor];
-                NSLog(@"%d", self.mm_drawerController.statusBarBackgroundViewMode);
             }
             else {
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -304,9 +303,17 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MMExampleCenterTableViewController * center;
+    UINavigationController * nav;
+    
     switch (indexPath.section) {
         case MMCenterViewControllerSectionStatusBarBackgroundState:
             [self.mm_drawerController setStatusBarBackgroundViewMode:indexPath.row];
+            
+            center = [[MMExampleCenterTableViewController alloc] init];
+            nav = [[MMNavigationController alloc] initWithRootViewController:center];
+            self.mm_drawerController.centerViewController = nav;
+            
             [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
