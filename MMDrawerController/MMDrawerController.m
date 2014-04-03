@@ -1021,8 +1021,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 #pragma mark - iOS 7 Status Bar Helpers
--(void)setShowsStatusBarBackgroundView:(BOOL)showsBackgroundFlag
-{
+-(BOOL)showsStatusBarBackgroundView{
+    return _statusBarBackgroundViewMode != MMStatusBarBackgroundViewModeNone;
+}
+
+-(void)setShowsStatusBarBackgroundView:(BOOL)showsBackgroundFlag{
     _statusBarBackgroundViewMode=showsBackgroundFlag?MMStatusBarBackgroundViewModeOpaque:MMStatusBarBackgroundViewModeNone;
 }
 

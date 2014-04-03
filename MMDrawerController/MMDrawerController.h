@@ -421,6 +421,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 /**
  Method create for backwards compatibility. When called with param YES, `statusBarBackgroundViewMode` will be set to `MMStatusBarBackgroundViewModeOpaque`.
  */
+-(BOOL)showsStatusBarBackgroundView;
 -(void)setShowsStatusBarBackgroundView:(BOOL)showsBackgroundFlag;
 
 @end
