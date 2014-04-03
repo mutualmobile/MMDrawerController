@@ -300,7 +300,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              [self setNeedsStatusBarAppearanceUpdateIfSupported];
              [self.centerContainerView setFrame:newFrame];
              [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:0.0];
-             [self updateStatusBarBackgroundViewAlpha:0.0f];
+             [self updateStatusBarBackgroundViewWithAlpha:0.0f];
          }
          completion:^(BOOL finished) {
              [sideDrawerViewController endAppearanceTransition];
@@ -360,7 +360,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self setNeedsStatusBarAppearanceUpdateIfSupported];
                  [self.centerContainerView setFrame:newFrame];
                  [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
-                 [self updateStatusBarBackgroundViewAlpha:1.0f];
+                 [self updateStatusBarBackgroundViewWithAlpha:1.0f];
              }
              completion:^(BOOL finished) {
                  //End the appearance transition if it already wasn't open.
@@ -847,11 +847,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             if(_statusBarBackgroundViewMode == MMStatusBarBackgroundViewModeOpaque){
                 frame.origin.y = 20;
                 frame.size.height = CGRectGetHeight(self.view.bounds)-20;
+                [self.dummyStatusBarView setAlpha:1.0];
             }
             else {
                 frame.origin.y = 0;
                 frame.size.height = CGRectGetHeight(self.view.bounds);
+                [self updateStatusBarBackgroundViewAlpa];
             }
+            [self setNeedsStatusBarAppearanceUpdateIfSupported];
             [self.childControllerContainerView setFrame:frame];
             [self.dummyStatusBarView setHidden:!dummyStatusBarMode];
         }
@@ -995,7 +998,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                 [self setOpenSide:MMDrawerSideNone];
             }
             
-            [self updateStatusBarBackgroundViewAlpha:percentVisible];
+            [self updateStatusBarBackgroundViewWithAlpha:percentVisible];
             [self updateDrawerVisualStateForDrawerSide:visibleSide percentVisible:percentVisible];
             
             [self.centerContainerView setCenter:CGPointMake(CGRectGetMidX(newFrame), CGRectGetMidY(newFrame))];
@@ -1043,10 +1046,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
 }
 
--(void)updateStatusBarBackgroundViewAlpha:(CGFloat)alpha
+- (void)updateStatusBarBackgroundViewAlpa{
+    CGFloat visibleDrawerPoints = CGRectGetMinX(self.centerContainerView.frame);
+    CGFloat percentVisble = MAX(0.0,visibleDrawerPoints/self.maximumLeftDrawerWidth);
+    [self updateStatusBarBackgroundViewWithAlpha:percentVisble];
+}
+
+-(void)updateStatusBarBackgroundViewWithAlpha:(CGFloat)alpha
 {
     if (_statusBarBackgroundViewMode == MMStatusBarBackgroundViewModeVariable) {
-        [_dummyStatusBarView setAlpha:alpha];
+        [self.dummyStatusBarView setAlpha:alpha];
     }
 }
 
