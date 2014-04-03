@@ -512,6 +512,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              animations:^{
                  [self.centerContainerView setFrame:self.childControllerContainerView.bounds];
                  [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:0.0];
+                 [self updateStatusBarBackgroundViewWithAlpha:0.0f];
              }
              completion:^(BOOL finished) {
                  if (forwardAppearanceMethodsToCenterViewController) {
