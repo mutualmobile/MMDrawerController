@@ -79,9 +79,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     
     if(OSVersionIsAtLeastiOS7()){
         UIColor * barColor = [UIColor
-                              colorWithRed:247.0/255.0
-                              green:249.0/255.0
-                              blue:250.0/255.0
+                              colorWithRed:217.0/255.0
+                              green:219.0/255.0
+                              blue:220.0/255.0
                               alpha:1.0];
         [self.navigationController.navigationBar setBarTintColor:barColor];
     }
