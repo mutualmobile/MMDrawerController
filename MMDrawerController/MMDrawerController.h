@@ -94,8 +94,8 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
 
 typedef NS_ENUM(NSInteger, MMStatusBarBackgroundViewMode) {
     MMStatusBarBackgroundViewModeNone = 0,
-    MMStatusBarBackgroundViewModeOpaque,
     MMStatusBarBackgroundViewModeVariable,
+    MMStatusBarBackgroundViewModeOpaque,
 };
 
 @class  MMDrawerController;

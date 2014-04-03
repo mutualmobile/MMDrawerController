@@ -32,6 +32,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
+    MMCenterViewControllerSectionStatusBarBackgroundState,
     MMCenterViewControllerSectionLeftViewState,
     MMCenterViewControllerSectionLeftDrawerAnimation,
     MMCenterViewControllerSectionRightViewState,
@@ -145,7 +146,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -158,6 +159,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
         case MMCenterViewControllerSectionLeftViewState:
         case MMCenterViewControllerSectionRightViewState:
             return 1;
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            return 3;
         default:
             return 0;
     }
@@ -186,6 +189,30 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                                  alpha:1.0];
     
     switch (indexPath.section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            if(self.mm_drawerController.statusBarBackgroundViewMode == indexPath.row){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:selectedColor];
+                NSLog(@"%d", self.mm_drawerController.statusBarBackgroundViewMode);
+            }
+            else {
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:unselectedColor];
+            }
+            switch (indexPath.row) {
+                case MMStatusBarBackgroundViewModeNone:
+                    [cell.textLabel setText:@"None"];
+                    break;
+                case MMStatusBarBackgroundViewModeOpaque:
+                    [cell.textLabel setText:@"Opaque"];
+                    break;
+                case MMStatusBarBackgroundViewModeVariable:
+                    [cell.textLabel setText:@"Variable"];
+                    break;
+                default:
+                    break;
+            }
+            break;
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
              MMDrawerAnimationType animationTypeForSection;
@@ -258,6 +285,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     switch (section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            return @"Status Bar Background View Mode";
         case MMCenterViewControllerSectionLeftDrawerAnimation:
             return @"Left Drawer Animation";
         case MMCenterViewControllerSectionRightDrawerAnimation:
@@ -276,6 +305,12 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            [self.mm_drawerController setStatusBarBackgroundViewMode:indexPath.row];
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            break;
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
             if(indexPath.section == MMCenterViewControllerSectionLeftDrawerAnimation){
