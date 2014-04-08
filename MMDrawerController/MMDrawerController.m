@@ -1324,9 +1324,18 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     return possibleCloseGestureModes;
 }
 
+//-----Added by Jeffrey Start-----
+bool const MMDrawerSidePanGestureFlag = true;
+//-----Added by Jeffrey End-----
+
 -(MMOpenDrawerGestureMode)possibleOpenGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
     CGPoint point = [touch locationInView:self.childControllerContainerView];
     MMOpenDrawerGestureMode possibleOpenGestureModes = MMOpenDrawerGestureModeNone;
+//-----Added by Jeffrey Start-----
+    if(MMDrawerSidePanGestureFlag && ![self isPointContainedWithinSidesRect:point]){
+        return possibleOpenGestureModes;
+    }
+//-----Added by Jeffrey End-----
     if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]){
         if([self isPointContainedWithinNavigationRect:point]){
             possibleOpenGestureModes |= MMOpenDrawerGestureModePanningNavigationBar;
@@ -1351,6 +1360,18 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     }
     return possibleOpenGestureModes;
 }
+
+//-----Added by Jeffrey Start-----
+int const MMDrawerPanGestureSideContainerWidth = 30;
+
+-(BOOL)isPointContainedWithinSidesRect:(CGPoint)point{
+    CGRect centerViewContentRect = self.centerContainerView.frame;
+    CGRect leftSideRect = CGRectMake(centerViewContentRect.origin.x, centerViewContentRect.origin.y, MMDrawerPanGestureSideContainerWidth, centerViewContentRect.size.height);
+    CGRect rightSideRect = CGRectMake((centerViewContentRect.origin.x + centerViewContentRect.size.width - MMDrawerPanGestureSideContainerWidth), centerViewContentRect.origin.y, MMDrawerPanGestureSideContainerWidth, centerViewContentRect.size.height);
+    BOOL sideContainedFlag = (_leftDrawerViewController != nil && CGRectContainsPoint(leftSideRect, point)) || (_rightDrawerViewController != nil && CGRectContainsPoint(rightSideRect, point));
+    return sideContainedFlag;
+}
+//-----Added by Jeffrey End-----
 
 -(BOOL)isPointContainedWithinNavigationRect:(CGPoint)point{
     CGRect navigationBarRect = CGRectNull;
