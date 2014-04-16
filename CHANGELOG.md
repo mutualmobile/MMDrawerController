@@ -1,4 +1,11 @@
 #MMDrawerController Changelog
+##[0.5.4](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.4) (Tuesday, April 15, 2014)
+###Fixed
+* **FIXED** an issue ([#240](https://github.com/mutualmobile/MMDrawerController/pull/240)) where the center container view controller would be init'ed twice. (Lars Anderson)
+* **FIXED** an issue ([#226](https://github.com/mutualmobile/MMDrawerController/pull/226)) where the side drawer would not be refreshed on a viewWill/DidAppear call. (kk-achu)
+* **FIXED** an issue ([#224](https://github.com/mutualmobile/MMDrawerController/pull/224)) where we had some unreachable code. (tewha)
+
+
 ##[0.5.3](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.3) (Tuesday, February 18, 2014)
 ###Fixed
 * **FIXED** an issue ([#219](https://github.com/mutualmobile/MMDrawerController/pull/219)) where you would get an unbalanced appearance method call if you set the center view controller to the same center view controller.
