@@ -998,6 +998,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             }
         }
         case UIGestureRecognizerStateChanged:{
+            self.view.userInteractionEnabled = NO;
             CGRect newFrame = self.startingPanRect;
             CGPoint translatedPoint = [panGesture translationInView:self.centerContainerView];
             newFrame.origin.x = [self roundedOriginXForDrawerConstriants:CGRectGetMinX(self.startingPanRect)+translatedPoint.x];
@@ -1044,10 +1045,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                     self.gestureCompletion(self, panGesture);
                 }
             }];
+            self.view.userInteractionEnabled = YES;
             break;
         }
         case UIGestureRecognizerStateCancelled:{
             [panGesture setEnabled:YES];
+            self.view.userInteractionEnabled = YES;
             break;
         }
         default:
