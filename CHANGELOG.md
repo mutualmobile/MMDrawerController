@@ -1,4 +1,8 @@
 #MMDrawerController Changelog
+##[0.5.5](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.5) (Wednesday, April 30, 2014)
+###Fixed
+* **FIXED** an issue ([#244](https://github.com/mutualmobile/MMDrawerController/pull/244)) where a user could continue to interact with the view while a pan gesture animation was ongoing. (Kevin Harwood, Patrick Hernandez)
+
 ##[0.5.4](https://github.com/mutualmobile/MMDrawerController/releases/tag/0.5.4) (Tuesday, April 15, 2014)
 ###Fixed
 * **FIXED** an issue ([#240](https://github.com/mutualmobile/MMDrawerController/pull/240)) where the center container view controller would be init'ed twice. (Lars Anderson)
