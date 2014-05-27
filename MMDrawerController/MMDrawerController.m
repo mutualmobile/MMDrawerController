@@ -743,7 +743,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    if (self.animatingDrawer);
+    if (self.animatingDrawer)
     {
         self.startingPanRect = self.centerContainerView.frame;
     }
