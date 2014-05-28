@@ -121,14 +121,14 @@ Beginning with iOS 7, the child view controllers will by default determine the s
 If you do not want the drawer controller to consult the child view controllers for this state, you should subclass `MMDrawerController`, override `childViewControllerForStatusBarStyle` and `childViewControllerForStatusBarHidden`, and return nil for both.
 
 ###Custom Status Bar Background View
-If you have contrasting colors between your center view controller and your drawer controllers, the new iOS 7 status bar handling could cause your application to look less than ideal. Starting with iOS 7, `MMDrawerController` supports drawing a custom status bar background. You have the option to only the status bar background when opening a drawer, with a fade in animation, or to show it at all times, which mimics <= iOS 6.X behavior.
+If you have contrasting colors between your center view controller and your drawer controllers, the new iOS 7 status bar handling could cause your application to look less than ideal. Starting with iOS 7, `MMDrawerController` supports drawing a custom status bar background. You have the option to show the status bar background only when opening a drawer, with a fade in animation, or to show it at all times, which mimics <= iOS 6.X behavior.
 
-To enable a custom status bar background, simply set `statusBarBackgroundViewMode` to one of three possible modes:
-* `MMStatusBarBackgroundViewModeNone` is the default value, and doesn't add any backgroud to the status bar.
-* `MMStatusBarBackgroundViewModeVariable` adds a status bar background view that appears only when a drawer is open. The background view fades in as the drawer opens.
-* `MMStatusBarBackgroundViewModeOpaque` adds a opaque status bar background view that appears at all times.
+You can set `statusBarBackgroundViewMode` to one of the following modes to control the custom status bar background:
+* **MMStatusBarBackgroundViewModeNone** is the default value, and doesn't add any backgroud to the status bar.
+* **MMStatusBarBackgroundViewModeVariable** adds a status bar background view that appears only when a drawer is open. The background view fades in as the drawer opens.
+* **MMStatusBarBackgroundViewModeOpaque** adds a opaque status bar background view that appears at all times.
 
-Additionally, setting the old property `showsStatusBarBackgroundView` to YES will set `statusBarBackgroundViewMode` to `MMStatusBarBackgroundViewModeOpaque` and NO will set it to `MMStatusBarBackgroundViewModeNone`.
+Additionally, setting the old property `showsStatusBarBackgroundView` to NO will set `statusBarBackgroundViewMode` to **MMStatusBarBackgroundViewModeNone** and YES will set it to **MMStatusBarBackgroundViewModeOpaque**.
 
 If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
 
