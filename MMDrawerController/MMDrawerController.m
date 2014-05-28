@@ -853,7 +853,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             else {
                 frame.origin.y = 0;
                 frame.size.height = CGRectGetHeight(self.view.bounds);
-                [self updateStatusBarBackgroundViewAlpa];
+                [self updateStatusBarBackgroundViewAlpha];
             }
             [self setNeedsStatusBarAppearanceUpdateIfSupported];
             [self.childControllerContainerView setFrame:frame];
@@ -1047,7 +1047,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
 }
 
-- (void)updateStatusBarBackgroundViewAlpa{
+- (void)updateStatusBarBackgroundViewAlpha{
     CGFloat visibleDrawerPoints = CGRectGetMinX(self.centerContainerView.frame);
     CGFloat percentVisble = MAX(0.0,visibleDrawerPoints/self.maximumLeftDrawerWidth);
     [self updateStatusBarBackgroundViewWithAlpha:percentVisble];
