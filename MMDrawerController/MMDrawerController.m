@@ -902,6 +902,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self.dummyStatusBarView setBackgroundColor:_statusBarViewBackgroundColor];
 }
 
+-(void)setAnimatingDrawer:(BOOL)animatingDrawer{
+    _animatingDrawer = animatingDrawer;
+    [self.view setUserInteractionEnabled:!animatingDrawer];
+}
+
 #pragma mark - Getters
 -(CGFloat)maximumLeftDrawerWidth{
     if(self.leftDrawerViewController){
