@@ -38,7 +38,7 @@
 
 @implementation MMDrawerMenuButtonView
 
--(id)initWithFrame:(CGRect)frame{
+-(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if(self){
         [self setMenuButtonNormalColor:[[UIColor whiteColor] colorWithAlphaComponent:0.9f]];
@@ -238,7 +238,7 @@
     return drawerButtonImage;
 }
 
--(id)initWithTarget:(id)target action:(SEL)action{
+-(instancetype)initWithTarget:(id)target action:(SEL)action{
     
     if((floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)){
         return [self initWithImage:[self.class drawerButtonItemImage]
@@ -259,7 +259,7 @@
     }
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder{
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
     // non-ideal way to get the target/action, but it works
     UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCoder: aDecoder];
     return [self initWithTarget:barButtonItem.target action:barButtonItem.action];
