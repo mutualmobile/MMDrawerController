@@ -217,15 +217,15 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
     [super decodeRestorableStateWithCoder:coder];
     
-    if ((controller = [coder decodeObjectForKey:MMDrawerLeftDrawerKey])){
-        self.leftDrawerViewController = [coder decodeObjectForKey:MMDrawerLeftDrawerKey];
+    if ((!self.leftDrawerViewController)&&(controller = [coder decodeObjectForKey:MMDrawerLeftDrawerKey])){
+        self.leftDrawerViewController = controller;
     }
-
-    if ((controller = [coder decodeObjectForKey:MMDrawerRightDrawerKey])){
+    
+    if ((!self.rightDrawerViewController)&&(controller = [coder decodeObjectForKey:MMDrawerRightDrawerKey])){
         self.rightDrawerViewController = controller;
     }
 
-    if ((controller = [coder decodeObjectForKey:MMDrawerCenterKey])){
+    if ((!self.centerViewController)&&(controller = [coder decodeObjectForKey:MMDrawerCenterKey])){
         self.centerViewController = controller;
     }
 
