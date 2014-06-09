@@ -543,6 +543,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         if(self.openSide != MMDrawerSideNone){
             [self closeDrawerAnimated:animated completion:completion];
         }
+        else if(completion){
+            completion(YES);
+        }
     }
 }
 
