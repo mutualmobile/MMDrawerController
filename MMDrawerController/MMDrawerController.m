@@ -674,9 +674,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
-	[self.childControllerContainerView setBackgroundColor:[UIColor blackColor]];
-
+    
+    [self.view setBackgroundColor:[UIColor blackColor]];
+    
 	[self setupGestureRecognizers];
 }
 
