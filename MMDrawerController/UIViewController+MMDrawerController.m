@@ -32,6 +32,15 @@
         }
         parentViewController = parentViewController.parentViewController;
     }
+    
+    UIViewController *presentingViewController = self.presentingViewController;
+    while (presentingViewController != nil) {
+        if([presentingViewController isKindOfClass:[MMDrawerController class]]){
+            return (MMDrawerController *)presentingViewController;
+        }
+        presentingViewController = presentingViewController.parentViewController;
+    }
+    
     return nil;
 }
 
