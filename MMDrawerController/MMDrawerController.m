@@ -137,6 +137,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
+@property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @end
 
@@ -426,8 +427,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
     
     if(animated == NO){
-        [self.centerViewController beginAppearanceTransition:YES animated:NO];
-        [self.centerViewController endAppearanceTransition];
+        if (self.isVisible) {
+            [self.centerViewController beginAppearanceTransition:YES animated:NO];
+            [self.centerViewController endAppearanceTransition];
+        }
+        
         [self.centerViewController didMoveToParentViewController:self];
     }
 }
@@ -707,6 +711,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     else if(self.openSide == MMDrawerSideRight) {
         [self.rightDrawerViewController endAppearanceTransition];
     }
+
+    self.visible = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -729,6 +735,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     else if (self.openSide == MMDrawerSideRight) {
         [self.rightDrawerViewController endAppearanceTransition];
     }
+    
+    self.visible = NO;
 }
 
 #pragma mark Rotation
