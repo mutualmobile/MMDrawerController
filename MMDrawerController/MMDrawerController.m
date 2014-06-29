@@ -186,6 +186,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
     
     [self setShowsShadow:YES];
+	[self setShadowRadius:MMDrawerDefaultShadowRadius];
+	[self setShadowOpacity:MMDrawerDefaultShadowOpacity];
     [self setShouldStretchDrawer:YES];
     
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
@@ -1237,8 +1239,8 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     UIView * centerView = self.centerContainerView;
     if(self.showsShadow){
         centerView.layer.masksToBounds = NO;
-        centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
-        centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
+        centerView.layer.shadowRadius = self.shadowRadius;
+        centerView.layer.shadowOpacity = self.shadowOpacity;
         
         /** In the event this gets called a lot, we won't update the shadowPath
         unless it needs to be updated (like during rotation) */

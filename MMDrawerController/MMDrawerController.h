@@ -201,6 +201,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) BOOL showsShadow;
 
 /**
+ The value determining the shadow radius to use if a shadow should be drawn off of `centerViewController` when a drawer is open.
+
+ By default, this is set to 10.0
+ */
+@property (nonatomic, assign) CGFloat shadowRadius;
+
+/**
+ The value determining the shadow opacity to use if a shadow should be drawn off of `centerViewController` when a drawer is open.
+
+ By default, this is set to 0.8
+ */
+@property (nonatomic, assign) CGFloat shadowOpacity;
+
+/**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
  
  By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
