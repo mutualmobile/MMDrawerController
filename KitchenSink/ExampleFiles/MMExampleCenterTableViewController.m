@@ -296,7 +296,6 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             return @"Right Drawer";
         default:
             return nil;
-            break;
     }
 }
 #pragma mark - Table view delegate
