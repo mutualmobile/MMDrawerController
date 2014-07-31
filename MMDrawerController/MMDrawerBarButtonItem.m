@@ -255,6 +255,7 @@
         }
         self.action = action;
         self.target = target;
+        self.accessibilityHint = @"Menu";
         return self;
     }
 }
