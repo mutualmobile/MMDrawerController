@@ -187,6 +187,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     
     [self setShowsShadow:YES];
     [self setShouldStretchDrawer:YES];
+    [self setShouldAllowMultipleGestureRecognizers:NO];
     
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
     [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
@@ -1302,6 +1303,10 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                                                                                                        withTouch:touch];
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return [self shouldAllowMultipleGestureRecognizers];
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
