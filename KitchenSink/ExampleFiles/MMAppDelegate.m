@@ -30,40 +30,15 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface MMAppDelegate ()
-@property (nonatomic,strong) MMDrawerController * drawerController;
-
-@end
-
 @implementation MMAppDelegate
+
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
-    UIViewController * leftSideDrawerViewController = [[MMExampleLeftSideDrawerViewController alloc] init];
-
-    UIViewController * centerViewController = [[MMExampleCenterTableViewController alloc] init];
-    
-    UIViewController * rightSideDrawerViewController = [[MMExampleRightSideDrawerViewController alloc] init];
-    
-    UINavigationController * navigationController = [[MMNavigationController alloc] initWithRootViewController:centerViewController];
-    [navigationController setRestorationIdentifier:@"MMExampleCenterNavigationControllerRestorationKey"];
     if(OSVersionIsAtLeastiOS7()){
-        UINavigationController * rightSideNavController = [[MMNavigationController alloc] initWithRootViewController:rightSideDrawerViewController];
-		[rightSideNavController setRestorationIdentifier:@"MMExampleRightNavigationControllerRestorationKey"];
-        UINavigationController * leftSideNavController = [[MMNavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
-		[leftSideNavController setRestorationIdentifier:@"MMExampleLeftNavigationControllerRestorationKey"];
-        self.drawerController = [[MMDrawerController alloc]
-                            initWithCenterViewController:navigationController
-                            leftDrawerViewController:leftSideNavController
-                            rightDrawerViewController:rightSideNavController];
         [self.drawerController setShowsShadow:NO];
     }
     else{
-         self.drawerController = [[MMDrawerController alloc]
-                            initWithCenterViewController:navigationController
-                            leftDrawerViewController:leftSideDrawerViewController
-                            rightDrawerViewController:rightSideDrawerViewController];
     }
-    [self.drawerController setRestorationIdentifier:@"MMDrawer"];
     [self.drawerController setMaximumRightDrawerWidth:200.0];
     [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
@@ -77,7 +52,7 @@
              block(drawerController, drawerSide, percentVisible);
          }
      }];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
     if(OSVersionIsAtLeastiOS7()){
         UIColor * tintColor = [UIColor colorWithRed:29.0/255.0
                                               green:173.0/255.0
@@ -85,7 +60,6 @@
                                               alpha:1.0];
         [self.window setTintColor:tintColor];
     }
-    [self.window setRootViewController:self.drawerController];
 
     return YES;
 }
@@ -94,7 +68,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
     return YES;
 }
