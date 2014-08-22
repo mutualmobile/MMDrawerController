@@ -106,21 +106,21 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  This can only be set via the init methods, as well as the `setNewCenterViewController:...` methods. The size of this view controller will automatically be set to the size of the drawer container view controller, and it's position is modified from within this class. Do not modify the frame externally.
  */
-@property (nonatomic, strong) UIViewController * centerViewController;
+@property (nonatomic, strong) IBOutlet UIViewController * centerViewController;
 
 /**
  The left drawer view controller. 
  
  The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumLeftDrawerWidth`. Do not modify the frame externally.
  */
-@property (nonatomic, strong) UIViewController * leftDrawerViewController;
+@property (nonatomic, strong) IBOutlet UIViewController * leftDrawerViewController;
 
 /**
  The right drawer view controller. 
  
  The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumRightDrawerWidth`. Do not modify the frame externally.
  */
-@property (nonatomic, strong) UIViewController * rightDrawerViewController;
+@property (nonatomic, strong) IBOutlet UIViewController * rightDrawerViewController;
 
 /**
  The maximum width of the `leftDrawerViewController`. 
@@ -266,6 +266,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 -(void)toggleDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
 
 /**
+ Toggle the left drawer open/closed.
+ 
+ @param sender The sender object.
+ */
+-(IBAction)toggleLeftDrawer:(id)sender;
+
+/**
+ Toggle the right drawer open/closed.
+ 
+ @param sender The sender object.
+ */
+-(IBAction)toggleRightDrawer:(id)sender;
+
+/**
  Closes the open drawer.
  
  @param animated Determines whether the drawer side should be closed animated
@@ -273,6 +287,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  */
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+
+/**
+ Close the open drawer.
+ 
+ @param sender The sender object.
+ */
+-(IBAction)closeDrawer:(id)sender;
 
 /**
  Opens the `drawer` passed in.
@@ -283,6 +304,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  */
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+
+/**
+ Opens the left drawer.
+ 
+ @param sender The sender object.
+ */
+-(IBAction)openLeftDrawer:(id)sender;
+
+/**
+ Opens the right drawer.
+ 
+ @param sender The sender object.
+ */
+-(IBAction)openRightDrawer:(id)sender;
 
 ///---------------------------------------
 /// @name Setting a new Center View Controller
