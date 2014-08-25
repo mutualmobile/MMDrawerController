@@ -1,4 +1,9 @@
 #MMDrawerController Changelog
+##[0.5.7](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.5.7+is%3Aclosed)(Monday,  August 25th, 2014)
+###Fixed
+* **FIXED** an issue ([#271](https://github.com/mutualmobile/MMDrawerController/pull/271)) where state restoration would cause multiple calls to viewDidAppear. (pronebird)
+* **FIXED** an issue ([#269](https://github.com/mutualmobile/MMDrawerController/pull/269)) where an internal method name was misnamed. (shoecart)
+
 ##[0.5.6](https://github.com/mutualmobile/MMDrawerController/issues?milestone=14&page=1&state=closed)(Monday,  June 9th, 2014)
 ###Fixed
 * **FIXED** an issue ([#259](https://github.com/mutualmobile/MMDrawerController/pull/259)) where the side would rarely show up hidden when opening. (Eric Miller, Lars Anderson, Kevin Harwood)
