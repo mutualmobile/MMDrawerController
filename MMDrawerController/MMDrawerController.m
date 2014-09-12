@@ -750,9 +750,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             [self resetDrawerVisualStateForDrawerSide:self.openSide];
         }
     }
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if ([self needsManualForwardingOfRotationEvents])
+    {
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        }
     }
+    
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -777,8 +781,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CFRelease(oldShadowPath);
         }
     }
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    if ([self needsManualForwardingOfRotationEvents])
+    {
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        }
     }
 }
 
@@ -789,8 +797,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     self.startingPanRect = self.centerContainerView.frame; //
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    
+    if ([self needsManualForwardingOfRotationEvents])
+    {
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+        }
     }
 }
 
@@ -1311,6 +1323,12 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                                                                                                        withTouch:touch];
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
+}
+
+- (BOOL)needsManualForwardingOfRotationEvents
+{
+    BOOL beforeIOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending);
+    return beforeIOS8;
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
