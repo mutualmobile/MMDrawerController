@@ -1,0 +1,2 @@
+language: objective-c
+script: xcodebuild -project KitchenSink/MMDrawerControllerKitchenSink.xcodeproj/ -scheme MMDrawerControllerKitchenSink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
