@@ -130,7 +130,7 @@
         case MMDrawerSectionDrawerWidth:
             return self.drawerWidths.count;
         case MMDrawerSectionShadowToggle:
-            return 1;
+            return 7;
         case MMDrawerSectionOpenDrawerGestures:
             return 3;
         case MMDrawerSectionCloseDrawerGestures:
@@ -170,11 +170,60 @@
             break;
         }
         case MMDrawerSectionShadowToggle:{
-            [cell.textLabel setText:@"Show Shadow"];
-            if(self.mm_drawerController.showsShadow)
-                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            else
-                [cell setAccessoryType:UITableViewCellAccessoryNone];
+            switch (indexPath.row) {
+                case 0:
+                    [cell.textLabel setText:@"Show Shadow"];
+                    if(self.mm_drawerController.showsShadow)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 1:
+                    [cell.textLabel setText:@"Shadow Radius 10"];
+                    if(self.mm_drawerController.showsShadow && (fabsf(self.mm_drawerController.shadowRadius - 10.0) <= 0.001))
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 2:
+                    [cell.textLabel setText:@"Shadow Radius 5"];
+                    if(self.mm_drawerController.showsShadow && fabsf(self.mm_drawerController.shadowRadius - 5.0) <= 0.001)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 3:
+                    [cell.textLabel setText:@"Shadow Opacity 0.8"];
+                    if(self.mm_drawerController.showsShadow && fabsf(self.mm_drawerController.shadowOpacity - 0.8) <= 0.001)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 4:
+                    [cell.textLabel setText:@"Shadow Opacity 0.4"];
+                    if(self.mm_drawerController.showsShadow && fabsf(self.mm_drawerController.shadowOpacity - 0.4) <= 0.001)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 5:
+                    [cell.textLabel setText:@"Shadow Color Black"];
+                    if(self.mm_drawerController.showsShadow && self.mm_drawerController.shadowColor == [UIColor blackColor].CGColor)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                case 6:
+                    [cell.textLabel setText:@"Shadow Color Gray"];
+                    if(self.mm_drawerController.showsShadow && self.mm_drawerController.shadowColor == [UIColor darkGrayColor].CGColor)
+                        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    else
+                        [cell setAccessoryType:UITableViewCellAccessoryNone];
+                    break;
+                    
+                default:
+                    break;
+            }
             break;
         }
         case MMDrawerSectionOpenDrawerGestures:{
@@ -380,8 +429,45 @@
             break;
         }
         case MMDrawerSectionShadowToggle:{
-            [self.mm_drawerController setShowsShadow:!self.mm_drawerController.showsShadow];
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            switch (indexPath.row) {
+                case 0:
+                    [self.mm_drawerController setShowsShadow:!self.mm_drawerController.showsShadow];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 1:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowRadius:10.0];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 2:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowRadius:5.0];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 3:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowOpacity:0.8];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 4:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowOpacity:0.4];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 5:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowColor:[UIColor blackColor].CGColor];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                case 6:
+                    [self.mm_drawerController setShowsShadow:YES];
+                    [self.mm_drawerController setShadowColor:[UIColor darkGrayColor].CGColor];
+                    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                    
+                default:
+                    break;
+            }
             break;
         }
         case MMDrawerSectionOpenDrawerGestures:{
