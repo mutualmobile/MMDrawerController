@@ -1312,6 +1312,25 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     }
 }
 
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    
+    BOOL shouldDisableGestureRecognizer = [otherGestureRecognizer.view isKindOfClass:[UITableViewCell class]];
+    
+    if([otherGestureRecognizer.view isKindOfClass:[UITableView class]]){
+        id tableViewDelegate = [(UITableView *)otherGestureRecognizer.view delegate];
+        shouldDisableGestureRecognizer = [tableViewDelegate respondsToSelector:@selector(tableView:canEditRowAtIndexPath:)];
+    }
+    
+    if(shouldDisableGestureRecognizer){
+        //Cancel our recogniser
+        gestureRecognizer.enabled = NO;
+        gestureRecognizer.enabled = YES;
+        return YES;
+    }
+    
+    return NO;
+}
+
 #pragma mark Gesture Recogizner Delegate Helpers
 -(MMCloseDrawerGestureMode)possibleCloseGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
     CGPoint point = [touch locationInView:self.childControllerContainerView];
