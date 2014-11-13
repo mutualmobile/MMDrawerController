@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
                        "http://mutualmobile.github.io/MMDrawerController/ExampleImages/example2.png" ]
   
   s.subspec 'Core' do |ss|
-    ss.source_files = 'MMDrawerController/MMDrawerController*', 'MMDrawerController/UIViewController+MMDrawerController*'
+    ss.source_files = 'MMDrawerController/MMDrawerController.{h,m}', 'MMDrawerController/UIViewController+MMDrawerController*'
     ss.framework  = 'QuartzCore'
   end
   
