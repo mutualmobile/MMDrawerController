@@ -1056,6 +1056,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             
             newFrame = self.centerContainerView.frame;
             newFrame.origin.x = floor(newFrame.origin.x);
+            newFrame.origin.y = floor(newFrame.origin.y);
             self.centerContainerView.frame = newFrame;
             
             break;
