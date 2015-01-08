@@ -256,7 +256,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
-    [self closeDrawerAnimated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+	CGFloat animationVelocity = self.animationVelocity ?: (self.openSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+    [self closeDrawerAnimated:animated velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
@@ -318,8 +319,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
-    
-    [self openDrawerSide:drawerSide animated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+
+	CGFloat animationVelocity = self.animationVelocity ?: (drawerSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+    [self openDrawerSide:drawerSide animated:animated velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
 }
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
@@ -1279,7 +1281,16 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 }
 
 -(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance{
-    NSTimeInterval duration = MAX(distance/self.animationVelocity,MMDrawerMinimumAnimationDuration);
+	CGFloat animationVelocity = self.animationVelocity;
+	if (!animationVelocity){
+		if (self.openSide == MMDrawerSideNone){
+			animationVelocity = MMDrawerDefaultAnimationVelocity;
+		}
+		else{
+			animationVelocity = (self.openSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+		}
+	}
+    NSTimeInterval duration = MAX(distance/animationVelocity,MMDrawerMinimumAnimationDuration);
     return duration;
 }
 
