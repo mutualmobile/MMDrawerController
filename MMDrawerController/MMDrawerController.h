@@ -94,6 +94,7 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
 
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
+typedef void (^MMDrawerControllerOpenDrawerCompletionBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide);
 
 @interface MMDrawerController : UIViewController
 
@@ -164,6 +165,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  By default, this value is set to YES. Enabling `shouldStretchDrawer` will give the pan a gradual asymptotic stopping point much like `UIScrollView` behaves. Note that if this value is set to YES, the `drawerVisualStateBlock` can be passed a `percentVisible` greater than 1.0, so be sure to handle that case appropriately.
  */
 @property (nonatomic, assign) BOOL shouldStretchDrawer;
+
+/**
+ The maximum overshoot to use when stretching the drawer.
+ 
+ If not set then the overshoot is calculated based on the width of the center and drawer views.
+ */
+@property (nonatomic, assign) CGFloat maxOvershootForStretchingDrawer;
 
 /**
  The current open side of the drawer. 
@@ -423,5 +431,12 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param gestureShouldRecognizeTouchBlock A block object to be called to determine if the given `touch` should be recognized by the given gesture.
  */
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
+
+/**
+ Sets a callback to be called when a drawer is fully opened.
+
+ @param openDrawerCompletionBlock A block object to be called that allows the implementer be notified when a drawer is fully opened.
+ */
+-(void)setOpenDrawerCompletionBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide))openDrawerCompletionBlock;
 
 @end

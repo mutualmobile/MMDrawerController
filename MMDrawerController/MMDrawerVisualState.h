@@ -53,9 +53,11 @@
  Creates a parallax experience that slides the side drawer view controller at a different rate than the center view controller during animation. For every parallaxFactor of points moved by the center view controller, the side drawer view controller will move 1 point. Passing in 1.0 is the  equivalent of a applying a sliding animation, while passing in MAX_FLOAT is the equivalent of having no animation at all.
  
  @param parallaxFactor The amount of parallax applied to the side drawer conroller. This value must be greater than 1.0. The closer the value is to 1.0, the faster the side drawer view controller will be parallaxing.
- 
+ @param shouldStretchDrawer Determines whether or not to strectch the drawer when the percentVisible is greater than 1.0. It is YES by default if using the first method.
+
  @return The visual state block.
  */
 +(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor;
++(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor shouldStretchDrawer:(BOOL)shouldStretchDrawer;
 
 @end
