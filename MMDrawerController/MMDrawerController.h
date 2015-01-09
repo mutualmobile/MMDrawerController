@@ -214,6 +214,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
 
+/**
+ To enable other gesture recognizers that might be affected by the UIPanGestureRecognizer instances used for opening and closing a drawer, like the swipe to delete UIPanGestureRecognizer on UITableViewCell instances that have UITableViewCellEditingStyle == UITableViewCellEditingStyleDelete.
+ 
+ By default, this is set to NO. Should be set to YES to enable other gesture recognizers.
+ */
+@property (nonatomic, assign) BOOL shouldAllowMultipleGestureRecognizers;
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
