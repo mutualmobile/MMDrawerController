@@ -16,7 +16,7 @@ Official appledoc documentation can be found at [CocoaDocs](http://cocoadocs.org
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
 ```Ruby
-pod 'MMDrawerController', '~> 0.5.6'
+pod 'MMDrawerController', '~> 0.5.7'
 ```
 
 ---
@@ -160,6 +160,11 @@ Here's a quick list of the built in animations:
 
 ###Stretchy Drawer
 By default, the side drawer will stretch if the user pans past the maximum drawer width. This gives a playful stretch effect. You can disable this by setting `shouldStretchDrawer` to NO, or you can make your own overshoot animation by creating a custom visual state block and setting up custom transforms for when percentVisible is greater than 1.0
+
+###Bounce Preview
+To make your side drawer more discoverable, it may be helpful to bounce the drawer the first time your user launches the app. You can use the `bouncePreviewForDrawerSide:completion:` method to easily do this.
+
+If you would like to bounce a custom distance, you can use `bouncePreviewForDrawerSide:distance:completion:`.
 
 ###Nifty Example
 We decided to spruce up the example a bit using graphics generated from PaintCode. Hope you like it.
