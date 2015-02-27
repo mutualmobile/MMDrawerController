@@ -162,7 +162,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     NSParameterAssert(centerViewController);
-    self = [super init];
+    self = [self init];
     if(self){
         [self setCenterViewController:centerViewController];
         [self setLeftDrawerViewController:leftDrawerViewController];
@@ -191,6 +191,17 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
     [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeNone];
     [self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
+    
+    // set shadow related default values
+    self.shadowOpacity = MMDrawerDefaultShadowOpacity;
+    self.shadowRadius = MMDrawerDefaultShadowRadius;
+    self.shadowOffset = CGSizeMake(0, -3);
+    
+    // set default bezel range for panGestureReconizer
+    self.bezelPanningCenterViewRange = MMDrawerBezelRange;
+    
+    // set defualt panVelocityXAnimationThreshold
+    self.panVelocityXAnimationThreshold = MMDrawerPanVelocityXAnimationThreshold;
 }
 
 #pragma mark - State Restoration
@@ -859,6 +870,21 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
 }
 
+- (void)setShadowRadius:(CGFloat)shadowRadius{
+    _shadowRadius = shadowRadius;
+    [self updateShadowForCenterView];
+}
+
+- (void)setShadowOpacity:(CGFloat)shadowOpacity{
+    _shadowOpacity = shadowOpacity;
+    [self updateShadowForCenterView];
+}
+
+- (void)setShadowOffset:(CGSize)shadowOffset{
+    _shadowOffset = shadowOffset;
+    [self updateShadowForCenterView];
+}
+
 -(void)setOpenSide:(MMDrawerSide)openSide{
     if(_openSide != openSide){
         _openSide = openSide;
@@ -1097,14 +1123,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 -(void)finishAnimationForPanGestureWithXVelocity:(CGFloat)xVelocity completion:(void(^)(BOOL finished))completion{
     CGFloat currentOriginX = CGRectGetMinX(self.centerContainerView.frame);
     
-    CGFloat animationVelocity = MAX(ABS(xVelocity),MMDrawerPanVelocityXAnimationThreshold*2);
+    CGFloat animationVelocity = MAX(ABS(xVelocity),self.panVelocityXAnimationThreshold*2);
     
     if(self.openSide == MMDrawerSideLeft) {
         CGFloat midPoint = self.maximumLeftDrawerWidth / 2.0;
-        if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
+        if(xVelocity > self.panVelocityXAnimationThreshold){
             [self openDrawerSide:MMDrawerSideLeft animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
-        else if(xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
+        else if(xVelocity < -self.panVelocityXAnimationThreshold){
             [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX < midPoint){
@@ -1117,10 +1143,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     else if(self.openSide == MMDrawerSideRight){
         currentOriginX = CGRectGetMaxX(self.centerContainerView.frame);
         CGFloat midPoint = (CGRectGetWidth(self.childControllerContainerView.bounds)-self.maximumRightDrawerWidth) + (self.maximumRightDrawerWidth / 2.0);
-        if(xVelocity > MMDrawerPanVelocityXAnimationThreshold){
+        if(xVelocity > self.panVelocityXAnimationThreshold){
             [self closeDrawerAnimated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
-        else if (xVelocity < -MMDrawerPanVelocityXAnimationThreshold){
+        else if (xVelocity < -self.panVelocityXAnimationThreshold){
             [self openDrawerSide:MMDrawerSideRight animated:YES velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseOut completion:completion];
         }
         else if(currentOriginX > midPoint){
@@ -1251,8 +1277,9 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     UIView * centerView = self.centerContainerView;
     if(self.showsShadow){
         centerView.layer.masksToBounds = NO;
-        centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
-        centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
+        centerView.layer.shadowRadius = self.shadowRadius;
+        centerView.layer.shadowOpacity = self.shadowOpacity;
+        centerView.layer.shadowOffset = self.shadowOffset;
         
         /** In the event this gets called a lot, we won't update the shadowPath
         unless it needs to be updated (like during rotation) */
@@ -1269,6 +1296,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     else if (centerView.layer.shadowPath != NULL) {
         centerView.layer.shadowRadius = 0.f;
         centerView.layer.shadowOpacity = 0.f;
+        centerView.layer.shadowOffset = CGSizeMake(0, -3);
         centerView.layer.shadowPath = NULL;
         centerView.layer.masksToBounds = YES;
     }
@@ -1407,7 +1435,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 -(BOOL)isPointContainedWithinLeftBezelRect:(CGPoint)point{
     CGRect leftBezelRect = CGRectNull;
     CGRect tempRect;
-    CGRectDivide(self.childControllerContainerView.bounds, &leftBezelRect, &tempRect, MMDrawerBezelRange, CGRectMinXEdge);
+    CGRectDivide(self.childControllerContainerView.bounds, &leftBezelRect, &tempRect, self.bezelPanningCenterViewRange, CGRectMinXEdge);
     return (CGRectContainsPoint(leftBezelRect, point) &&
             [self isPointContainedWithinCenterViewContentRect:point]);
 }
@@ -1415,7 +1443,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 -(BOOL)isPointContainedWithinRightBezelRect:(CGPoint)point{
     CGRect rightBezelRect = CGRectNull;
     CGRect tempRect;
-    CGRectDivide(self.childControllerContainerView.bounds, &rightBezelRect, &tempRect, MMDrawerBezelRange, CGRectMaxXEdge);
+    CGRectDivide(self.childControllerContainerView.bounds, &rightBezelRect, &tempRect, self.bezelPanningCenterViewRange, CGRectMaxXEdge);
     
     return (CGRectContainsPoint(rightBezelRect, point) &&
             [self isPointContainedWithinCenterViewContentRect:point]);

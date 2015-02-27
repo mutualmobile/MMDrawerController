@@ -201,6 +201,27 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) BOOL showsShadow;
 
 /**
+ The shadow radius of `centerViewController` when a drawer is open.
+ 
+ By default, this is set to 10.0f;
+ */
+@property (nonatomic, assign) CGFloat shadowRadius;
+
+/**
+ The shadow opacity of `centerViewController` when a drawer is open.
+ 
+ By default, this is set to 0.8f;
+ */
+@property (nonatomic, assign) CGFloat shadowOpacity;
+
+/**
+ The shadow offset of `centerViewController` when a drawer is open.
+ 
+ By default, this is set to (0, -3);
+ */
+@property (nonatomic, assign) CGSize shadowOffset;
+
+/**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
  
  By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
@@ -213,6 +234,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  By default, this is set `[UIColor blackColor]`.
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
+
+/**
+ The value determining panning range of centerView's bezel if the user can open drawer with 'MMOpenDrawerGestureModeBezelPanningCenterView' or close drawer with 'MMCloseDrawerGestureModeBezelPanningCenterView' .
+ 
+ By default, this is set 20.0f.
+ */
+@property (nonatomic, assign) CGFloat bezelPanningCenterViewRange;
+
+/**
+ The value determining if the user can open or close drawer with panGesture velocity.
+ 
+ By default, this is set 200.0f.
+ */
+@property (nonatomic, assign) CGFloat panVelocityXAnimationThreshold;
 
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
