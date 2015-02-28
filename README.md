@@ -123,7 +123,15 @@ If you do not want the drawer controller to consult the child view controllers f
 ###Custom Status Bar Background View
 If you have a contrasting colors between your center view controller and your drawer controllers, the new iOS 7 status bar handling could cause your application to look less than ideal. Starting with iOS 7, `MMDrawerController` supports drawing a custom status bar area at the top of the screen, to give you an area to display the status bar with a constant color, while allowing you to draw custom content below the status bar without worrying about the color of your navigation bars or the top of your content running up underneath the status bar. Using the feature essentially mimics <= iOS 6.X behavior. 
 
-To enable a custom status bar, simple set `showsStatusBarBackgroundView` to `YES`. By default, this will draw a black a view underneath the status bar, and adjust your to content to be laid out lower than the status bar. If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
+
+You can set `statusBarBackgroundViewMode` to one of the following modes to control the custom status bar background:
+* **MMStatusBarBackgroundViewModeNone** is the default value, and doesn't add any backgroud to the status bar.
+* **MMStatusBarBackgroundViewModeVariable** adds a status bar background view that appears only when a drawer is open. The background view fades in as the drawer opens.
+* **MMStatusBarBackgroundViewModeOpaque** adds a opaque status bar background view that appears at all times.
+
+Additionally, setting the old property `showsStatusBarBackgroundView` to NO will set `statusBarBackgroundViewMode` to **MMStatusBarBackgroundViewModeNone** and YES will set it to **MMStatusBarBackgroundViewModeOpaque**.
+
+If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
 
 ---
 ##Subclassing

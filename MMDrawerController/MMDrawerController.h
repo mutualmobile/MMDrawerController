@@ -92,6 +92,12 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
     MMDrawerOpenCenterInteractionModeNavigationBarOnly,
 };
 
+typedef NS_ENUM(NSInteger, MMStatusBarBackgroundViewMode) {
+    MMStatusBarBackgroundViewModeNone = 0,
+    MMStatusBarBackgroundViewModeVariable,
+    MMStatusBarBackgroundViewModeOpaque,
+};
+
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
 
@@ -201,11 +207,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) BOOL showsShadow;
 
 /**
- The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
+ The value determining if a custom background view will appear beneath the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
  
- By default, this is set to NO. If running on < iOS 7.0, it will always return NO.
+ If set to `MMStatusBarBackgroundViewModeOpaque` the child content will be drawn lower than the status bar.
+ 
+ By default, this is set to `MMStatusBarBackgroundViewModeNone`. If running on < iOS 7.0, it will always return `MMStatusBarBackgroundViewModeNone`.
  */
-@property (nonatomic, assign) BOOL showsStatusBarBackgroundView;
+@property (nonatomic, assign) MMStatusBarBackgroundViewMode statusBarBackgroundViewMode;
 
 /**
  The color of the status bar background view if `showsStatusBarBackgroundView` is set to YES. This value is ignored in < iOS 7.0.
@@ -409,5 +417,11 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param gestureShouldRecognizeTouchBlock A block object to be called to determine if the given `touch` should be recognized by the given gesture.
  */
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
+
+/**
+ Method create for backwards compatibility. When called with param YES, `statusBarBackgroundViewMode` will be set to `MMStatusBarBackgroundViewModeOpaque`.
+ */
+-(BOOL)showsStatusBarBackgroundView;
+-(void)setShowsStatusBarBackgroundView:(BOOL)showsBackgroundFlag;
 
 @end

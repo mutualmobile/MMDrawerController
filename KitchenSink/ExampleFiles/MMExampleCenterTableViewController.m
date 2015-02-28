@@ -32,6 +32,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
+    MMCenterViewControllerSectionStatusBarBackgroundState,
     MMCenterViewControllerSectionLeftViewState,
     MMCenterViewControllerSectionLeftDrawerAnimation,
     MMCenterViewControllerSectionRightViewState,
@@ -78,9 +79,9 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     
     if(OSVersionIsAtLeastiOS7()){
         UIColor * barColor = [UIColor
-                              colorWithRed:247.0/255.0
-                              green:249.0/255.0
-                              blue:250.0/255.0
+                              colorWithRed:217.0/255.0
+                              green:219.0/255.0
+                              blue:220.0/255.0
                               alpha:1.0];
         [self.navigationController.navigationBar setBarTintColor:barColor];
     }
@@ -145,7 +146,7 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -158,6 +159,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
         case MMCenterViewControllerSectionLeftViewState:
         case MMCenterViewControllerSectionRightViewState:
             return 1;
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            return 3;
         default:
             return 0;
     }
@@ -186,6 +189,29 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
                                  alpha:1.0];
     
     switch (indexPath.section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            if(self.mm_drawerController.statusBarBackgroundViewMode == indexPath.row){
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                [cell.textLabel setTextColor:selectedColor];
+            }
+            else {
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+                [cell.textLabel setTextColor:unselectedColor];
+            }
+            switch (indexPath.row) {
+                case MMStatusBarBackgroundViewModeNone:
+                    [cell.textLabel setText:@"None"];
+                    break;
+                case MMStatusBarBackgroundViewModeOpaque:
+                    [cell.textLabel setText:@"Opaque"];
+                    break;
+                case MMStatusBarBackgroundViewModeVariable:
+                    [cell.textLabel setText:@"Variable"];
+                    break;
+                default:
+                    break;
+            }
+            break;
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
              MMDrawerAnimationType animationTypeForSection;
@@ -258,6 +284,8 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     switch (section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            return @"Status Bar Background View Mode";
         case MMCenterViewControllerSectionLeftDrawerAnimation:
             return @"Left Drawer Animation";
         case MMCenterViewControllerSectionRightDrawerAnimation:
@@ -274,7 +302,21 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MMExampleCenterTableViewController * center;
+    UINavigationController * nav;
+    
     switch (indexPath.section) {
+        case MMCenterViewControllerSectionStatusBarBackgroundState:
+            [self.mm_drawerController setStatusBarBackgroundViewMode:indexPath.row];
+            
+            center = [[MMExampleCenterTableViewController alloc] init];
+            nav = [[MMNavigationController alloc] initWithRootViewController:center];
+            self.mm_drawerController.centerViewController = nav;
+            
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            break;
         case MMCenterViewControllerSectionLeftDrawerAnimation:
         case MMCenterViewControllerSectionRightDrawerAnimation:{
             if(indexPath.section == MMCenterViewControllerSectionLeftDrawerAnimation){
@@ -322,15 +364,24 @@ typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
             else {
                 if(drawerSide == MMDrawerSideLeft){
                     UIViewController * vc = [[MMExampleLeftSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
-                    [self.mm_drawerController setLeftDrawerViewController:navC];
+                    if(OSVersionIsAtLeastiOS7()){
+                        UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
+                        [self.mm_drawerController setLeftDrawerViewController:navC];
+                    }
+                    else {
+                        [self.mm_drawerController setLeftDrawerViewController:vc];
+                    }
                     [self setupLeftMenuButton];
-                    
                 }
                 else if(drawerSide == MMDrawerSideRight){
                     UIViewController * vc = [[MMExampleRightSideDrawerViewController alloc] init];
-                    UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
-                    [self.mm_drawerController setRightDrawerViewController:navC];
+                    if(drawerSide == MMDrawerSideLeft){
+                        UINavigationController * navC = [[MMNavigationController alloc] initWithRootViewController:vc];
+                        [self.mm_drawerController setRightDrawerViewController:navC];
+                    }
+                    else {
+                        [self.mm_drawerController setRightDrawerViewController:vc];
+                    }
                     [self setupRightMenuButton];
                 }
                 [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
