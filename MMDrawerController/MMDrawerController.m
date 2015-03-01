@@ -186,6 +186,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
     
     [self setShowsShadow:YES];
+    [self setShadowRadius:MMDrawerDefaultShadowRadius];
     [self setShouldStretchDrawer:YES];
     
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
@@ -859,6 +860,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
 }
 
+- (void)setShadowRadius:(CGFloat)shadowRadius{
+    _shadowRadius = shadowRadius;
+    [self updateShadowForCenterView];
+}
+
 -(void)setOpenSide:(MMDrawerSide)openSide{
     if(_openSide != openSide){
         _openSide = openSide;
@@ -1251,7 +1257,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     UIView * centerView = self.centerContainerView;
     if(self.showsShadow){
         centerView.layer.masksToBounds = NO;
-        centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
+        centerView.layer.shadowRadius = self.shadowRadius;
         centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
         
         /** In the event this gets called a lot, we won't update the shadowPath
