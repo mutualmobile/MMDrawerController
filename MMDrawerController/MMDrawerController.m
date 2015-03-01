@@ -136,6 +136,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
+@property (nonatomic, copy) MMDrawerControllerOpenDrawerCompletionBlock openDrawerCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
 
 @end
@@ -186,6 +187,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setAnimationVelocity:MMDrawerDefaultAnimationVelocity];
     
     [self setShowsShadow:YES];
+	[self setShadowRadius:MMDrawerDefaultShadowRadius];
+	[self setShadowOpacity:MMDrawerDefaultShadowOpacity];
     [self setShouldStretchDrawer:YES];
     
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
@@ -253,7 +256,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
-    [self closeDrawerAnimated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+	CGFloat animationVelocity = self.animationVelocity ?: (self.openSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+    [self closeDrawerAnimated:animated velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
@@ -315,8 +319,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
     NSParameterAssert(drawerSide != MMDrawerSideNone);
-    
-    [self openDrawerSide:drawerSide animated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+
+	CGFloat animationVelocity = self.animationVelocity ?: (drawerSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+    [self openDrawerSide:drawerSide animated:animated velocity:animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
 }
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
@@ -369,6 +374,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  if(completion){
                      completion(finished);
                  }
+				 if (finished && self.openDrawerCompletion) {
+					 self.openDrawerCompletion(self,drawerSide);
+				 }
              }];
         }
     }
@@ -647,6 +655,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         
         [CATransaction commit];
     }
+}
+
+-(void)setOpenDrawerCompletionBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide))openDrawerCompletionBlock{
+	[self setOpenDrawerCompletion:openDrawerCompletionBlock];
 }
 
 #pragma mark - Setting Drawer Visual State
@@ -1176,7 +1188,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     if (originX < -self.maximumRightDrawerWidth) {
         if (self.shouldStretchDrawer &&
             self.rightDrawerViewController) {
-            CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumRightDrawerWidth)*MMDrawerOvershootPercentage;
+			CGFloat maxOvershoot = self.maxOvershootForStretchingDrawer ?: (CGRectGetWidth(self.centerContainerView.frame)-self.maximumRightDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, -self.maximumRightDrawerWidth, maxOvershoot);
         }
         else{
@@ -1186,7 +1198,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     else if(originX > self.maximumLeftDrawerWidth){
         if (self.shouldStretchDrawer &&
             self.leftDrawerViewController) {
-            CGFloat maxOvershoot = (CGRectGetWidth(self.centerContainerView.frame)-self.maximumLeftDrawerWidth)*MMDrawerOvershootPercentage;
+            CGFloat maxOvershoot = self.maxOvershootForStretchingDrawer ?: (CGRectGetWidth(self.centerContainerView.frame)-self.maximumLeftDrawerWidth)*MMDrawerOvershootPercentage;
             return originXForDrawerOriginAndTargetOriginOffset(originX, self.maximumLeftDrawerWidth, maxOvershoot);
         }
         else{
@@ -1251,8 +1263,8 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
     UIView * centerView = self.centerContainerView;
     if(self.showsShadow){
         centerView.layer.masksToBounds = NO;
-        centerView.layer.shadowRadius = MMDrawerDefaultShadowRadius;
-        centerView.layer.shadowOpacity = MMDrawerDefaultShadowOpacity;
+        centerView.layer.shadowRadius = self.shadowRadius;
+        centerView.layer.shadowOpacity = self.shadowOpacity;
         
         /** In the event this gets called a lot, we won't update the shadowPath
         unless it needs to be updated (like during rotation) */
@@ -1275,7 +1287,16 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 }
 
 -(NSTimeInterval)animationDurationForAnimationDistance:(CGFloat)distance{
-    NSTimeInterval duration = MAX(distance/self.animationVelocity,MMDrawerMinimumAnimationDuration);
+	CGFloat animationVelocity = self.animationVelocity;
+	if (!animationVelocity){
+		if (self.openSide == MMDrawerSideNone){
+			animationVelocity = MMDrawerDefaultAnimationVelocity;
+		}
+		else{
+			animationVelocity = (self.openSide == MMDrawerSideLeft ? self.maximumLeftDrawerWidth : self.maximumRightDrawerWidth) * 3.0;
+		}
+	}
+    NSTimeInterval duration = MAX(distance/animationVelocity,MMDrawerMinimumAnimationDuration);
     return duration;
 }
 

@@ -113,7 +113,12 @@
     return visualStateBlock;
 }
 
-+(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor{
++(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor
+{
+	return [self parallaxVisualStateBlockWithParallaxFactor:parallaxFactor shouldStretchDrawer:YES];
+}
+
++(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor shouldStretchDrawer:(BOOL)shouldStretchDrawer{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
         NSParameterAssert(parallaxFactor >= 1.0);
@@ -126,8 +131,10 @@
                 transform = CATransform3DMakeTranslation((-distance)/parallaxFactor+(distance*percentVisible/parallaxFactor), 0.0, 0.0);
             }
             else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+				if (shouldStretchDrawer){
+					transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+					transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+				}
             }
         }
         else if(drawerSide == MMDrawerSideRight){
@@ -137,8 +144,10 @@
                 transform = CATransform3DMakeTranslation((distance)/parallaxFactor-(distance*percentVisible)/parallaxFactor, 0.0, 0.0);
             }
             else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+				if (shouldStretchDrawer){
+					transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+					transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+				}
             }
         }
         

@@ -94,6 +94,7 @@ typedef NS_ENUM(NSInteger, MMDrawerOpenCenterInteractionMode) {
 
 @class  MMDrawerController;
 typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible);
+typedef void (^MMDrawerControllerOpenDrawerCompletionBlock)(MMDrawerController * drawerController, MMDrawerSide drawerSide);
 
 @interface MMDrawerController : UIViewController
 
@@ -166,6 +167,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, assign) BOOL shouldStretchDrawer;
 
 /**
+ The maximum overshoot to use when stretching the drawer.
+ 
+ If not set then the overshoot is calculated based on the width of the center and drawer views.
+ */
+@property (nonatomic, assign) CGFloat maxOvershootForStretchingDrawer;
+
+/**
  The current open side of the drawer. 
  
  Note this value will change as soon as a pan gesture opens a drawer, or when a open/close animation is finished.
@@ -199,6 +207,20 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  By default, this is set to YES.
  */
 @property (nonatomic, assign) BOOL showsShadow;
+
+/**
+ The value determining the shadow radius to use if a shadow should be drawn off of `centerViewController` when a drawer is open.
+
+ By default, this is set to 10.0
+ */
+@property (nonatomic, assign) CGFloat shadowRadius;
+
+/**
+ The value determining the shadow opacity to use if a shadow should be drawn off of `centerViewController` when a drawer is open.
+
+ By default, this is set to 0.8
+ */
+@property (nonatomic, assign) CGFloat shadowOpacity;
 
 /**
  The flag determining if a custom background view should appear beneath the status bar, forcing the child content to be drawn lower than the status bar. This property is only available for > iOS 7.0 to take into account for the new behavior of the status bar.
@@ -409,5 +431,12 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param gestureShouldRecognizeTouchBlock A block object to be called to determine if the given `touch` should be recognized by the given gesture.
  */
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
+
+/**
+ Sets a callback to be called when a drawer is fully opened.
+
+ @param openDrawerCompletionBlock A block object to be called that allows the implementer be notified when a drawer is fully opened.
+ */
+-(void)setOpenDrawerCompletionBlock:(void(^)(MMDrawerController * drawerController, MMDrawerSide drawerSide))openDrawerCompletionBlock;
 
 @end
