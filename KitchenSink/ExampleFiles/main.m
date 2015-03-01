@@ -26,6 +26,6 @@
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([MMAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, nil);
     }
 }

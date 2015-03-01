@@ -160,7 +160,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 	return self;
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     NSParameterAssert(centerViewController);
     self = [super init];
     if(self){
@@ -171,11 +171,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     return self;
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:leftDrawerViewController rightDrawerViewController:nil];
 }
 
--(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController{
     return [self initWithCenterViewController:centerViewController leftDrawerViewController:nil rightDrawerViewController:rightDrawerViewController];
 }
 
@@ -252,8 +252,20 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
 }
 
+-(IBAction)toggleLeftDrawer:(id)sender{
+    [self toggleDrawerSide:MMDrawerSideLeft animated:YES completion:NULL];
+}
+
+-(IBAction)toggleRightDrawer:(id)sender{
+    [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:NULL];
+}
+
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
     [self closeDrawerAnimated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+}
+
+-(IBAction)closeDrawer:(id)sender{
+    [self closeDrawerAnimated:YES completion:NULL];
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
@@ -317,6 +329,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     NSParameterAssert(drawerSide != MMDrawerSideNone);
     
     [self openDrawerSide:drawerSide animated:animated velocity:self.animationVelocity animationOptions:UIViewAnimationOptionCurveEaseInOut completion:completion];
+}
+
+-(IBAction)openLeftDrawer:(id)sender{
+    [self openDrawerSide:MMDrawerSideLeft animated:YES completion:NULL];
+}
+
+-(IBAction)openRightDrawer:(id)sender{
+    [self openDrawerSide:MMDrawerSideRight animated:YES completion:NULL];
 }
 
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion{
