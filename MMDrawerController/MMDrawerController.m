@@ -593,7 +593,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              [self.centerContainerView setFrame:newCenterRect];
              if (oldWidth < width){
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
-             }         }
+             }
+         }
          completion:^(BOOL finished) {
              if (oldWidth >= width){
                  [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
