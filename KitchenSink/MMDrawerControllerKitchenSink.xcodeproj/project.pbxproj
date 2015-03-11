@@ -13,9 +13,6 @@
 		294A1D1B17199537005BF6B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D1917199537005BF6B1 /* InfoPlist.strings */; };
 		294A1D1D17199537005BF6B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D1C17199537005BF6B1 /* main.m */; };
 		294A1D2117199537005BF6B1 /* MMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D2017199537005BF6B1 /* MMAppDelegate.m */; };
-		294A1D2317199537005BF6B1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2217199537005BF6B1 /* Default.png */; };
-		294A1D2517199537005BF6B1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2417199537005BF6B1 /* Default@2x.png */; };
-		294A1D2717199537005BF6B1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 294A1D2617199537005BF6B1 /* Default-568h@2x.png */; };
 		294A1D301719982B005BF6B1 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D2F1719982B005BF6B1 /* MMDrawerController.m */; };
 		294A1D3317199844005BF6B1 /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 294A1D3217199844005BF6B1 /* UIViewController+MMDrawerController.m */; };
 		2961190717383AFC00CD4063 /* MMLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2961190617383AFC00CD4063 /* MMLogoView.m */; };
@@ -24,6 +21,7 @@
 		297EA0051738112A00472DF4 /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 297EA0041738112A00472DF4 /* MMTableViewCell.m */; };
 		29848B5F173015D3006D8502 /* MMExampleLeftSideDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29848B5E173015D3006D8502 /* MMExampleLeftSideDrawerViewController.m */; };
 		29848B6517301793006D8502 /* MMExampleRightSideDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29848B6417301793006D8502 /* MMExampleRightSideDrawerViewController.m */; };
+		29971C901AB09A9F00D84C7B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29971C8F1AB09A9F00D84C7B /* LaunchScreen.xib */; };
 		299E0ADD1738173B009FAA3C /* MMSideDrawerSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299E0ADC1738173B009FAA3C /* MMSideDrawerSectionHeaderView.m */; };
 		29C28481172AD77D0089E872 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C28480172AD77D0089E872 /* QuartzCore.framework */; };
 		29C28487172B07C10089E872 /* MMExampleCenterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C28486172B07C10089E872 /* MMExampleCenterTableViewController.m */; };
@@ -50,9 +48,6 @@
 		294A1D1E17199537005BF6B1 /* MMDrawerControllerKitchenSink-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MMDrawerControllerKitchenSink-Prefix.pch"; sourceTree = "<group>"; };
 		294A1D1F17199537005BF6B1 /* MMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMAppDelegate.h; sourceTree = "<group>"; };
 		294A1D2017199537005BF6B1 /* MMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMAppDelegate.m; sourceTree = "<group>"; };
-		294A1D2217199537005BF6B1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		294A1D2417199537005BF6B1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		294A1D2617199537005BF6B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		294A1D2E1719982B005BF6B1 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
 		294A1D2F1719982B005BF6B1 /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerController.m; sourceTree = "<group>"; };
 		294A1D3117199844005BF6B1 /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
@@ -69,6 +64,7 @@
 		29848B5E173015D3006D8502 /* MMExampleLeftSideDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleLeftSideDrawerViewController.m; sourceTree = "<group>"; };
 		29848B6317301793006D8502 /* MMExampleRightSideDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleRightSideDrawerViewController.h; sourceTree = "<group>"; };
 		29848B6417301793006D8502 /* MMExampleRightSideDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleRightSideDrawerViewController.m; sourceTree = "<group>"; };
+		29971C8F1AB09A9F00D84C7B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		299E0ADB1738173B009FAA3C /* MMSideDrawerSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerSectionHeaderView.h; sourceTree = "<group>"; };
 		299E0ADC1738173B009FAA3C /* MMSideDrawerSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSideDrawerSectionHeaderView.m; sourceTree = "<group>"; };
 		29C28480172AD77D0089E872 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -159,9 +155,7 @@
 				294A1D1917199537005BF6B1 /* InfoPlist.strings */,
 				294A1D1C17199537005BF6B1 /* main.m */,
 				294A1D1E17199537005BF6B1 /* MMDrawerControllerKitchenSink-Prefix.pch */,
-				294A1D2217199537005BF6B1 /* Default.png */,
-				294A1D2417199537005BF6B1 /* Default@2x.png */,
-				294A1D2617199537005BF6B1 /* Default-568h@2x.png */,
+				29971C8F1AB09A9F00D84C7B /* LaunchScreen.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -299,12 +293,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				294A1D1B17199537005BF6B1 /* InfoPlist.strings in Resources */,
-				294A1D2317199537005BF6B1 /* Default.png in Resources */,
-				294A1D2517199537005BF6B1 /* Default@2x.png in Resources */,
-				294A1D2717199537005BF6B1 /* Default-568h@2x.png in Resources */,
 				29E2C6181738A10F00606309 /* Icon-72.png in Resources */,
 				29E2C6191738A10F00606309 /* Icon-72@2x.png in Resources */,
 				29E2C61A1738A10F00606309 /* Icon.png in Resources */,
+				29971C901AB09A9F00D84C7B /* LaunchScreen.xib in Resources */,
 				29E2C61B1738A10F00606309 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
