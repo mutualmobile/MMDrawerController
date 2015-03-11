@@ -193,15 +193,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self setCenterHiddenInteractionMode:MMDrawerOpenCenterInteractionModeNavigationBarOnly];
     
     // set shadow related default values
-    self.shadowOpacity = MMDrawerDefaultShadowOpacity;
-    self.shadowRadius = MMDrawerDefaultShadowRadius;
-    self.shadowOffset = CGSizeMake(0, -3);
+    [self setShadowOpacity:MMDrawerDefaultShadowOpacity];
+    [self setShadowRadius:MMDrawerDefaultShadowRadius];
+    [self setShadowOffset:CGSizeMake(0, -3)];
+    [self setShadowColor:[UIColor blackColor]];
     
     // set default bezel range for panGestureReconizer
-    self.bezelPanningCenterViewRange = MMDrawerBezelRange;
+    [self setBezelPanningCenterViewRange:MMDrawerBezelRange];
     
     // set defualt panVelocityXAnimationThreshold
-    self.panVelocityXAnimationThreshold = MMDrawerPanVelocityXAnimationThreshold;
+    [self setPanVelocityXAnimationThreshold:MMDrawerPanVelocityXAnimationThreshold];
 }
 
 #pragma mark - State Restoration
@@ -885,6 +886,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self updateShadowForCenterView];
 }
 
+- (void)setShadowColor:(UIColor *)shadowColor{
+    _shadowColor = shadowColor;
+    [self updateShadowForCenterView];
+}
+
 -(void)setOpenSide:(MMDrawerSide)openSide{
     if(_openSide != openSide){
         _openSide = openSide;
@@ -1280,6 +1286,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
         centerView.layer.shadowRadius = self.shadowRadius;
         centerView.layer.shadowOpacity = self.shadowOpacity;
         centerView.layer.shadowOffset = self.shadowOffset;
+        centerView.layer.shadowColor = [self.shadowColor CGColor];
         
         /** In the event this gets called a lot, we won't update the shadowPath
         unless it needs to be updated (like during rotation) */
