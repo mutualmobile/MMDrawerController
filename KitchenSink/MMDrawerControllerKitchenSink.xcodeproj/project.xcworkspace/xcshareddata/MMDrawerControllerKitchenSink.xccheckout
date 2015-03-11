@@ -10,29 +10,29 @@
 	<string>MMDrawerControllerKitchenSink</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>C486FB0C-7803-4607-BCA9-799E743ECFBA</key>
+		<key>BF2FE30DD30E807A424B26D63A15FEB4A29593EB</key>
 		<string>https://github.com/mutualmobile/MMDrawerController.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>KitchenSink/MMDrawerControllerKitchenSink.xcodeproj/project.xcworkspace</string>
+	<string>KitchenSink/MMDrawerControllerKitchenSink.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>C486FB0C-7803-4607-BCA9-799E743ECFBA</key>
+		<key>BF2FE30DD30E807A424B26D63A15FEB4A29593EB</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mutualmobile/MMDrawerController.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>C486FB0C-7803-4607-BCA9-799E743ECFBA</string>
+	<string>BF2FE30DD30E807A424B26D63A15FEB4A29593EB</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>C486FB0C-7803-4607-BCA9-799E743ECFBA</string>
+			<string>BF2FE30DD30E807A424B26D63A15FEB4A29593EB</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MMDrawerController-GitHub</string>
 		</dict>
