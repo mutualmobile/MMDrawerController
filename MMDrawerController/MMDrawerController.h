@@ -269,7 +269,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
 
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, left drawer view controller.
@@ -279,7 +279,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController leftDrawerViewController:(UIViewController *)leftDrawerViewController;
 
 /**
  Creates and initializes an `MMDrawerController` object with the specified center view controller, right drawer view controller.
@@ -289,7 +289,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @return The newly-initialized drawer container view controller.
  */
--(id)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+-(instancetype)initWithCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
 
 ///---------------------------------------
 /// @name Opening and Closing a Drawer
