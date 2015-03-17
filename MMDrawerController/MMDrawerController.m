@@ -762,8 +762,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             [self resetDrawerVisualStateForDrawerSide:self.openSide];
         }
     }
-    if ([self needsManualForwardingOfRotationEvents])
-    {
+    if ([self needsManualForwardingOfRotationEvents]){
         for(UIViewController * childViewController in self.childViewControllers){
             [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
@@ -794,8 +793,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         }
     }
     
-    if ([self needsManualForwardingOfRotationEvents])
-    {
+    if ([self needsManualForwardingOfRotationEvents]){
         for(UIViewController * childViewController in self.childViewControllers){
             [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
         }
@@ -808,10 +806,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    self.startingPanRect = self.centerContainerView.frame; //
-    
-    if ([self needsManualForwardingOfRotationEvents])
-    {
+    if ([self needsManualForwardingOfRotationEvents]){
         for(UIViewController * childViewController in self.childViewControllers){
             [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
         }
@@ -1138,6 +1133,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
 }
 
+#pragma mark - iOS 8 Rotation Helpers
+- (BOOL)needsManualForwardingOfRotationEvents{
+    BOOL isIOS8 = (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1);
+    return !isIOS8;
+}
+
 #pragma mark - Animation helpers
 -(void)finishAnimationForPanGestureWithXVelocity:(CGFloat)xVelocity completion:(void(^)(BOOL finished))completion{
     CGFloat currentOriginX = CGRectGetMinX(self.centerContainerView.frame);
@@ -1364,12 +1365,6 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                                                                                                        withTouch:touch];
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
-}
-
-- (BOOL)needsManualForwardingOfRotationEvents
-{
-    BOOL beforeIOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending);
-    return beforeIOS8;
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
