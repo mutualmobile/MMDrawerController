@@ -762,9 +762,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             [self resetDrawerVisualStateForDrawerSide:self.openSide];
         }
     }
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if ([self needsManualForwardingOfRotationEvents]){
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        }
     }
+    
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -789,8 +792,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CFRelease(oldShadowPath);
         }
     }
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    if ([self needsManualForwardingOfRotationEvents]){
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        }
     }
 }
 
@@ -800,8 +806,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    for(UIViewController * childViewController in self.childViewControllers){
-        [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if ([self needsManualForwardingOfRotationEvents]){
+        for(UIViewController * childViewController in self.childViewControllers){
+            [childViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+        }
     }
 }
 
@@ -1123,6 +1131,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     if([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]){
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     }
+}
+
+#pragma mark - iOS 8 Rotation Helpers
+- (BOOL)needsManualForwardingOfRotationEvents{
+    BOOL isIOS8 = (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1);
+    return !isIOS8;
 }
 
 #pragma mark - Animation helpers
