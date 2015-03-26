@@ -20,11 +20,18 @@
 #import "MMNavigationController.h"
 #import "UIViewController+MMDrawerController.h"
 
-@interface MMNavigationController ()
+@interface MMNavigationController () <MMDrawerViewControllerProtocol>
 
 @end
 
 @implementation MMNavigationController
+
+-(UIColor*)preferredStatusBarBackgroundColor{
+    if ([self.topViewController respondsToSelector:@selector(preferredStatusBarBackgroundColor)]) {
+        return [self.topViewController performSelector:@selector(preferredStatusBarBackgroundColor)];
+    }
+    return [UIColor blackColor];
+}
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     if(self.mm_drawerController.showsStatusBarBackgroundView){

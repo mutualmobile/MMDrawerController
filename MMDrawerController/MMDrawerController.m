@@ -120,6 +120,43 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 @end
 
+@interface UIColor (MMDrawerController)
++(UIColor *)mm_colorFromColor:(UIColor *)fromColor toColor:(UIColor *)toColor percent:(float)percent;
+@end
+@implementation  UIColor (MMDrawerController)
++(UIColor *)mm_colorFromColor:(UIColor *)fromColor toColor:(UIColor *)toColor percent:(float)percent
+{
+    //from: http://stackoverflow.com/questions/15757872/manually-color-fading-from-one-uicolor-to-another
+    CGFloat fRed, fBlue, fGreen, fAlpha;
+    CGFloat tRed, tBlue, tGreen, tAlpha;
+    CGFloat red, green, blue, alpha;
+    
+    if(CGColorGetNumberOfComponents(fromColor.CGColor) == 2) {
+        [fromColor getWhite:&fRed alpha:&fAlpha];
+        fGreen = fRed;
+        fBlue = fRed;
+    }
+    else {
+        [fromColor getRed:&fRed green:&fGreen blue:&fBlue alpha:&fAlpha];
+    }
+    if(CGColorGetNumberOfComponents(toColor.CGColor) == 2) {
+        [toColor getWhite:&tRed alpha:&tAlpha];
+        tGreen = tRed;
+        tBlue = tRed;
+    }
+    else {
+        [toColor getRed:&tRed green:&tGreen blue:&tBlue alpha:&tAlpha];
+    }
+    
+    red = (percent * (tRed - fRed)) + fRed;
+    green = (percent * (tGreen - fGreen)) + fGreen;
+    blue = (percent * (tBlue - fBlue)) + fBlue;
+    alpha = (percent * (tAlpha - fAlpha)) + fAlpha;
+    
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+@end
+
 @interface MMDrawerController () <UIGestureRecognizerDelegate>{
     CGFloat _maximumRightDrawerWidth;
     CGFloat _maximumLeftDrawerWidth;
@@ -943,6 +980,15 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             }
             [self.childControllerContainerView setFrame:frame];
             [self.dummyStatusBarView setHidden:!showsDummyStatusBar];
+            [self setNeedsStatusBarAppearanceUpdate];
+            //$ Force any top navbar to recalculate its height. Is there a better way? prompting a layout doesn't work.
+            //$ A better approach might be to leave the center controller 'full screen' and not offset by 20pts, and do all layout in layoutSubviews/viewWillLayoutSubviews.
+            // In this case the dummyStatusBarView would sit above the child view controller view.
+            if ([self.centerViewController isKindOfClass: [UINavigationController class]]) {
+                UINavigationController* nc = (UINavigationController* )self.centerViewController;
+                [nc setNavigationBarHidden:!nc.navigationBarHidden];
+                [nc setNavigationBarHidden:!nc.navigationBarHidden];
+            }
         }
     }
     else {
@@ -1189,6 +1235,17 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
     else if(self.shouldStretchDrawer){
         [self applyOvershootScaleTransformForDrawerSide:drawerSide percentVisible:percentVisible];
+    }
+
+    // if both the center and side view controllers support preferredStatusBarColor then tween the two and apply
+    UIViewController<MMDrawerViewControllerProtocol> *centerViewController = (UIViewController<MMDrawerViewControllerProtocol> *)self.centerViewController;
+    if ( self.showsStatusBarBackgroundView && [centerViewController conformsToProtocol:@protocol(MMDrawerViewControllerProtocol)] && [centerViewController respondsToSelector:@selector(preferredStatusBarBackgroundColor)] ) {
+        
+        UIViewController<MMDrawerViewControllerProtocol> *sideViewController = (UIViewController<MMDrawerViewControllerProtocol> *)[self sideDrawerViewControllerForSide:drawerSide];
+        if ( [sideViewController conformsToProtocol:@protocol(MMDrawerViewControllerProtocol)] && [sideViewController respondsToSelector:@selector(preferredStatusBarBackgroundColor)] ) {
+
+            self.statusBarViewBackgroundColor = [UIColor mm_colorFromColor:[centerViewController preferredStatusBarBackgroundColor] toColor:[sideViewController preferredStatusBarBackgroundColor] percent:percentVisible];
+        }
     }
 }
 
