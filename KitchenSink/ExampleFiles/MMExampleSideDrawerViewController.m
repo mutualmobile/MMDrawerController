@@ -32,12 +32,7 @@
 {
     [super viewDidLoad];
 
-    if(OSVersionIsAtLeastiOS7()){
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    }
-    else {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    }
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -45,18 +40,10 @@
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     
     UIColor * tableViewBackgroundColor;
-    if(OSVersionIsAtLeastiOS7()){
-        tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
-                                                   green:113.0/255.0
-                                                    blue:115.0/255.0
-                                                   alpha:1.0];
-    }
-    else {
-        tableViewBackgroundColor = [UIColor colorWithRed:77.0/255.0
-                                                   green:79.0/255.0
-                                                    blue:80.0/255.0
-                                                   alpha:1.0];
-    }
+    tableViewBackgroundColor = [UIColor colorWithRed:110.0/255.0
+                                               green:113.0/255.0
+                                                blue:115.0/255.0
+                                               alpha:1.0];
     [self.tableView setBackgroundColor:tableViewBackgroundColor];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -322,24 +309,14 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     MMSideDrawerSectionHeaderView * headerView;
-    if(OSVersionIsAtLeastiOS7()){
-        headerView =  [[MMSideDrawerSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), 56.0)];
-    }
-    else {
-        headerView =  [[MMSideDrawerSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), 23.0)];
-    }
+    headerView =  [[MMSideDrawerSectionHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.bounds), 56.0)];
     [headerView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     [headerView setTitle:[tableView.dataSource tableView:tableView titleForHeaderInSection:section]];
     return headerView;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if(OSVersionIsAtLeastiOS7()){
-        return 56.0;
-    }
-    else {
-        return 23.0;
-    }
+    return 56.0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

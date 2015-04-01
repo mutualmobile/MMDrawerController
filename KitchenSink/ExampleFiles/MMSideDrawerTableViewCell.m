@@ -32,18 +32,10 @@
         UIView * backgroundView = [[UIView alloc] initWithFrame:self.bounds];
         [backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         UIColor * backgroundColor;
-        if(OSVersionIsAtLeastiOS7()){
-            backgroundColor = [UIColor colorWithRed:122.0/255.0
-                                              green:126.0/255.0
-                                               blue:128.0/255.0
-                                              alpha:1.0];
-        }
-        else {
-            backgroundColor = [UIColor colorWithRed:77.0/255.0
-                                              green:79.0/255.0
-                                               blue:80.0/255.0
-                                              alpha:1.0];
-        }
+        backgroundColor = [UIColor colorWithRed:122.0/255.0
+                                          green:126.0/255.0
+                                           blue:128.0/255.0
+                                          alpha:1.0];
         [backgroundView setBackgroundColor:backgroundColor];
 
         [self setBackgroundView:backgroundView];
@@ -54,10 +46,6 @@
                                       green:236.0/255.0
                                       blue:242.0/255.0
                                       alpha:1.0]];
-        if(OSVersionIsAtLeastiOS7()== NO){
-            [self.textLabel setShadowColor:[[UIColor blackColor] colorWithAlphaComponent:.5]];
-            [self.textLabel setShadowOffset:CGSizeMake(0, 1)];
-        }
     }
     return self;
 }
