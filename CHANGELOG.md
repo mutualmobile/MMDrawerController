@@ -11,6 +11,7 @@
 * **FIXED** an issue ([#348](https://github.com/mutualmobile/MMDrawerController/pull/348)) where the drawer height was incorrectly set when using a dummy status bar.
 * **FIXED** an issue ([#324](https://github.com/mutualmobile/MMDrawerController/pull/324)) where we called removeFromParentViewController out of order. (long)
 * **FIXED** an issue ([#306](https://github.com/mutualmobile/MMDrawerController/pull/306)) where the podspec incorrectly caused a duplicate reference warning. (klundberg)
+
 ##[0.5.7](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.5.7+is%3Aclosed) (Monday,  August 25th, 2014)
 ###Fixed
 * **FIXED** an issue ([#271](https://github.com/mutualmobile/MMDrawerController/pull/271)) where state restoration would cause multiple calls to viewDidAppear. (pronebird)
