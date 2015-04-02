@@ -1,5 +1,5 @@
 #MMDrawerController Changelog
-##[0.6.0](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.6.0+is%3Aclosed)
+##[0.6.0](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.6.0+is%3Aclosed) (Thursday, April 2, 2015)
 ###New
 * **Removed iOS 6 support** ([#350](https://github.com/mutualmobile/MMDrawerController/pull/350))([#356](https://github.com/mutualmobile/MMDrawerController/pull/356)) (Kevin Harwood, podkovyrin)
 * **Migrated from id to instancetype** ([#349](https://github.com/mutualmobile/MMDrawerController/pull/349)) (Kevin Harwood)
@@ -10,12 +10,12 @@
 * **FIXED** an issue ([#348](https://github.com/mutualmobile/MMDrawerController/pull/348)) where the drawer height was incorrectly set when using a dummy status bar.
 * **FIXED** an issue ([#324](https://github.com/mutualmobile/MMDrawerController/pull/324)) where we called removeFromParentViewController out of order. (long)
 * **FIXED** an issue ([#306](https://github.com/mutualmobile/MMDrawerController/pull/306)) where the podspec incorrectly caused a duplicate reference warning. (klundberg)
-##[0.5.7](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.5.7+is%3Aclosed)(Monday,  August 25th, 2014)
+##[0.5.7](https://github.com/mutualmobile/MMDrawerController/issues?q=milestone%3A0.5.7+is%3Aclosed) (Monday,  August 25th, 2014)
 ###Fixed
 * **FIXED** an issue ([#271](https://github.com/mutualmobile/MMDrawerController/pull/271)) where state restoration would cause multiple calls to viewDidAppear. (pronebird)
 * **FIXED** an issue ([#269](https://github.com/mutualmobile/MMDrawerController/pull/269)) where an internal method name was misnamed. (shoecart)
 
-##[0.5.6](https://github.com/mutualmobile/MMDrawerController/issues?milestone=14&page=1&state=closed)(Monday,  June 9th, 2014)
+##[0.5.6](https://github.com/mutualmobile/MMDrawerController/issues?milestone=14&page=1&state=closed) (Monday,  June 9th, 2014)
 ###Fixed
 * **FIXED** an issue ([#259](https://github.com/mutualmobile/MMDrawerController/pull/259)) where the side would rarely show up hidden when opening. (Eric Miller, Lars Anderson, Kevin Harwood)
 * **FIXED** an issue ([#251](https://github.com/mutualmobile/MMDrawerController/pull/251)) where the completion block would not be called if you set the new center view controller with a full close animation while the drawer was closed. (ThuggishNuggets)
