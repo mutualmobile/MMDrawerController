@@ -4,7 +4,8 @@
 * **Removed iOS 6 support** ([#350](https://github.com/mutualmobile/MMDrawerController/pull/350))([#356](https://github.com/mutualmobile/MMDrawerController/pull/356)) (Kevin Harwood, podkovyrin)
 * **Migrated from id to instancetype** ([#349](https://github.com/mutualmobile/MMDrawerController/pull/349)) (Kevin Harwood)
 * **Added iPhone 6/6+ support to example project** ([#347](https://github.com/mutualmobile/MMDrawerController/pull/347)) (Kevin Harwood)
-* **Added new properties for Shadow Radius, Shadow Opacity, Shadow Offset, Bezel Gesture Size, and Pan Velocity thresholds** Please consult the documentation for additional information. ([#294](https://github.com/mutualmobile/MMDrawerController/pull/294))([#338](https://github.com/mutualmobile/MMDrawerController/pull/338))([#270](https://github.com/mutualmobile/MMDrawerController/pull/270))([#194](https://github.com/mutualmobile/MMDrawerController/pull/194)) (SanggeonPark, lbasile, boherna, MartinMoizard )
+* **Added new properties for Shadow Radius, Shadow Opacity, Shadow Offset, Bezel Gesture Size, and Pan Velocity thresholds** Please consult the documentation for additional information. ([#294](https://github.com/mutualmobile/MMDrawerController/pull/294))([#338](https://github.com/mutualmobile/MMDrawerController/pull/338))([#270](https://github.com/mutualmobile/MMDrawerController/pull/270))([#194](https://github.com/mutualmobile/MMDrawerController/pull/194)) (SanggeonPark, lbasile, boherna, MartinMoizard)
+
 ###Fixed
 * **FIXED** an issue ([#288](https://github.com/mutualmobile/MMDrawerController/pull/288)) rotation methods were called twice on iOS 8. (arielitovsky)
 * **FIXED** an issue ([#348](https://github.com/mutualmobile/MMDrawerController/pull/348)) where the drawer height was incorrectly set when using a dummy status bar.
