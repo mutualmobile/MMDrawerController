@@ -457,12 +457,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     BOOL forwardAppearanceMethodsToCenterViewController = ([self.centerViewController isEqual:newCenterViewController] == NO);
 
     UIViewController * oldCenterViewController = self.centerViewController;
+    // This is related to issue 363 (https://github.com/novkostya/MMDrawerController/pull/363)
+    // This needs to be refactored so the appearance logic is easier
+    // to follow across the multiple close/setter methods
     if (animated && forwardAppearanceMethodsToCenterViewController) {
         [oldCenterViewController beginAppearanceTransition:NO animated:NO];
     }
     
     [self setCenterViewController:newCenterViewController animated:animated];
     
+    // Related to note above.
     if (animated && forwardAppearanceMethodsToCenterViewController) {
         [oldCenterViewController endAppearanceTransition];
     }
