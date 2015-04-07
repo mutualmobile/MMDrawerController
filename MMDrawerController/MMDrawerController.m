@@ -455,7 +455,17 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
   
     BOOL forwardAppearanceMethodsToCenterViewController = ([self.centerViewController isEqual:newCenterViewController] == NO);
+
+    UIViewController * oldCenterViewController = self.centerViewController;
+    if (animated && forwardAppearanceMethodsToCenterViewController) {
+        [oldCenterViewController beginAppearanceTransition:NO animated:NO];
+    }
+    
     [self setCenterViewController:newCenterViewController animated:animated];
+    
+    if (animated && forwardAppearanceMethodsToCenterViewController) {
+        [oldCenterViewController endAppearanceTransition];
+    }
     
     if(animated){
         [self updateDrawerVisualStateForDrawerSide:self.openSide percentVisible:1.0];
