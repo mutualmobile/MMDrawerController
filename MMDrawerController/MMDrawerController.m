@@ -138,6 +138,9 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
 
+@property (nonatomic, strong, readwrite) UIPanGestureRecognizer *drawerPanningGestureRecognizer;
+@property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapToCloseGestureRecognizer;
+
 @end
 
 @implementation MMDrawerController
@@ -1269,14 +1272,26 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 }
 
 #pragma mark - Helpers
+
+-(UIPanGestureRecognizer *)drawerPanningGestureRecognizer{
+    if (!_drawerPanningGestureRecognizer) {
+        _drawerPanningGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureCallback:)];
+        _drawerPanningGestureRecognizer.delegate = self;
+    }
+    return _drawerPanningGestureRecognizer;
+}
+
+-(UITapGestureRecognizer *)tapToCloseGestureRecognizer{
+    if (!_tapToCloseGestureRecognizer) {
+        _tapToCloseGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureCallback:)];
+        _tapToCloseGestureRecognizer.delegate = self;
+    }
+    return _tapToCloseGestureRecognizer;
+}
+
 -(void)setupGestureRecognizers{
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureCallback:)];
-    [pan setDelegate:self];
-    [self.view addGestureRecognizer:pan];
-    
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureCallback:)];
-    [tap setDelegate:self];
-    [self.view addGestureRecognizer:tap];
+    [self.view addGestureRecognizer:self.drawerPanningGestureRecognizer];
+    [self.view addGestureRecognizer:self.tapToCloseGestureRecognizer];
 }
 
 -(void)prepareToPresentDrawer:(MMDrawerSide)drawer animated:(BOOL)animated{
