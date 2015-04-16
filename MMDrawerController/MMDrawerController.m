@@ -124,6 +124,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     CGFloat _maximumRightDrawerWidth;
     CGFloat _maximumLeftDrawerWidth;
     UIColor * _statusBarViewBackgroundColor;
+    UIPanGestureRecognizer * _drawerPanningGestureRecognizer;
+    UITapGestureRecognizer * _tapToCloseGestureRecognizer;
 }
 
 @property (nonatomic, assign, readwrite) MMDrawerSide openSide;
@@ -137,9 +139,6 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
-
-@property (nonatomic, strong, readwrite) UIPanGestureRecognizer *drawerPanningGestureRecognizer;
-@property (nonatomic, strong, readwrite) UITapGestureRecognizer *tapToCloseGestureRecognizer;
 
 @end
 
