@@ -1,4 +1,5 @@
 #Mutual Mobile Drawer Controller
+[![Build Status](https://travis-ci.org/mutualmobile/MMDrawerController.svg?branch=master)](https://travis-ci.org/mutualmobile/MMDrawerController)
 [![Coverage Status](https://coveralls.io/repos/mutualmobile/MMDrawerController/badge.svg)](https://coveralls.io/r/mutualmobile/MMDrawerController)
 
 `MMDrawerController` is a side drawer navigation container view controller designed to support the growing number of applications that leverage the side drawer paradigm. This library is designed to exclusively support side drawer navigation in a light-weight, focused approach while exposing the ability to provide custom animations for presenting and dismissing the drawer.
