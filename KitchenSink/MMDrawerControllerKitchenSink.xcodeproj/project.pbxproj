@@ -35,9 +35,23 @@
 		29EEA51B17998320006D68B7 /* MMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEA51A17998320006D68B7 /* MMNavigationController.m */; };
 		29EEA51E1799923E006D68B7 /* MMExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEA51D1799923E006D68B7 /* MMExampleViewController.m */; };
 		29F6163B172AC22A00B31282 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */; };
+		3047B5F8A29F2B9CFBDE6C0A /* libPods-MMDrawerControllerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B68C569C42EEEA8091B678 /* libPods-MMDrawerControllerTests.a */; };
+		9B3BE8821AE2B24F0035ED3A /* MMDrawerControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3BE8811AE2B24F0035ED3A /* MMDrawerControllerTests.m */; };
+		9B3BE8891AE2E6590035ED3A /* MMDrawerBarButtonItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3BE8881AE2E6590035ED3A /* MMDrawerBarButtonItemTests.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9B3BE8831AE2B24F0035ED3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 294A1D0517199537005BF6B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 294A1D0C17199537005BF6B1;
+			remoteInfo = MMDrawerControllerKitchenSink;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		191D7FC6DFB01967B646039D /* Pods-MMDrawerControllerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMDrawerControllerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MMDrawerControllerTests/Pods-MMDrawerControllerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		294A1D0D17199537005BF6B1 /* MMDrawerControllerKitchenSink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMDrawerControllerKitchenSink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		294A1D1017199537005BF6B1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		294A1D1217199537005BF6B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -87,6 +101,12 @@
 		29F61639172AC22A00B31282 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		29F6163A172AC22A00B31282 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		462C592D1757C16B006C1D6F /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
+		9B3BE87D1AE2B24E0035ED3A /* MMDrawerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MMDrawerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B3BE8801AE2B24F0035ED3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B3BE8811AE2B24F0035ED3A /* MMDrawerControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMDrawerControllerTests.m; sourceTree = "<group>"; };
+		9B3BE8881AE2E6590035ED3A /* MMDrawerBarButtonItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItemTests.m; sourceTree = "<group>"; };
+		B096110C1946C92CF283EDDD /* Pods-MMDrawerControllerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMDrawerControllerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MMDrawerControllerTests/Pods-MMDrawerControllerTests.release.xcconfig"; sourceTree = "<group>"; };
+		C9B68C569C42EEEA8091B678 /* libPods-MMDrawerControllerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MMDrawerControllerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +121,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9B3BE87A1AE2B24E0035ED3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3047B5F8A29F2B9CFBDE6C0A /* libPods-MMDrawerControllerTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -109,8 +137,10 @@
 			children = (
 				294A1D2D17199819005BF6B1 /* MMDrawerController */,
 				294A1D1617199537005BF6B1 /* ExampleFiles */,
+				9B3BE87E1AE2B24F0035ED3A /* MMDrawerControllerTests */,
 				294A1D0F17199537005BF6B1 /* Frameworks */,
 				294A1D0E17199537005BF6B1 /* Products */,
+				65DE2DEB9258D5A6F38A4CF6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				294A1D0D17199537005BF6B1 /* MMDrawerControllerKitchenSink.app */,
+				9B3BE87D1AE2B24E0035ED3A /* MMDrawerControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,6 +160,7 @@
 				294A1D1017199537005BF6B1 /* UIKit.framework */,
 				294A1D1217199537005BF6B1 /* Foundation.framework */,
 				294A1D1417199537005BF6B1 /* CoreGraphics.framework */,
+				C9B68C569C42EEEA8091B678 /* libPods-MMDrawerControllerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -240,6 +272,33 @@
 			path = Icons;
 			sourceTree = SOURCE_ROOT;
 		};
+		65DE2DEB9258D5A6F38A4CF6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				191D7FC6DFB01967B646039D /* Pods-MMDrawerControllerTests.debug.xcconfig */,
+				B096110C1946C92CF283EDDD /* Pods-MMDrawerControllerTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9B3BE87E1AE2B24F0035ED3A /* MMDrawerControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				9B3BE8881AE2E6590035ED3A /* MMDrawerBarButtonItemTests.m */,
+				9B3BE8811AE2B24F0035ED3A /* MMDrawerControllerTests.m */,
+				9B3BE87F1AE2B24F0035ED3A /* Supporting Files */,
+			);
+			path = MMDrawerControllerTests;
+			sourceTree = "<group>";
+		};
+		9B3BE87F1AE2B24F0035ED3A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9B3BE8801AE2B24F0035ED3A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,6 +319,26 @@
 			productReference = 294A1D0D17199537005BF6B1 /* MMDrawerControllerKitchenSink.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9B3BE87C1AE2B24E0035ED3A /* MMDrawerControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B3BE8871AE2B24F0035ED3A /* Build configuration list for PBXNativeTarget "MMDrawerControllerTests" */;
+			buildPhases = (
+				268AB37D2E23AF69931FF2AF /* Check Pods Manifest.lock */,
+				9B3BE8791AE2B24E0035ED3A /* Sources */,
+				9B3BE87A1AE2B24E0035ED3A /* Frameworks */,
+				9B3BE87B1AE2B24E0035ED3A /* Resources */,
+				2080B29A53B5BD20ADAA5D78 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9B3BE8841AE2B24F0035ED3A /* PBXTargetDependency */,
+			);
+			name = MMDrawerControllerTests;
+			productName = MMDrawerControllerTests;
+			productReference = 9B3BE87D1AE2B24E0035ED3A /* MMDrawerControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -269,6 +348,12 @@
 				CLASSPREFIX = MM;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Mutual Mobile";
+				TargetAttributes = {
+					9B3BE87C1AE2B24E0035ED3A = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 294A1D0C17199537005BF6B1;
+					};
+				};
 			};
 			buildConfigurationList = 294A1D0817199537005BF6B1 /* Build configuration list for PBXProject "MMDrawerControllerKitchenSink" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -283,6 +368,7 @@
 			projectRoot = "";
 			targets = (
 				294A1D0C17199537005BF6B1 /* MMDrawerControllerKitchenSink */,
+				9B3BE87C1AE2B24E0035ED3A /* MMDrawerControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,7 +387,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9B3BE87B1AE2B24E0035ED3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2080B29A53B5BD20ADAA5D78 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MMDrawerControllerTests/Pods-MMDrawerControllerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		268AB37D2E23AF69931FF2AF /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		294A1D0917199537005BF6B1 /* Sources */ = {
@@ -329,7 +455,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9B3BE8791AE2B24E0035ED3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B3BE8821AE2B24F0035ED3A /* MMDrawerControllerTests.m in Sources */,
+				9B3BE8891AE2E6590035ED3A /* MMDrawerBarButtonItemTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9B3BE8841AE2B24F0035ED3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 294A1D0C17199537005BF6B1 /* MMDrawerControllerKitchenSink */;
+			targetProxy = 9B3BE8831AE2B24F0035ED3A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		294A1D1917199537005BF6B1 /* InfoPlist.strings */ = {
@@ -427,6 +570,69 @@
 			};
 			name = Release;
 		};
+		9B3BE8851AE2B24F0035ED3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 191D7FC6DFB01967B646039D /* Pods-MMDrawerControllerTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = MMDrawerControllerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MMDrawerControllerKitchenSink.app/MMDrawerControllerKitchenSink";
+			};
+			name = Debug;
+		};
+		9B3BE8861AE2B24F0035ED3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B096110C1946C92CF283EDDD /* Pods-MMDrawerControllerTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = MMDrawerControllerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MMDrawerControllerKitchenSink.app/MMDrawerControllerKitchenSink";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -444,6 +650,15 @@
 			buildConfigurations = (
 				294A1D2B17199537005BF6B1 /* Debug */,
 				294A1D2C17199537005BF6B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B3BE8871AE2B24F0035ED3A /* Build configuration list for PBXNativeTarget "MMDrawerControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B3BE8851AE2B24F0035ED3A /* Debug */,
+				9B3BE8861AE2B24F0035ED3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
