@@ -4,7 +4,7 @@ xcode_scheme: MMDrawerControllerKitchenSink
 xcode_workspace: MMDrawerControllerKitchenSink.xcworkspace
 before_install:
   - brew update
-  - brew install xctool
+  - brew reinstall xctool
   - gem update cocoapods
   - gem install slather
 after_success:
