@@ -1,7 +1,11 @@
 language: objective-c
-script: xcodebuild -workspace KitchenSink/MMDrawerControllerKitchenSink.xcworkspace -scheme MMDrawerControllerKitchenSink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+xcode_sdk: iphonesimulator
+xcode_scheme: MMDrawerControllerKitchenSink
+xcode_workspace: KitchenSink/MMDrawerControllerKitchenSink.xcworkspace
 before_install:
-  - export LANG=en_US.UTF-8
-  - gem install cocoapods xcpretty slather --no-ri --no-rdoc --no-ri --no-rdoc
+  - brew update
+  - brew reinstall xctool
+  - gem update cocoapods
+  - gem install slather
 after_success:
   - slather
