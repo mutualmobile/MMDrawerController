@@ -703,6 +703,30 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     return NO;
 }
 
+- (UIViewController *)viewControllerForUnwindSegueAction:(SEL)action fromViewController:(UIViewController *)fromViewController withSender:(id)sender
+{
+    NSMutableArray *childViewControllersByPriority = [NSMutableArray arrayWithObject:self.centerViewController];
+
+    if (self.leftDrawerViewController) {
+        [childViewControllersByPriority addObject:self.leftDrawerViewController];
+    }
+    if (self.rightDrawerViewController) {
+        [childViewControllersByPriority addObject:self.rightDrawerViewController];
+    }
+
+    for (UIViewController *childViewController in childViewControllersByPriority) {
+        UIViewController *unwindViewController = [childViewController viewControllerForUnwindSegueAction:action
+                                                                    fromViewController:fromViewController
+                                                                            withSender:sender];
+
+        if (unwindViewController) {
+            return unwindViewController;
+        }
+    }
+
+    return [super viewControllerForUnwindSegueAction:action fromViewController:fromViewController withSender:sender];
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
