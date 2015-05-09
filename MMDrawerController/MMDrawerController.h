@@ -256,6 +256,16 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, assign) CGFloat panVelocityXAnimationThreshold;
 
+/**
+ The gesture recognizer used to slide the drawers open and closed.
+ */
+@property (nonatomic, strong, readonly) UIPanGestureRecognizer *drawerPanningGestureRecognizer;
+
+/**
+ The gesture recognizer used to close either drawer that is open by tapping on the center view.
+ */
+@property (nonatomic, strong, readonly) UITapGestureRecognizer *tapToCloseGestureRecognizer;
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
