@@ -20,6 +20,20 @@
                ReferencedContainer = "container:MMDrawerControllerKitchenSink.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9B3BE87C1AE2B24E0035ED3A"
+               BuildableName = "MMDrawerControllerTests.xctest"
+               BlueprintName = "MMDrawerControllerTests"
+               ReferencedContainer = "container:MMDrawerControllerKitchenSink.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,6 +42,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9B3BE87C1AE2B24E0035ED3A"
+               BuildableName = "MMDrawerControllerTests.xctest"
+               BlueprintName = "MMDrawerControllerTests"
+               ReferencedContainer = "container:MMDrawerControllerKitchenSink.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

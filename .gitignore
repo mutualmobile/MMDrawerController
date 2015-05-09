@@ -15,3 +15,6 @@ profile
 DerivedData
 .idea/
 *.hmap
+KitchenSink/Pods
+
+KitchenSink/MMDrawerControllerKitchenSink.xcworkspace/xcshareddata/MMDrawerControllerKitchenSink.xccheckout
