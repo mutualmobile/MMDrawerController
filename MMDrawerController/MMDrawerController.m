@@ -208,16 +208,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 #pragma mark - State Restoration
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder{
     [super encodeRestorableStateWithCoder:coder];
+    if (self.centerViewController){
+        [coder encodeObject:self.centerViewController forKey:MMDrawerCenterKey];
+    }
+
     if (self.leftDrawerViewController){
         [coder encodeObject:self.leftDrawerViewController forKey:MMDrawerLeftDrawerKey];
     }
 
     if (self.rightDrawerViewController){
         [coder encodeObject:self.rightDrawerViewController forKey:MMDrawerRightDrawerKey];
-    }
-
-    if (self.centerViewController){
-        [coder encodeObject:self.centerViewController forKey:MMDrawerCenterKey];
     }
 
     [coder encodeInteger:self.openSide forKey:MMDrawerOpenSideKey];
@@ -228,6 +228,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     MMDrawerSide openside;
 
     [super decodeRestorableStateWithCoder:coder];
+
+    if ((controller = [coder decodeObjectForKey:MMDrawerCenterKey])){
+        self.centerViewController = controller;
+    }
     
     if ((controller = [coder decodeObjectForKey:MMDrawerLeftDrawerKey])){
         self.leftDrawerViewController = controller;
@@ -235,10 +239,6 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
     if ((controller = [coder decodeObjectForKey:MMDrawerRightDrawerKey])){
         self.rightDrawerViewController = controller;
-    }
-
-    if ((controller = [coder decodeObjectForKey:MMDrawerCenterKey])){
-        self.centerViewController = controller;
     }
 
     if ((openside = [coder decodeIntegerForKey:MMDrawerOpenSideKey])){
