@@ -255,6 +255,8 @@
         }
         self.action = action;
         self.target = target;
+        self.accessibilityLabel = @"Menu";
+        self.accessibilityHint = @"Toggles the Menu";
         return self;
     }
 }
