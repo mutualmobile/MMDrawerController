@@ -360,6 +360,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CGFloat distance = ABS(CGRectGetMinX(oldFrame)-newFrame.origin.x);
             NSTimeInterval duration = MAX(distance/ABS(velocity),MMDrawerMinimumAnimationDuration);
             
+            //End the appearance transition if it already wasn't open.
+            if(drawerSide != self.openSide){
+                [sideDrawerViewController endAppearanceTransition];
+            }
+            
             [UIView
              animateWithDuration:(animated?duration:0.0)
              delay:0.0
@@ -370,10 +375,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
                  [self updateDrawerVisualStateForDrawerSide:drawerSide percentVisible:1.0];
              }
              completion:^(BOOL finished) {
-                 //End the appearance transition if it already wasn't open.
-                 if(drawerSide != self.openSide){
-                     [sideDrawerViewController endAppearanceTransition];
-                 }
+//                 //End the appearance transition if it already wasn't open.
+//                 if(drawerSide != self.openSide){
+//                     [sideDrawerViewController endAppearanceTransition];
+//                 }
                  [self setOpenSide:drawerSide];
                  
                  [self resetDrawerVisualStateForDrawerSide:drawerSide];
