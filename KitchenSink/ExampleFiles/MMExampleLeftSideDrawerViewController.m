@@ -58,6 +58,8 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     [self setTitle:@"Left Drawer"];
 }
 
