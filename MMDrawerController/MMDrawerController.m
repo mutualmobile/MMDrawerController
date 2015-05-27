@@ -430,20 +430,24 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     
     _centerViewController = centerViewController;
     
-    [self addChildViewController:self.centerViewController];
-    [self.centerViewController.view setFrame:self.childControllerContainerView.bounds];
-    [self.centerContainerView addSubview:self.centerViewController.view];
-    [self.childControllerContainerView bringSubviewToFront:self.centerContainerView];
-    [self.centerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [self updateShadowForCenterView];
-    
-    if(animated == NO){
-        // If drawer is offscreen, then viewWillAppear: will take care of this
-        if(self.view.window) {
-            [self.centerViewController beginAppearanceTransition:YES animated:NO];
-            [self.centerViewController endAppearanceTransition];
+    //if centerViewController is nil, It should not call 'addChildViewController:'
+    if (_centerViewController)
+    {
+        [self addChildViewController:self.centerViewController];
+        [self.centerViewController.view setFrame:self.childControllerContainerView.bounds];
+        [self.centerContainerView addSubview:self.centerViewController.view];
+        [self.childControllerContainerView bringSubviewToFront:self.centerContainerView];
+        [self.centerViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self updateShadowForCenterView];
+        
+        if(animated == NO){
+            // If drawer is offscreen, then viewWillAppear: will take care of this
+            if(self.view.window) {
+                [self.centerViewController beginAppearanceTransition:YES animated:NO];
+                [self.centerViewController endAppearanceTransition];
+            }
+            [self.centerViewController didMoveToParentViewController:self];
         }
-        [self.centerViewController didMoveToParentViewController:self];
     }
 }
 
