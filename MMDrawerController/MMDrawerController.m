@@ -1056,6 +1056,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         case UIGestureRecognizerStateBegan:{
             if(self.animatingDrawer){
                 [panGesture setEnabled:NO];
+                [panGesture setEnabled:YES];
                 break;
             }
             else {
