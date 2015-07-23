@@ -1202,14 +1202,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 - (void)applyOvershootScaleTransformForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
     
     if (percentVisible >= 1.f) {
-        CATransform3D transform = CATransform3DIdentity;
+        transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
         if(drawerSide == MMDrawerSideLeft) {
-            transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, self.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
         else if(drawerSide == MMDrawerSideRight){
-            transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, -self.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
         sideDrawerViewController.view.layer.transform = transform;
