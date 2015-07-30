@@ -360,6 +360,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CGFloat distance = ABS(CGRectGetMinX(oldFrame)-newFrame.origin.x);
             NSTimeInterval duration = MAX(distance/ABS(velocity),MMDrawerMinimumAnimationDuration);
             
+            //Prepares the controller for appearance transistion:
+            if(drawerSide != self.openSide){
+                [sideDrawerViewController endAppearanceTransition];
+            }
+            
             [UIView
              animateWithDuration:(animated?duration:0.0)
              delay:0.0
