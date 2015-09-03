@@ -1208,7 +1208,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, self.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
-        else if(drawerSide == MMDrawerSideRight){
+        else {
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, -self.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
         }
