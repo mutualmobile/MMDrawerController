@@ -1191,6 +1191,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 }
 
 -(void)updateDrawerVisualStateForDrawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat)percentVisible{
+    UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+    [sideDrawerViewController.view setAlpha: percentVisible/2.0 + 0.5];
     if(self.drawerVisualState){
         self.drawerVisualState(self,drawerSide,percentVisible);
     }
