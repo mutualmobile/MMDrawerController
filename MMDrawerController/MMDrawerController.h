@@ -214,6 +214,13 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  */
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
 
+
+/**
+ The color of the container view's background
+ By default, this is set `[UIColor clearColor]`.
+ **/
+@property (nonatomic, strong) UIColor *centerContainerViewBackgroundColor;
+
 ///---------------------------------------
 /// @name Initializing a `MMDrawerController`
 ///---------------------------------------
