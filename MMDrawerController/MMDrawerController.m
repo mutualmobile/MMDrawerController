@@ -124,6 +124,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     CGFloat _maximumRightDrawerWidth;
     CGFloat _maximumLeftDrawerWidth;
     UIColor * _statusBarViewBackgroundColor;
+    UIColor * _centerContainerViewBackgroundColor;
 }
 
 @property (nonatomic, assign, readwrite) MMDrawerSide openSide;
@@ -408,7 +409,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     if(_centerContainerView == nil){
         _centerContainerView = [[MMDrawerCenterContainerView alloc] initWithFrame:centerFrame];
         [self.centerContainerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-        [self.centerContainerView setBackgroundColor:[UIColor clearColor]];
+        [self.centerContainerView setBackgroundColor:self.centerContainerViewBackgroundColor];
         [self.centerContainerView setOpenSide:self.openSide];
         [self.centerContainerView setCenterInteractionMode:self.centerHiddenInteractionMode];
         [self.childControllerContainerView addSubview:self.centerContainerView];
@@ -962,6 +963,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     [self.dummyStatusBarView setBackgroundColor:_statusBarViewBackgroundColor];
 }
 
+-(void)setCenterContainerViewBackgroundColor:(UIColor *)centerContainerViewBackgroundColor{
+    _centerContainerViewBackgroundColor = centerContainerViewBackgroundColor;
+    [self.centerContainerView setBackgroundColor:centerContainerViewBackgroundColor];
+}
+
 -(void)setAnimatingDrawer:(BOOL)animatingDrawer{
     _animatingDrawer = animatingDrawer;
     [self.view setUserInteractionEnabled:!animatingDrawer];
@@ -1037,6 +1043,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     }
     return _statusBarViewBackgroundColor;
 }
+
+- (UIColor*)centerContainerViewBackgroundColor {
+    if (_centerContainerViewBackgroundColor == nil) {
+        _centerContainerViewBackgroundColor = [UIColor clearColor];
+    }
+    return _centerContainerViewBackgroundColor;
+}
+
 
 #pragma mark - Gesture Handlers
 

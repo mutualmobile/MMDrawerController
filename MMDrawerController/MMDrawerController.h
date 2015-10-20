@@ -243,6 +243,12 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
 @property (nonatomic, strong) UIColor * statusBarViewBackgroundColor;
 
 /**
+ The color of the center container view's background
+ By default, this is set `[UIColor clearColor]`.
+ **/
+@property (nonatomic, strong) UIColor *centerContainerViewBackgroundColor;
+
+/**
  The value determining panning range of centerView's bezel if the user can open drawer with 'MMOpenDrawerGestureModeBezelPanningCenterView' or close drawer with 'MMCloseDrawerGestureModeBezelPanningCenterView' .
  
  By default, this is set 20.0f.
