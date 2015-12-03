@@ -171,7 +171,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  Note this value will change as soon as a pan gesture opens a drawer, or when a open/close animation is finished.
  */
 @property (nonatomic, assign, readonly) MMDrawerSide openSide;
-
+@property (nonatomic, assign, readonly) MMDrawerSide lastClosedSide;
 /**
  How a user is allowed to open a drawer using gestures. 
  
