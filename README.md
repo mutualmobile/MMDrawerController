@@ -18,7 +18,11 @@ You can install MMDrawerController in your project by using [CocoaPods](https://
 ```Ruby
 pod 'MMDrawerController', '~> 0.5.7'
 ```
+You can install MMDrawerController in your project by using [Carthage](https://github.com/Carthage/Carthage):
 
+```Ruby
+github "mutualmobile/MMDrawerController"
+```
 ---
 ##Creating a Drawer Controller
 Creating a `MMDrawerController` is as easy as creating a center view controller and the drawer view controllers, and init'ing the drawer.
