@@ -73,7 +73,7 @@
  
  @param animated A boolean that indicates whether the drawer should close with animation
  @param velocity A float indicating how fast the drawer should close
- @param animationOptions A mask defining the animation options of the animation
+ @param options A mask defining the animation options of the animation
  @param completion A completion block to be called when the drawer is finished closing
  */
 -(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));
@@ -84,7 +84,7 @@
  @param drawerSide The drawer side that will be opened
  @param animated A boolean that indicates whether the drawer should open with animation
  @param velocity A float indicating how fast the drawer should open
- @param animationOptions A mask defining the animation options of the animation
+ @param options A mask defining the animation options of the animation
  @param completion A completion block to be called when the drawer is finished opening
  */
 -(void)openDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));
