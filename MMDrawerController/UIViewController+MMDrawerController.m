@@ -40,9 +40,7 @@
        [self.navigationController isEqual:self.mm_drawerController.leftDrawerViewController]){
         CGRect rect = self.mm_drawerController.view.bounds;
         rect.size.width = self.mm_drawerController.maximumLeftDrawerWidth;
-        if (self.mm_drawerController.showsStatusBarBackgroundView) {
-            rect.size.height -= 20.0f;
-        }
+
         return rect;
         
     }
@@ -51,9 +49,7 @@
         CGRect rect = self.mm_drawerController.view.bounds;
         rect.size.width = self.mm_drawerController.maximumRightDrawerWidth;
         rect.origin.x = CGRectGetWidth(self.mm_drawerController.view.bounds)-rect.size.width;
-        if (self.mm_drawerController.showsStatusBarBackgroundView) {
-            rect.size.height -= 20.0f;
-        }
+
         return rect;
     }
     else {
