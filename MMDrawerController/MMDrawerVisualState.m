@@ -25,13 +25,13 @@
 @implementation MMDrawerVisualState
 +(MMDrawerControllerDrawerVisualStateBlock)slideAndScaleVisualStateBlock{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
-    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat fractionVisible){
         CGFloat minScale = .90;
-        CGFloat scale = minScale + (percentVisible*(1.0-minScale));
+        CGFloat scale = minScale + (fractionVisible*(1.0-minScale));
         CATransform3D scaleTransform =  CATransform3DMakeScale(scale, scale, scale);
         
         CGFloat maxDistance = 50;
-        CGFloat distance = maxDistance * percentVisible;
+        CGFloat distance = maxDistance * fractionVisible;
         CATransform3D translateTransform = CATransform3DIdentity;
         UIViewController * sideDrawerViewController;
         if(drawerSide == MMDrawerSideLeft) {
@@ -44,7 +44,7 @@
         }
         
         [sideDrawerViewController.view.layer setTransform:CATransform3DConcat(scaleTransform, translateTransform)];
-        [sideDrawerViewController.view setAlpha:percentVisible];
+        [sideDrawerViewController.view setAlpha:fractionVisible];
     };
     return visualStateBlock;
 }
@@ -56,7 +56,7 @@
 
 +(MMDrawerControllerDrawerVisualStateBlock)swingingDoorVisualStateBlock{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
-    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat fractionVisible){
         UIViewController * sideDrawerViewController;
         CGPoint anchorPoint;
         CGFloat maxDrawerWidth = 0.0;
@@ -68,15 +68,15 @@
             sideDrawerViewController = drawerController.leftDrawerViewController;
             anchorPoint =  CGPointMake(1.0, .5);
             maxDrawerWidth = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
-            xOffset = -(maxDrawerWidth/2.0) + (maxDrawerWidth)*percentVisible;
-            angle = -M_PI_2+(percentVisible*M_PI_2);
+            xOffset = -(maxDrawerWidth/2.0) + (maxDrawerWidth)*fractionVisible;
+            angle = -M_PI_2+(fractionVisible*M_PI_2);
         }
         else {
             sideDrawerViewController = drawerController.rightDrawerViewController;
             anchorPoint = CGPointMake(0.0, .5);
             maxDrawerWidth = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
-            xOffset = (maxDrawerWidth/2.0) - (maxDrawerWidth)*percentVisible;
-            angle = M_PI_2-(percentVisible*M_PI_2);
+            xOffset = (maxDrawerWidth/2.0) - (maxDrawerWidth)*fractionVisible;
+            angle = M_PI_2-(fractionVisible*M_PI_2);
         }
         
         [sideDrawerViewController.view.layer setAnchorPoint:anchorPoint];
@@ -84,7 +84,7 @@
         [sideDrawerViewController.view.layer setRasterizationScale:[[UIScreen mainScreen] scale]];
         
         CATransform3D swingingDoorTransform = CATransform3DIdentity;
-        if (percentVisible <= 1.f) {
+        if (fractionVisible <= 1.f) {
             
             CATransform3D identity = CATransform3DIdentity;
             identity.m34 = -1.0/1000.0;
@@ -97,7 +97,7 @@
             swingingDoorTransform = concatTransform;
         }
         else{
-            CATransform3D overshootTransform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+            CATransform3D overshootTransform = CATransform3DMakeScale(fractionVisible, 1.f, 1.f);
             
             NSInteger scalingModifier = 1.f;
             if (drawerSide == MMDrawerSideRight) {
@@ -115,30 +115,30 @@
 
 +(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
-    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+    ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat fractionVisible){
         NSParameterAssert(parallaxFactor >= 1.0);
         CATransform3D transform = CATransform3DIdentity;
         UIViewController * sideDrawerViewController;
         if(drawerSide == MMDrawerSideLeft) {
             sideDrawerViewController = drawerController.leftDrawerViewController;
             CGFloat distance = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
-            if (percentVisible <= 1.f) {
-                transform = CATransform3DMakeTranslation((-distance)/parallaxFactor+(distance*percentVisible/parallaxFactor), 0.0, 0.0);
+            if (fractionVisible <= 1.f) {
+                transform = CATransform3DMakeTranslation((-distance)/parallaxFactor+(distance*fractionVisible/parallaxFactor), 0.0, 0.0);
             }
             else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                transform = CATransform3DMakeScale(fractionVisible, 1.f, 1.f);
+                transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(fractionVisible-1.f)/2, 0.f, 0.f);
             }
         }
         else if(drawerSide == MMDrawerSideRight){
             sideDrawerViewController = drawerController.rightDrawerViewController;
             CGFloat distance = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
-            if(percentVisible <= 1.f){
-                transform = CATransform3DMakeTranslation((distance)/parallaxFactor-(distance*percentVisible)/parallaxFactor, 0.0, 0.0);
+            if(fractionVisible <= 1.f){
+                transform = CATransform3DMakeTranslation((distance)/parallaxFactor-(distance*fractionVisible)/parallaxFactor, 0.0, 0.0);
             }
             else{
-                transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
-                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                transform = CATransform3DMakeScale(fractionVisible, 1.f, 1.f);
+                transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(fractionVisible-1.f)/2, 0.f, 0.f);
             }
         }
         
