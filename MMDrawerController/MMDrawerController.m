@@ -617,9 +617,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
          options:UIViewAnimationOptionCurveEaseInOut
          animations:^{
              [self.centerContainerView setFrame:newCenterRect];
-             [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
+             if (oldWidth < width){
+                 [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
+             }
          }
          completion:^(BOOL finished) {
+             if (oldWidth >= width){
+                 [sideDrawerViewController.view setFrame:sideDrawerViewController.mm_visibleDrawerFrame];
+             }
              if(completion != nil){
                  completion(finished);
              }
