@@ -762,6 +762,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 #pragma mark Rotation
 
+-(NSUInteger)supportedInterfaceOrientations {
+    if(self.centerViewController == nil)
+        return([super supportedInterfaceOrientations]);
+    else
+        return([self.centerViewController supportedInterfaceOrientations]);
+}
+
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     //If a rotation begins, we are going to cancel the current gesture and reset transform and anchor points so everything works correctly
