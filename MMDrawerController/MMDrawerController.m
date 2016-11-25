@@ -1068,8 +1068,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             CGPoint translatedPoint = [panGesture translationInView:self.centerContainerView];
             newFrame.origin.x = [self roundedOriginXForDrawerConstriants:CGRectGetMinX(self.startingPanRect)+translatedPoint.x];
             newFrame = CGRectIntegral(newFrame);
-            CGFloat xOffset = newFrame.origin.x;
             
+            // Disable drawer gesture if gesture has moved more in vertical than horizontal direction
+            if (fabs(translatedPoint.x) < fabs(translatedPoint.y)) {
+                newFrame.origin.x = self.startingPanRect.origin.x;
+            }
+            
+            CGFloat xOffset = newFrame.origin.x;
+
             MMDrawerSide visibleSide = MMDrawerSideNone;
             CGFloat percentVisible = 0.0;
             if(xOffset > 0){
@@ -1163,7 +1169,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         else if(currentOriginX < midPoint){
             [self closeDrawerAnimated:YES completion:completion];
         }
-        else {
+        else if (self.openSide == MMDrawerSideNone) {
             [self openDrawerSide:MMDrawerSideLeft animated:YES completion:completion];
         }
     }
@@ -1271,6 +1277,7 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 #pragma mark - Helpers
 -(void)setupGestureRecognizers{
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureCallback:)];
+    pan.cancelsTouchesInView = NO;
     [pan setDelegate:self];
     [self.view addGestureRecognizer:pan];
     
@@ -1372,6 +1379,10 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
                                                                                                        withTouch:touch];
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #pragma mark Gesture Recogizner Delegate Helpers
