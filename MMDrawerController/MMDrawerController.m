@@ -703,6 +703,14 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     return NO;
 }
 
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return self.centerViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.centerViewController;
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
