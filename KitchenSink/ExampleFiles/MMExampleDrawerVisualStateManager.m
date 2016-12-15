@@ -80,9 +80,9 @@
                     transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
                     
                     if(drawerSide == MMDrawerSideLeft){
-                        transform = CATransform3DTranslate(transform, maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                        transform = CATransform3DTranslate(transform, maxDrawerWidth*(percentVisible-1.f)/(2*percentVisible), 0.f, 0.f);
                     }else if(drawerSide == MMDrawerSideRight){
-                        transform = CATransform3DTranslate(transform, -maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+                        transform = CATransform3DTranslate(transform, -maxDrawerWidth*(percentVisible-1.f)/(2*percentVisible), 0.f, 0.f);
                     }
                 }
                 else {
