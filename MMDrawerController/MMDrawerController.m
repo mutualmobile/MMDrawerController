@@ -137,6 +137,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
+@property (nonatomic, strong)  UIPanGestureRecognizer * panGR;
 
 @end
 
@@ -262,6 +263,16 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
             completion(NO);
         }
     }
+}
+
+-(void)disablePan {
+    
+    [self.panGR setEnabled:NO];
+}
+
+-(void)enablePan {
+    
+    [self.panGR setEnabled:YES];
 }
 
 -(void)closeDrawerAnimated:(BOOL)animated completion:(void (^)(BOOL finished))completion{
@@ -1272,7 +1283,8 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
 -(void)setupGestureRecognizers{
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureCallback:)];
     [pan setDelegate:self];
-    [self.view addGestureRecognizer:pan];
+    self.panGR = pan;
+    [self.view addGestureRecognizer:self.panGR];
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureCallback:)];
     [tap setDelegate:self];
