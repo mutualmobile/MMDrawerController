@@ -1,4 +1,4 @@
-#Mutual Mobile Drawer Controller
+# Mutual Mobile Drawer Controller
 `MMDrawerController` is a side drawer navigation container view controller designed to support the growing number of applications that leverage the side drawer paradigm. This library is designed to exclusively support side drawer navigation in a light-weight, focused approach while exposing the ability to provide custom animations for presenting and dismissing the drawer.
 
 <p align="center" >
@@ -7,11 +7,11 @@
 </p>
 
 ---
-##Documentation
+## Documentation
 Official appledoc documentation can be found at [CocoaDocs](http://cocoadocs.org/docsets/MMDrawerController/).
 
 ---
-##Installing MMDrawerController
+## Installing MMDrawerController
 <img src="https://cocoapod-badges.herokuapp.com/v/MMDrawerController/badge.png"/><br/>
 You can install MMDrawerController in your project by using [CocoaPods](https://github.com/cocoapods/cocoapods):
 
@@ -20,7 +20,7 @@ pod 'MMDrawerController', '~> 0.5.7'
 ```
 
 ---
-##Creating a Drawer Controller
+## Creating a Drawer Controller
 Creating a `MMDrawerController` is as easy as creating a center view controller and the drawer view controllers, and init'ing the drawer.
 
 ```Objective-C
@@ -35,12 +35,12 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
 ```
 
 ---
-##Features
+## Features
 
-###UINavigationController Support
+### UINavigationController Support
 `MMDrawerController` seamlessly accepts a `UINavigationController` as the `centerViewController`, and will update all of the gesture support automatically. In addition, any child view controller contained within the `UINavigationController` will have access to the parent drawer controller using the category explained [below](#accessing-the-drawer-controller-from-a-child-view-controller).
 
-###UIGestureRecognizer Support
+### UIGestureRecognizer Support
 `MMDrawerController` exposes gesture support for opening and closing the drawer through two masks, one for opening and one for closing. The options are as follows:
 
 * **MMOpenDrawerGestureMode**
@@ -60,7 +60,7 @@ MMDrawerController * drawerController = [[MMDrawerController alloc]
  
 You are free to set whatever combination you want for opening and closing. Note that these gestures may impact touches sent to the child view controllers, so be sure to use these appropriately for your application. For example, you wouldn't want `MMOpenDrawerGestureModePanningCenterView` set if a `MKMapView` is your center view controller, since it would intercept the pan meant for moving around the map.
 
-####Custom Gesture Recognizer Support
+#### Custom Gesture Recognizer Support
 Starting with version 0.3.0, you can now provide a callback block to determine if a gesture should be recognized using the `setGestureShouldRecognizeTouchBlock:` method. This method provides three parameters - the drawer controller, the gesture, and the touch. As a developer, you are responsible for inspecting those elements and determining if the gesture should be recognized or not. Note the block is only consulted if you have set `MMOpenDrawerGestureModeCustom`/`MMCloseDrawerGestureModeCustom` on the appropriate mask.
 
 For example, lets say you have a center view controller that contains a few elements, and you only want the pan gesture to be recognized to open the drawer when the touch begins within a certain subview. You would make sure that the `openDrawerGestureModeMask` contains `MMOpenDrawerGestureModeCustom`, and you could set a block below as so:
@@ -80,7 +80,7 @@ For example, lets say you have a center view controller that contains a few elem
  ```
  Note that you would not want the `openDrawerGestureModeMask` to contain `MMOpenDrawerGestureModePanningCenterView`, since that would take over and be applied automatically regardless of where the touch begins within the center view.
 
-###Custom Drawer Open/Close Animations
+### Custom Drawer Open/Close Animations
 `MMDrawerController` provides a callback block that allows you to implement your own custom state for the drawer controller when an open/close or pan gesture event happens. Within the block, you are responsible for updating the visual state of the drawer controller, and the drawer controller will handle animating to that state.
 
 For example, to set the alpha of the side drawer controller from 0 to 1 during an animation, you would do the following:
@@ -101,46 +101,46 @@ For example, to set the alpha of the side drawer controller from 0 to 1 during a
 
 In addition, `MMDrawerController` ships with several prebuilt animations to let you go crazy right out of the box. These are included as a subspec for the project, and more information can be found [below](#prebuilt-example-animations).
 
-###Center View Controller Interaction Mode
+### Center View Controller Interaction Mode
 When a drawer is open, you can control how a user can interact with the center view controller. 
 
 * **MMDrawerOpenCenterInteractionModeNone**: The user can not interact with any content in the center view.
 * **MMDrawerOpenCenterInteractionModeFull**: The user can interact with all content in the center view.
 * **MMDrawerOpenCenterInteractionModeNavigationBarOnly**: The user can interact with only content on the navigation bar. The setting allows the menu button to still respond, allowing you to toggle the drawer closed when it is open. This is the default setting.
 
-###Accessing the Drawer Controller from a Child View Controller
+### Accessing the Drawer Controller from a Child View Controller
 You can use the `UIViewController+MMDrawerController` category in order to query the drawerController directly from child view controllers.
 
-###State Restoration
+### State Restoration
 Beginning with 0.4.0, `MMDrawerController` supports iOS state restoration. In order to opt in to state restoration for `MMDrawerController`, you must set the `restorationIdentifier` of your drawer controller. Instances of your `centerViewController`, `leftDrawerViewController` and `rightDrawerViewController` must also be configured with their own `restorationIdentifier` (and optionally a restorationClass) if you intend for those to be restored as well. If your MMDrawerController had an open drawer when your app was sent to the background, that state will also be restored.
 
-##iOS 7 Status Bar Support
-###Child View Controller Support
+## iOS 7 Status Bar Support
+### Child View Controller Support
 Beginning with iOS 7, the child view controllers will by default determine the state of the status bar, including its' style and whether or not it is hidden. This value will also be updated anytime the open side changes state, meaning that a side drawer can provide a different value than the center view controller.
 
 If you do not want the drawer controller to consult the child view controllers for this state, you should subclass `MMDrawerController`, override `childViewControllerForStatusBarStyle` and `childViewControllerForStatusBarHidden`, and return nil for both.
 
-###Custom Status Bar Background View
+### Custom Status Bar Background View
 If you have a contrasting colors between your center view controller and your drawer controllers, the new iOS 7 status bar handling could cause your application to look less than ideal. Starting with iOS 7, `MMDrawerController` supports drawing a custom status bar area at the top of the screen, to give you an area to display the status bar with a constant color, while allowing you to draw custom content below the status bar without worrying about the color of your navigation bars or the top of your content running up underneath the status bar. Using the feature essentially mimics <= iOS 6.X behavior. 
 
 To enable a custom status bar, simple set `showsStatusBarBackgroundView` to `YES`. By default, this will draw a black a view underneath the status bar, and adjust your to content to be laid out lower than the status bar. If you would like a custom status background color, you can set `statusBarViewBackgroundColor` to whatever color you desire.
 
 ---
-##Subclassing
+## Subclassing
 If you plan to subclass `MMDrawerController`, import `MMDrawerController+Subclass.h` into your subclass to access protected methods for `MMDrawerController.` Note that several methods assume and require you to call super, so be sure to follow that convention.
 
 If there is specific functionality you need that is not supported by these methods, please open a Github issue explaining your needs and we can try and find a way to open up methods that can help you out.
 
 ---
-##Bells and Whistles
+## Bells and Whistles
 A few extras to make your life easier...
 
-###MMDrawerBarButtonItem
+### MMDrawerBarButtonItem
 Using Paint Code, we created a standard Menu Button that you can use in any `UINavigationBar`, and make it whatever color you want. It's included as a subspec to this library. Enjoy.
 
 Starting with iOS 7, the drawer button is now drawn in a much thinner stroke. In addition, the color methods have been deprecated, and the color will now be determined by the `tintColor.` Also note that the shadow has been deprecated to be more in line with the design themes of the OS.
 
-###Prebuilt Example Animations
+### Prebuilt Example Animations
 In order to make it as easy as possible for you to use this library, we built some of the common animations we see out there today. Simply include the `MMDrawerVisualStates` subspec, and use any of the prebuilt visual states.
 
 For example, if you wanted to use a slide and scale animation, you would do the following:
@@ -158,21 +158,21 @@ Here's a quick list of the built in animations:
 * **Swinging Door**: The drawer swings in along a hinge on the center view controller.
 * **Parallax**: The drawer slides in at a slower rate than the center view controller, giving a parallax effect.
 
-###Stretchy Drawer
+### Stretchy Drawer
 By default, the side drawer will stretch if the user pans past the maximum drawer width. This gives a playful stretch effect. You can disable this by setting `shouldStretchDrawer` to NO, or you can make your own overshoot animation by creating a custom visual state block and setting up custom transforms for when percentVisible is greater than 1.0
 
-###Bounce Preview
+### Bounce Preview
 To make your side drawer more discoverable, it may be helpful to bounce the drawer the first time your user launches the app. You can use the `bouncePreviewForDrawerSide:completion:` method to easily do this.
 
 If you would like to bounce a custom distance, you can use `bouncePreviewForDrawerSide:distance:completion:`.
 
-###Nifty Example
+### Nifty Example
 We decided to spruce up the example a bit using graphics generated from PaintCode. Hope you like it.
 
 The example shows off all the features of the library. Give it a whirl.
 
 ---
-##What this Library Doesn't Do
+## What this Library Doesn't Do
 In order to keep this library light-weight, we had to make some design trade off decisions. Specifically, we decided this library would NOT DO the following:
 
 * Top or bottom drawer views
@@ -184,30 +184,30 @@ In order to keep this library light-weight, we had to make some design trade off
 We're sure this list will grow over time. But that's the cost of keeping something maintainable :)
 
 ---
-##Workarounds/FAQs
-####How do I support editing/dragging cells in a tableview in the center view controller?
+## Workarounds/FAQs
+#### How do I support editing/dragging cells in a tableview in the center view controller?
 The best way to support this is to set the open/close mask to `MMOpenDrawerGestureModeNone` / `MMCloseDrawerGestureModeNone` while editing is enabled, and restore the mask when editing is finished. This will allow the proper gestures/touches to be passed all the way to the table view. ([#184](https://github.com/mutualmobile/MMDrawerController/issues/184))
 
 
 ---
-##Credit
+## Credit
 Designed and Developed by these fine folks at [Mutual Mobile](http://mutualmobile.com):
 
-###Development
+### Development
 
 * [Kevin Harwood](http://twitter.com/kevinharwood)
 * [Lars Anderson](http://twitter.com/theonlylars)
 * [Rene Cacheaux](http://twitter.com/rcachatx)
 * [Conrad Stoll](http://twitter.com/conradstoll)
 
-###Design
+### Design
 
 * [Matt McDaniel](http://twitter.com/supermattzor)
 
 ---
-##Feedback
+## Feedback
 We'd love to hear feedback on the library. Create Github issues, or hit us up on Twitter.
 
 ---
-##License
+## License
 `MMDrawerController` is available under the MIT license. See the LICENSE file for more info.
