@@ -945,8 +945,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         _showsStatusBarBackgroundView = showsDummyStatusBar;
         CGRect frame = self.childControllerContainerView.frame;
         if(_showsStatusBarBackgroundView){
-            frame.origin.y = 20;
-            frame.size.height = CGRectGetHeight(self.view.bounds)-20;
+            frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+            frame.size.height = CGRectGetHeight(self.view.bounds)-[UIApplication sharedApplication].statusBarFrame.size.height;
         }
         else {
             frame.origin.y = 0;
@@ -1022,7 +1022,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(UIView*)dummyStatusBarView{
     if(_dummyStatusBarView==nil){
-        _dummyStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 20)];
+        _dummyStatusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), [UIApplication sharedApplication].statusBarFrame.size.height)];
         [_dummyStatusBarView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_dummyStatusBarView setBackgroundColor:self.statusBarViewBackgroundColor];
         [_dummyStatusBarView setHidden:!_showsStatusBarBackgroundView];
