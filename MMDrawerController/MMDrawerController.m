@@ -50,6 +50,9 @@ CGFloat const MMDrawerOvershootLinearRangePercentage = 0.75f;
 CGFloat const MMDrawerOvershootPercentage = 0.1f;
 
 typedef BOOL (^MMDrawerGestureShouldRecognizeTouchBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch);
+
+typedef BOOL (^MMDrawerShouldSimultaneouslyRecognizeGestureBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UIGestureRecognizer * otherGesture);
+
 typedef void (^MMDrawerGestureCompletionBlock)(MMDrawerController * drawerController, UIGestureRecognizer * gesture);
 
 static CAKeyframeAnimation * bounceKeyFrameAnimationForDistanceOnView(CGFloat distance, UIView * view) {
@@ -135,6 +138,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 @property (nonatomic, assign) CGRect startingPanRect;
 @property (nonatomic, copy) MMDrawerControllerDrawerVisualStateBlock drawerVisualState;
 @property (nonatomic, copy) MMDrawerGestureShouldRecognizeTouchBlock gestureShouldRecognizeTouch;
+@property (nonatomic, copy) MMDrawerShouldSimultaneouslyRecognizeGestureBlock shouldSimultaneouslyRecognizeGesture;
 @property (nonatomic, copy) MMDrawerGestureCompletionBlock gestureCompletion;
 @property (nonatomic, assign, getter = isAnimatingDrawer) BOOL animatingDrawer;
 
@@ -683,6 +687,11 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 #pragma mark - Setting Custom Gesture Handler Block
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL (^)(MMDrawerController *, UIGestureRecognizer *, UITouch *))gestureShouldRecognizeTouchBlock{
     [self setGestureShouldRecognizeTouch:gestureShouldRecognizeTouchBlock];
+}
+
+
+-(void)setGestureShouldSimultaneouslyRecognizeBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UIGestureRecognizer * otherGesture))gestureShouldSimultaneouslyRecognizeBlock {
+    [self setShouldSimultaneouslyRecognizeGesture:gestureShouldSimultaneouslyRecognizeBlock];
 }
 
 #pragma mark - Setting the Gesture Completion Block
@@ -1373,6 +1382,14 @@ static inline CGFloat originXForDrawerOriginAndTargetOriginOffset(CGFloat origin
         return ((self.closeDrawerGestureModeMask & possibleCloseGestureModes)>0);
     }
 }
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (self.shouldSimultaneouslyRecognizeGesture) {
+        return self.shouldSimultaneouslyRecognizeGesture(self, gestureRecognizer, otherGestureRecognizer);
+    }
+    return NO;
+}
+
 
 #pragma mark Gesture Recogizner Delegate Helpers
 -(MMCloseDrawerGestureMode)possibleCloseGestureModesForGestureRecognizer:(UIGestureRecognizer*)gestureRecognizer withTouch:(UITouch*)touch{
