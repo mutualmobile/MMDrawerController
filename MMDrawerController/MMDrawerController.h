@@ -435,7 +435,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  
  @param gestureCompletionBlock A block object to be called that allows the implementer be notified when a gesture action has been completed.
  */
--(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture))gestureCompletionBlock;
+-(void)setGestureCompletionBlock:(void(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture)) gestureCompletionBlock;
 
 ///---------------------------------------
 /// @name Custom Gesture Handler
@@ -451,5 +451,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param gestureShouldRecognizeTouchBlock A block object to be called to determine if the given `touch` should be recognized by the given gesture.
  */
 -(void)setGestureShouldRecognizeTouchBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UITouch * touch))gestureShouldRecognizeTouchBlock;
+
+-(void)setGestureShouldSimultaneouslyRecognizeBlock:(BOOL(^)(MMDrawerController * drawerController, UIGestureRecognizer * gesture, UIGestureRecognizer * otherGesture))gestureShouldSimultaneouslyRecognizeBlock;
 
 @end
